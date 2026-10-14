@@ -247,7 +247,12 @@ def main():
         runner.state.update(chromium_version=version, depot_revision=DEPOT_REVISION,
                             kiwi_revision=lock['commit'], compile_jobs=args.jobs)
         runner.save()
-        runner.run('10-gn', [str(depot / 'gn'), 'gen', 'out/sharingan_arm64',
+        # Use the GN binary pinned by Chromium DEPS. The depot_tools wrapper
+        # depends on a separate Python bootstrap that gclient need not create.
+        gn = src / 'buildtools/linux64/gn'
+        if not gn.is_file() or not os.access(gn, os.X_OK):
+            raise RuntimeError('Chromium GN binary missing; dependency sync must install buildtools/linux64/gn.')
+        runner.run('10-gn', [str(gn), 'gen', 'out/sharingan_arm64',
                    '--check', '--fail-on-unused-args'], cwd=src, minutes=10)
         require_space(work, MIN_BUILD_GIB)
         runner.run('11-compile', [str(src / 'third_party/ninja/ninja'), '-C',
