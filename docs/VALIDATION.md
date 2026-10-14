@@ -38,4 +38,5 @@ Jalankan GN/build dari source pada Linux untuk menetapkan baseline yang benar-be
 - Test Python kumulatif: **18 PASS**, terdiri dari 8 test prepare dan 10 test driver CI (guard public/Linux/hosted, kapasitas disk, output sukses/gagal, deadline dan status).
 - Action checkout v4.2.2, upload-artifact v4.6.2, dan depot_tools dikunci ke commit yang diambil dari upstream saat persiapan.
 - Opsi checkout `small`, skip coverage/telemetry/PGO, `concurrent_links`, `use_thin_lto`, serta opsi installer dependency diperiksa terhadap source resmi Chromium 132.
-- **Tidak dijalankan:** cleanup runner sebenarnya, checkout Chromium penuh, GN, compile, upload artifact, dan workflow GitHub. Test driver hanya menjalankan proses lokal kecil; tidak menjalankan sudo, menghapus toolchain, atau mengunduh Chromium.
+- **Preflight GitHub terverifikasi:** [run #1](https://github.com/wilgooo/sharingan-browser/actions/runs/38576425331), 14 Oktober 2026, commit `61ef07f3f035fb4f3ef9c254edef073f65f7dd12`. Verifikasi source dan 18 tes lolos; cleanup runner sebenarnya menaikkan ruang kosong 84,97 → 113,85 GiB; artifact diagnostik diunggah. Job selesai dalam 1 menit 40 detik.
+- **Tidak dijalankan:** checkout Chromium penuh, GN, compile, instalasi APK, dan pengujian extension pada Android. Preflight hanya menguji persiapan runner, bukan kelayakan build penuh.

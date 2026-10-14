@@ -1,6 +1,16 @@
 # Percobaan build di GitHub Actions standar
 
-**Workflow sudah disiapkan dan diperiksa lokal, belum dijalankan di GitHub.** Build bisa berhenti karena kapasitas runner, batas waktu, kegagalan unduhan, atau inkompatibilitas source Kiwi. Tidak ada janji bahwa optimasi ini cukup untuk menyelesaikan Chromium penuh dalam satu job.
+**Preflight GitHub sukses; build APK belum dijalankan.** Build bisa berhenti karena kapasitas runner, batas waktu, kegagalan unduhan, atau inkompatibilitas source Kiwi. Tidak ada janji bahwa optimasi ini cukup untuk menyelesaikan Chromium penuh dalam satu job.
+
+## Hasil preflight pertama
+
+[Run #1, 14 Oktober 2026](https://github.com/wilgooo/sharingan-browser/actions/runs/38576425331), commit `61ef07f3f035fb4f3ef9c254edef073f65f7dd12`, mode `preflight`, selesai sukses dalam 1 menit 40 detik pada `ubuntu-24.04`.
+
+- Verifikasi 8.291 hash source dan 18 tes tooling lolos.
+- Ruang disk kosong: **84,97 GiB sebelum → 113,85 GiB setelah cleanup**; bertambah 28,88 GiB dan melewati ambang awal eksperimen 70 GiB.
+- RAM total yang dilaporkan: 16.373.448 KiB (sekitar 15,61 GiB); swap sekitar 3 GiB.
+- Artifact diagnostik berhasil diunggah dengan retensi satu hari.
+- Chromium tidak diunduh atau dikompilasi; tidak ada APK. Kapasitas pada run berikutnya bisa berbeda.
 
 ## Cara menjalankan
 
@@ -19,7 +29,7 @@ git remote add origin https://github.com/USERNAME/sharingan-browser.git
 git push -u origin main
 ```
 
-GitHub memerlukan autentikasi Git/SSH/GitHub CLI yang sudah disiapkan di Mac. Perintah di atas adalah petunjuk; belum dijalankan dari chat ini. Jangan masukkan token ke source atau workflow. Tidak ada secret custom yang dibutuhkan build ini.
+Repo publik proyek sudah tersedia di [wilgooo/sharingan-browser](https://github.com/wilgooo/sharingan-browser). Langkah 1–3 di atas hanya diperlukan jika membuat repo baru sendiri. GitHub memerlukan autentikasi Git/SSH/GitHub CLI yang sudah disiapkan di Mac. Jangan masukkan token ke source atau workflow. Tidak ada secret custom yang dibutuhkan build ini.
 
 4. Buka **Actions → Sharingan Android - free runner experiment → Run workflow** pada branch default.
 5. Pilih mode:

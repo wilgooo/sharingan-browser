@@ -36,7 +36,7 @@ Repo pilihan handoff, `EduBolthey/Kiwi-Browser-Revived`, diperiksa pada commit `
 
 Workflow sudah tersedia di `.github/workflows/android-free.yml`. Gunakan **repo publik**, letakkan isi folder paket di root repo (termasuk `.github`), lalu buka **Actions → Sharingan Android - free runner experiment → Run workflow**.
 
-Pilih `preflight` untuk mengukur ruang setelah cleanup, atau `build` untuk mencoba APK. Default: build arm64 dengan dua worker. Ini percobaan pada runner `ubuntu-24.04`; belum ada run GitHub atau APK yang terverifikasi. Instruksi lengkap ada di [GITHUB_ACTIONS_FREE.md](docs/GITHUB_ACTIONS_FREE.md).
+Pilih `preflight` untuk mengukur ruang setelah cleanup, atau `build` untuk mencoba APK. Default: build arm64 dengan dua worker. [Preflight pertama](https://github.com/wilgooo/sharingan-browser/actions/runs/38576425331) sukses pada 14 Oktober 2026: 18 tes tooling lolos dan ruang disk setelah cleanup 113,85 GiB. Kompilasi Chromium dan APK belum diuji. Instruksi lengkap ada di [GITHUB_ACTIONS_FREE.md](docs/GITHUB_ACTIONS_FREE.md).
 
 ## Isi paket
 
