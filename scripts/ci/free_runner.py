@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import re
 import shutil
 import signal
 import subprocess
@@ -36,6 +37,16 @@ CUSTOM_VARS = {
     'checkout_clangd': False,
     'checkout_nacl': False,
 }
+
+
+class CommandFailed(RuntimeError):
+    """A child exited unsuccessfully; distinct from resource/deadline failures."""
+
+
+TRANSIENT_NETWORK_ERROR = re.compile(
+    r'HTTP (?:429|500|502|503|504)|returned error: (?:429|500|502|503|504)|'
+    r'Could not resolve host|Connection (?:reset|timed out)|'
+    r'Remote end closed connection|TLS connection was non-properly terminated', re.I)
 
 
 def require_disposable_runner(env=None, system=None, machine=None):
@@ -130,7 +141,7 @@ class Runner:
                         next_metrics = now + 30
                     time.sleep(1)
                 if process.returncode:
-                    raise RuntimeError(f'{name}: command failed with exit {process.returncode}. See {log.name}.')
+                    raise CommandFailed(f'{name}: command failed with exit {process.returncode}. See {log.name}.')
             record['status'] = 'passed'
         except BaseException as error:
             if process is not None:
@@ -141,6 +152,37 @@ class Runner:
             record['seconds'] = round(time.monotonic() - started, 1)
             self.save()
             print('::endgroup::', flush=True)
+
+    def network(self, name, command, cwd=None, minutes=60):
+        """Retry transient transport failures, retaining each attempt's diagnostics."""
+        end = min(self.deadline, time.monotonic() + minutes * 60)
+        for attempt in range(1, 4):
+            stage = f'{name}-attempt-{attempt}'
+            remaining = end - time.monotonic()
+            if remaining <= 0:
+                raise RuntimeError(f'{name}: network stage budget exhausted.')
+            try:
+                self.run(stage, command, cwd=cwd, minutes=remaining / 60)
+                return
+            except CommandFailed:
+                output = (self.logs / f'{stage}.log').read_text(errors='replace')
+                delay = 15 * attempt
+                if (attempt == 3 or not TRANSIENT_NETWORK_ERROR.search(output)
+                        or time.monotonic() + delay >= end):
+                    raise
+                print(f'{name}: transient network failure; retrying in {delay}s.', flush=True)
+                time.sleep(delay)
+
+    def checkout(self, name, repository, revision, destination, minutes):
+        # Fetch into an initialized repo so retries never need to delete a partial clone.
+        self.run(f'{name}-init', ['git', 'init', str(destination)], minutes=2)
+        self.run(f'{name}-remote', ['git', 'remote', 'add', 'origin', repository],
+                 cwd=destination, minutes=2)
+        refspec = f'{revision}:{revision}' if revision.startswith('refs/tags/') else revision
+        self.network(f'{name}-fetch', ['git', 'fetch', '--depth', '1', '--no-tags',
+                     'origin', refspec], cwd=destination, minutes=minutes)
+        self.run(f'{name}-checkout', ['git', 'checkout', '--detach', 'FETCH_HEAD'],
+                 cwd=destination, minutes=10)
 
 
 def main():
@@ -179,18 +221,17 @@ def main():
         version = lock['chromium_version_candidate']
         depot = work / 'depot_tools'
         src = work / 'src'
-        runner.run('01-depot-clone', ['git', 'clone', '--depth', '1',
-                   'https://chromium.googlesource.com/chromium/tools/depot_tools.git', str(depot)], minutes=10)
-        runner.run('02-depot-pin', ['git', 'fetch', '--depth', '1', 'origin', DEPOT_REVISION], cwd=depot, minutes=10)
-        runner.run('03-depot-checkout', ['git', 'checkout', '--detach', DEPOT_REVISION], cwd=depot, minutes=2)
+        runner.checkout('01-depot',
+                        'https://chromium.googlesource.com/chromium/tools/depot_tools.git',
+                        DEPOT_REVISION, depot, minutes=10)
         runner.env['PATH'] = str(depot) + ':' + runner.env['PATH']
-        runner.run('04-chromium-clone', ['git', 'clone', '--depth', '1', '--single-branch',
-                   '--branch', version, lock['chromium_repository'], str(src)], minutes=90)
+        runner.checkout('04-chromium', lock['chromium_repository'],
+                        f'refs/tags/{version}', src, minutes=90)
         (work / '.gclient').write_text('solutions = ' + repr([{
             'name': 'src', 'url': lock['chromium_repository'], 'managed': False,
             'custom_deps': {}, 'custom_vars': CUSTOM_VARS,
         }]) + "\ntarget_os = ['android']\n")
-        runner.run('05-dependency-sync', [str(depot / 'gclient'), 'sync', '--nohooks',
+        runner.network('05-dependency-sync', [str(depot / 'gclient'), 'sync', '--nohooks',
                    '--no-history', '--shallow', '--jobs=2'], minutes=90)
         require_space(work, 20)
         runner.run('06-system-dependencies', ['sudo', '/usr/bin/python3',

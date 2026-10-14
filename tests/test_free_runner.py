@@ -5,6 +5,7 @@ import io
 import json
 from pathlib import Path
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -83,6 +84,56 @@ class RunnerTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'timeout'):
                 runner.run('timeout', [sys.executable, '-c', 'import time; time.sleep(60)'])
         self.assertEqual(runner.state['stages'][0]['status'], 'failed')
+
+    def test_network_retries_transient_failure_and_keeps_attempt_logs(self):
+        runner = ci.Runner(self.root, self.logs)
+        calls = []
+        def fail_once(name, command, **kwargs):
+            calls.append(name)
+            if len(calls) == 1:
+                (self.logs / f'{name}.log').write_text('RPC failed; HTTP 503 curl 22')
+                raise ci.CommandFailed('exit 128')
+        with mock.patch.object(runner, 'run', side_effect=fail_once), mock.patch.object(ci.time, 'sleep'):
+            runner.network('fetch', ['git', 'fetch'])
+        self.assertEqual(calls, ['fetch-attempt-1', 'fetch-attempt-2'])
+        self.assertTrue((self.logs / 'fetch-attempt-1.log').exists())
+
+    def test_network_retry_is_bounded(self):
+        runner = ci.Runner(self.root, self.logs)
+        def fail(name, command, **kwargs):
+            (self.logs / f'{name}.log').write_text('returned error: 503')
+            raise ci.CommandFailed('exit 128')
+        with mock.patch.object(runner, 'run', side_effect=fail) as run, mock.patch.object(ci.time, 'sleep'):
+            with self.assertRaises(ci.CommandFailed):
+                runner.network('fetch', ['git', 'fetch'])
+        self.assertEqual(run.call_count, 3)
+
+    def test_network_does_not_retry_permanent_or_resource_errors(self):
+        runner = ci.Runner(self.root, self.logs)
+        (self.logs / 'fetch-attempt-1.log').write_text('fatal: could not find remote ref invalid')
+        for error in (ci.CommandFailed('exit 128'), RuntimeError('Disk gate'), RuntimeError('timeout')):
+            with self.subTest(error=str(error)), mock.patch.object(runner, 'run', side_effect=error) as run:
+                with self.assertRaises(RuntimeError):
+                    runner.network('fetch', ['git', 'fetch'])
+                self.assertEqual(run.call_count, 1)
+
+    def test_checkout_retains_requested_tag_and_origin(self):
+        source = self.root / 'source'
+        source.mkdir()
+        def git(*args):
+            return subprocess.check_output(['git', '-C', str(source), *args], stderr=subprocess.DEVNULL, text=True).strip()
+        git('init')
+        git('-c', 'user.name=Test', '-c', 'user.email=test@example.invalid',
+            'commit', '--allow-empty', '-m', 'fixture')
+        git('tag', 'test-version')
+        target = self.root / 'checkout'
+        runner = ci.Runner(self.root, self.logs)
+        with mock.patch.object(ci, 'require_space'), contextlib.redirect_stdout(io.StringIO()):
+            runner.checkout('fixture', source.as_uri(), 'refs/tags/test-version', target, minutes=1)
+        head = subprocess.check_output(['git', '-C', str(target), 'rev-parse', 'refs/tags/test-version^{commit}'], text=True).strip()
+        self.assertEqual(head, git('rev-parse', 'HEAD'))
+        origin = subprocess.check_output(['git', '-C', str(target), 'remote', 'get-url', 'origin'], text=True).strip()
+        self.assertEqual(origin, source.as_uri())
 
 if __name__ == '__main__':
     unittest.main()
