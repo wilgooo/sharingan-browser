@@ -1,6 +1,6 @@
 # Percobaan build di GitHub Actions standar
 
-**Preflight GitHub sukses; build APK belum dijalankan.** Build bisa berhenti karena kapasitas runner, batas waktu, kegagalan unduhan, atau inkompatibilitas source Kiwi. Tidak ada janji bahwa optimasi ini cukup untuk menyelesaikan Chromium penuh dalam satu job.
+**Preflight sukses; percobaan build #4 gagal saat evaluasi GN karena inkompatibilitas source Kiwi/Chromium 132.** Tidak ada APK. Retry otomatis dipause sambil menunggu perbaikan baseline; lihat [BUILD_BLOCKER.md](BUILD_BLOCKER.md). Kapasitas runner untuk kompilasi penuh belum terbukti.
 
 ## Hasil preflight pertama
 

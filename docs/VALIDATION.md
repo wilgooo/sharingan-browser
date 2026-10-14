@@ -1,6 +1,6 @@
 # Hasil pemeriksaan — 14 Oktober 2026
 
-Lingkungan: macOS / Apple Silicon (Darwin arm64). Builder Linux dan perangkat Android tidak tersedia. Tidak ada APK yang dibuat atau dipasang.
+Pemeriksaan lokal: macOS / Apple Silicon (Darwin arm64). Percobaan build tambahan: GitHub-hosted Ubuntu 24.04 x86-64. Tidak ada APK yang dibuat atau dipasang. [Run #4 terblokir pada evaluasi GN](BUILD_BLOCKER.md).
 
 | Pemeriksaan | Hasil |
 |---|---|
@@ -15,7 +15,7 @@ Lingkungan: macOS / Apple Silicon (Darwin arm64). Builder Linux dan perangkat An
 | Sintaks skrip shell | PASS — `bash -n` untuk fetch dan build |
 | Guard platform builder | PASS — script menolak macOS sebelum mencoba build |
 | Test tooling persiapan checkout | PASS — 8 test Python |
-| GN generation / dependency resolution | BELUM DIJALANKAN |
+| GN generation / dependency resolution | GAGAL — run #4: `enable_updater` tidak terdefinisi karena overlay berbeda baseline |
 | Java/JNI/C++ compilation | BELUM DIJALANKAN |
 | APK, signature, install Android | BELUM DIJALANKAN |
 | Default developer mode, persistensi, install ZIP di perangkat | BELUM DIJALANKAN |
@@ -39,4 +39,5 @@ Jalankan GN/build dari source pada Linux untuk menetapkan baseline yang benar-be
 - Action checkout v4.2.2, upload-artifact v4.6.2, dan depot_tools dikunci ke commit yang diambil dari upstream saat persiapan.
 - Opsi checkout `small`, skip coverage/telemetry/PGO, `concurrent_links`, `use_thin_lto`, serta opsi installer dependency diperiksa terhadap source resmi Chromium 132.
 - **Preflight GitHub terverifikasi:** [run #1](https://github.com/wilgooo/sharingan-browser/actions/runs/38576425331), 14 Oktober 2026, commit `61ef07f3f035fb4f3ef9c254edef073f65f7dd12`. Verifikasi source dan 18 tes lolos; cleanup runner sebenarnya menaikkan ruang kosong 84,97 → 113,85 GiB; artifact diagnostik diunggah. Job selesai dalam 1 menit 40 detik.
-- **Tidak dijalankan:** checkout Chromium penuh, GN, compile, instalasi APK, dan pengujian extension pada Android. Preflight hanya menguji persiapan runner, bukan kelayakan build penuh.
+- **Percobaan build #4:** checkout, dependency sync, system packages, hooks, dan overlay selesai. GN dijalankan dan gagal pada source compatibility. 22 tes tooling lolos. Lihat [BUILD_BLOCKER.md](BUILD_BLOCKER.md) untuk log dan temuan tambahan.
+- **Tidak dijalankan:** kompilasi Java/C++/JNI, instalasi APK, dan pengujian extension pada Android.

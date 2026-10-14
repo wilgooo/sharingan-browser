@@ -2,7 +2,7 @@
 
 Browser Android berbasis Chromium/Kiwi dengan pengelola extension dan import extension ZIP melalui developer mode.
 
-**Status: source eksperimental, belum menjadi APK dan belum pernah dikompilasi.** Paket ini berisi overlay source Kiwi yang dipin, perubahan Sharingan yang sudah terintegrasi, patch terpisah, skrip persiapan/build Linux, workflow GitHub Actions standar, serta extension uji. Ini bukan checkout Chromium lengkap. File-file Chromium yang tidak ada di overlay harus diambil lewat proses checkout.
+**Status: build terblokir pada evaluasi GN karena overlay Kiwi tidak cocok dengan Chromium 132; belum ada APK.** Percobaan Linux sudah mencapai penerapan source, tetapi belum mencapai kompilasi. Lihat [bukti dan langkah perbaikan baseline](docs/BUILD_BLOCKER.md). Paket ini berisi overlay source Kiwi yang dipin, perubahan Sharingan yang sudah terintegrasi, patch terpisah, skrip persiapan/build Linux, workflow GitHub Actions standar, serta extension uji. Ini bukan checkout Chromium lengkap. File-file Chromium yang tidak ada di overlay harus diambil lewat proses checkout.
 
 ## Yang sudah ditulis
 
@@ -30,7 +30,7 @@ Repo pilihan handoff, `EduBolthey/Kiwi-Browser-Revived`, diperiksa pada commit `
 5. ZIP installer pada fork memakai variabel global `additional_path` untuk direktori manifest. Patch menghapus state bersama itu dan memulihkan kontrak manifest root. ZIP dengan folder pembungkus ditolak. Ekstraksi tetap menggunakan layanan unzip Chromium.
 6. Android Chromium membutuhkan Linux x86-64. Mac dapat dipakai untuk mengedit source dan menjalankan pemeriksaan paket, bukan build APK native.
 
-**Chromium 132 hanya kandidat baseline berdasarkan metadata repo.** Kompatibilitas keseluruhan overlay terhadap checkout 132 belum dibuktikan. Build Linux pertama bisa menemukan pekerjaan porting pada source warisan, bukan hanya error kecil dari patch Sharingan. Versi engine lama ini juga belum layak dinyatakan siap rilis harian tanpa pemeliharaan keamanan.
+**Chromium 132 adalah kandidat baseline yang gagal pada evaluasi GN dalam run #4.** Ada nama build flag dan import GN warisan yang tidak sesuai, sementara `chrome/VERSION` overlay menyebut 105.0.5195.24. Baseline perlu dicocokkan ulang/diporting; perbaikan konfigurasi runner saja tidak cukup. Versi engine lama ini juga belum layak dinyatakan siap rilis harian tanpa pemeliharaan keamanan.
 
 ## Coba build gratis di GitHub Actions
 
