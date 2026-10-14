@@ -1,0 +1,607 @@
+diff --git a/chrome/android/BUILD.gn b/chrome/android/BUILD.gn
+index 7c56c68..56a2386 100644
+--- a/chrome/android/BUILD.gn
++++ b/chrome/android/BUILD.gn
+@@ -4027,6 +4027,7 @@ if (android_64bit_target_cpu) {
+ 
+ generate_jni("chrome_jni_headers") {
+   sources = [
++    "java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java",
+     # Files under a feature's public/ dir are included in chrome_java's source
+     # files, so include these files in chrome_jni_headers.
+     "java/src/org/chromium/chrome/browser/AppHooks.java",
+diff --git a/chrome/android/chrome_java_resources.gni b/chrome/android/chrome_java_resources.gni
+index 7a9ba86..0196903 100644
+--- a/chrome/android/chrome_java_resources.gni
++++ b/chrome/android/chrome_java_resources.gni
+@@ -196,6 +196,7 @@ kiwi_java_resources = [
+ ]
+ 
+ chrome_java_resources = [
++  "java/res/drawable/sharingan_launcher.xml",
+   "java/res/anim/accelerate_quart.xml",
+   "java/res/anim/activity_close_exit.xml",
+   "java/res/anim/activity_open_enter.xml",
+diff --git a/chrome/android/chrome_java_sources.gni b/chrome/android/chrome_java_sources.gni
+index f9b1303..1dc6554 100644
+--- a/chrome/android/chrome_java_sources.gni
++++ b/chrome/android/chrome_java_sources.gni
+@@ -26,6 +26,7 @@ kiwi_java_sources = [
+ ]
+ 
+ chrome_java_sources = [
++  "java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java",
+   "java/src/com/google/android/apps/chrome/appwidget/bookmarks/BookmarkThumbnailWidgetProvider.java",
+   "java/src/org/chromium/chrome/browser/ActivityTabProvider.java",
+   "java/src/org/chromium/chrome/browser/ActivityUtils.java",
+diff --git a/chrome/android/java/AndroidManifest.xml b/chrome/android/java/AndroidManifest.xml
+index 15c4f76..721ac3a 100644
+--- a/chrome/android/java/AndroidManifest.xml
++++ b/chrome/android/java/AndroidManifest.xml
+@@ -171,9 +171,9 @@ by a child template that "extends" this file.
+     <!-- Set android:largeHeap to "true" to allow more than the default
+          Java heap limit (32Mb on Nexus S, 48Mb on Xoom). -->
+       <application android:name="{% block application_name %}org.chromium.chrome.browser.base.SplitChromeApplication{% endblock %}"
+-        android:icon="@drawable/ic_launcher"
+-        android:roundIcon="@drawable/ic_launcher_round"
+-        android:label="{% block application_label %}@string/app_name{% endblock %}"
++        android:icon="@drawable/sharingan_launcher"
++        android:roundIcon="@drawable/sharingan_launcher"
++        android:label="{% block application_label %}@string/sharingan_app_name{% endblock %}"
+         android:largeHeap="false"
+         android:manageSpaceActivity="@string/manage_space_activity"
+         android:supportsRtl="true"
+diff --git a/chrome/android/java/res/menu/main_menu.xml b/chrome/android/java/res/menu/main_menu.xml
+index cea0c48..d7dddd0 100644
+--- a/chrome/android/java/res/menu/main_menu.xml
++++ b/chrome/android/java/res/menu/main_menu.xml
+@@ -67,6 +67,9 @@
+         <item android:id="@+id/recent_tabs_menu_id"
+             android:title="@string/menu_recent_tabs"
+             android:icon="@drawable/ic_recent_tabs" />
++        <item android:id="@+id/load_extension_zip_id"
++            android:title="@string/sharingan_zip_title"
++            android:icon="@drawable/ic_extensions" />
+         <item android:id="@+id/extensions_id"
+             android:title="@string/main_menu_extensions"
+             android:icon="@drawable/ic_extensions" />
+diff --git a/chrome/android/java/res/values/strings.xml b/chrome/android/java/res/values/strings.xml
+index 7a51cf8..2201497 100644
+--- a/chrome/android/java/res/values/strings.xml
++++ b/chrome/android/java/res/values/strings.xml
+@@ -114,4 +114,18 @@
+ 
+     <string name="accessibility_preferences_cws_mobile_friendly_title">Optimize Extensions Web Store</string>
+     <string name="accessibility_preferences_cws_mobile_friendly_summary">Improve the appearance of Extensions Web Store</string>
++    <string name="sharingan_app_name">Sharingan Browser</string>
++    <string name="sharingan_dev_mode_title">Extension developer mode</string>
++    <string name="sharingan_dev_mode_summary">Allow importing your own extension ZIPs. Extensions can access sites according to their permissions. Turning this off blocks new ZIP imports; use Extensions to disable installed ones.</string>
++    <string name="sharingan_zip_title">Install extension ZIP</string>
++    <string name="sharingan_zip_confirm">Install this developer extension? Only install code you trust. It can read or change sites according to its permissions. The ZIP must contain manifest.json at its root.</string>
++    <string name="sharingan_zip_install">Install</string>
++    <string name="sharingan_zip_regular_only">Open a regular tab to install an extension.</string>
++    <string name="sharingan_zip_enable_dev">Enable Extension developer mode in Settings first.</string>
++    <string name="sharingan_zip_busy">An extension is already being installed.</string>
++    <string name="sharingan_zip_no_picker">No document picker is available.</string>
++    <string name="sharingan_zip_invalid_uri">Select a ZIP using the Android document picker.</string>
++    <string name="sharingan_zip_loading">Installing extension…</string>
++    <string name="sharingan_zip_success">Extension installed. Manage it in Extensions.</string>
++    <string name="sharingan_zip_failed">Extension installation failed</string>
+ </resources>
+diff --git a/chrome/android/java/res/xml/main_preferences.xml b/chrome/android/java/res/xml/main_preferences.xml
+index 1bd3923..3c8506b 100644
+--- a/chrome/android/java/res/xml/main_preferences.xml
++++ b/chrome/android/java/res/xml/main_preferences.xml
+@@ -27,6 +27,13 @@
+         app:iconTint="@color/default_icon_color_tint_list"
+         android:fragment="org.chromium.chrome.browser.sync.settings.GoogleServicesSettings"/>
+ 
++    <androidx.preference.SwitchPreferenceCompat
++        android:key="sharingan_extension_dev_mode"
++        android:title="@string/sharingan_dev_mode_title"
++        android:summary="@string/sharingan_dev_mode_summary"
++        android:persistent="false"
++        android:defaultValue="false"
++        android:order="8" />
+     <PreferenceCategory
+         android:key="basics_section"
+         android:order="5"
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
+index 0a53b0c..03d8925 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
+@@ -147,6 +147,7 @@ import org.chromium.chrome.browser.partnercustomizations.PartnerBrowserCustomiza
+ import org.chromium.chrome.browser.preferences.Pref;
+ import org.chromium.chrome.browser.printing.TabPrinter;
+ import org.chromium.chrome.browser.profiles.Profile;
++import org.chromium.chrome.browser.extensions.DevModeExtensionLoader;
+ import org.chromium.chrome.browser.read_later.ReadingListUtils;
+ import org.chromium.chrome.browser.selection.SelectionPopupBackPressHandler;
+ import org.chromium.chrome.browser.settings.SettingsLauncherImpl;
+@@ -2824,6 +2825,12 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+             currentTab.getWebContents().notifyRendererPreferenceUpdate();
+         }
+ 
++        if (id == R.id.load_extension_zip_id) {
++            DevModeExtensionLoader.launchPicker(
++                    this, currentTab != null && currentTab.isIncognito());
++            return true;
++        }
++
+         if (id == R.id.extensions_id) {
+             RecordUserAction.record("MobileMenuExtensions");
+             TabCreator tabCreator = getTabCreator(currentTab.isIncognito());
+@@ -2960,6 +2967,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+ 
+     @Override
+     public boolean onActivityResultWithNative(int requestCode, int resultCode, Intent intent) {
++        if (DevModeExtensionLoader.onPickerResult(this, requestCode, resultCode, intent)) {
++            return true;
++        }
+         if (super.onActivityResultWithNative(requestCode, resultCode, intent)) return true;
+         if (VrModuleProvider.getDelegate().onActivityResultWithNative(requestCode, resultCode)) {
+             return true;
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java b/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
+index d4f6fce..0f6c337 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
+@@ -21,6 +21,8 @@ import android.view.View;
+ import androidx.annotation.Nullable;
+ import androidx.annotation.VisibleForTesting;
+ import androidx.preference.Preference;
++import androidx.preference.SwitchPreferenceCompat;
++import org.chromium.chrome.browser.extensions.DevModeExtensionLoader;
+ import androidx.preference.PreferenceFragmentCompat;
+ 
+ import org.chromium.base.ContextUtils;
+@@ -168,10 +170,19 @@ public class MainSettings extends PreferenceFragmentCompat
+     public void onResume() {
+         super.onResume();
+         updatePreferences();
++        ((SwitchPreferenceCompat) findPreference("sharingan_extension_dev_mode"))
++                .setChecked(DevModeExtensionLoader.isDeveloperModeEnabled());
+     }
+ 
+     private void createPreferences() {
+         SettingsUtils.addPreferencesFromResource(this, R.xml.main_preferences);
++        SwitchPreferenceCompat extensionDevMode =
++                findPreference("sharingan_extension_dev_mode");
++        extensionDevMode.setChecked(DevModeExtensionLoader.isDeveloperModeEnabled());
++        extensionDevMode.setOnPreferenceChangeListener((preference, value) -> {
++            DevModeExtensionLoader.setDeveloperModeEnabled((Boolean) value);
++            return true;
++        });
+ 
+         cachePreferences();
+ 
+diff --git a/chrome/browser/extensions/BUILD.gn b/chrome/browser/extensions/BUILD.gn
+index 5fd74f6..902e2b4 100644
+--- a/chrome/browser/extensions/BUILD.gn
++++ b/chrome/browser/extensions/BUILD.gn
+@@ -958,6 +958,11 @@ static_library("extensions") {
+     "//url",
+   ]
+ 
++  if (is_android) {
++    sources += [ "dev_mode_extension_loader.cc" ]
++    deps += [ "//chrome/android:chrome_jni_headers" ]
++  }
++
+   if (is_linux || is_mac || is_win) {
+     sources += [
+       "api/system_indicator/system_indicator_api.cc",
+diff --git a/extensions/browser/zipfile_installer.cc b/extensions/browser/zipfile_installer.cc
+index 8bf2ef3..2260fba 100644
+--- a/extensions/browser/zipfile_installer.cc
++++ b/extensions/browser/zipfile_installer.cc
+@@ -26,8 +26,6 @@ namespace extensions {
+ 
+ namespace {
+ 
+-base::FilePath additional_path;
+-
+ constexpr char kExtensionHandlerTempDirError[] =
+     "Could not create temporary directory for zipped extension.";
+ constexpr char kExtensionHandlerFileUnzipError[] =
+@@ -130,12 +128,9 @@ void ZipFileInstaller::ManifestUnzipped(const base::FilePath& unzip_dir,
+     return;
+   }
+ 
+-  base::FilePath new_unzip_dir;
+-  new_unzip_dir = unzip_dir.Append(FILE_PATH_LITERAL("/")).Append(additional_path).Append(FILE_PATH_LITERAL("/"));
+-  LOG(INFO) << "[EXTENSIONS] redressed new_unzip_dir: " << new_unzip_dir;
+   base::PostTaskAndReplyWithResult(
+       io_task_runner_.get(), FROM_HERE,
+-      base::BindOnce(&ReadFileContent, new_unzip_dir.Append(kManifestFilename)),
++      base::BindOnce(&ReadFileContent, unzip_dir.Append(kManifestFilename)),
+       base::BindOnce(&ZipFileInstaller::ManifestRead, this, unzip_dir));
+ }
+ 
+@@ -218,9 +213,7 @@ void ZipFileInstaller::UnzipDone(const base::FilePath& unzip_dir,
+     return;
+   }
+ 
+-  base::FilePath new_unzip_dir;
+-  new_unzip_dir = unzip_dir.Append(FILE_PATH_LITERAL("/")).Append(additional_path);
+-  std::move(done_callback_).Run(zip_file_, new_unzip_dir, std::string());
++  std::move(done_callback_).Run(zip_file_, unzip_dir, std::string());
+ }
+ 
+ void ZipFileInstaller::ReportFailure(const std::string& error) {
+@@ -247,11 +240,6 @@ bool ZipFileInstaller::ShouldExtractFile(bool is_theme,
+ // static
+ bool ZipFileInstaller::IsManifestFile(const base::FilePath& file_path) {
+   CHECK(!file_path.IsAbsolute());
+-  if (base::FilePath::CompareEqualIgnoreCase(file_path.BaseName().value(), kManifestFilename)) {
+-    LOG(INFO) << "[EXTENSIONS] ZipFileInstaller::IsManifestFile (isManifest: true): " << file_path << " - dirName: " << file_path.DirName();
+-    additional_path = file_path.DirName();
+-    return true;
+-  }
+   return base::FilePath::CompareEqualIgnoreCase(file_path.value(),
+                                                 kManifestFilename);
+ }
+diff --git a/chrome/android/java/res/drawable/sharingan_launcher.xml b/chrome/android/java/res/drawable/sharingan_launcher.xml
+new file mode 100644
+index 0000000..f2aca7f
+--- /dev/null
++++ b/chrome/android/java/res/drawable/sharingan_launcher.xml
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="108dp" android:height="108dp"
++    android:viewportWidth="108" android:viewportHeight="108">
++    <path android:fillColor="#15151B" android:pathData="M0,0h108v108h-108z"/>
++    <path android:fillColor="#EF3340" android:pathData="M16,54C34,22 74,22 92,54C74,86 34,86 16,54z"/>
++    <path android:fillColor="#15151B" android:pathData="M54,35a19,19 0,1 0,0 38a19,19 0,1 0,0 -38"/>
++    <path android:fillColor="#FFFFFF" android:pathData="M60,40a5,5 0,1 0,0 10a5,5 0,1 0,0 -10"/>
++</vector>
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java b/chrome/android/java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java
+new file mode 100644
+index 0000000..da9ac8e
+--- /dev/null
++++ b/chrome/android/java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java
+@@ -0,0 +1,186 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++package org.chromium.chrome.browser.extensions;
++
++import android.app.Activity;
++import android.content.ActivityNotFoundException;
++import android.content.Context;
++import android.content.Intent;
++import android.net.Uri;
++import android.os.Handler;
++import android.os.Looper;
++
++import androidx.appcompat.app.AlertDialog;
++
++import org.chromium.base.ContextUtils;
++import org.chromium.base.annotations.CalledByNative;
++import org.chromium.base.annotations.JNINamespace;
++import org.chromium.base.annotations.NativeMethods;
++import org.chromium.chrome.R;
++import org.chromium.ui.widget.Toast;
++
++import java.io.File;
++import java.io.FileOutputStream;
++import java.io.IOException;
++import java.io.InputStream;
++import java.lang.ref.WeakReference;
++import java.util.concurrent.ExecutorService;
++import java.util.concurrent.Executors;
++
++/** Developer ZIP import. All public entry points run after native startup, on the UI thread. */
++@JNINamespace("extensions")
++public final class DevModeExtensionLoader {
++    private static final int REQUEST_ZIP = 0x5347;
++    private static final long MAX_ZIP_BYTES = 64L * 1024 * 1024;
++    private static final ExecutorService IO = Executors.newSingleThreadExecutor();
++    private static final Handler UI = new Handler(Looper.getMainLooper());
++    private static boolean sInstalling;
++
++    private final WeakReference<Activity> mActivity;
++    private final File mZip;
++
++    private DevModeExtensionLoader(Activity activity, File zip) {
++        mActivity = new WeakReference<>(activity);
++        mZip = zip;
++    }
++
++    public static boolean isDeveloperModeEnabled() {
++        return DevModeExtensionLoaderJni.get().isDeveloperModeEnabled();
++    }
++
++    public static void setDeveloperModeEnabled(boolean enabled) {
++        // Same profile preference as chrome://extensions. No second SharedPreferences toggle.
++        DevModeExtensionLoaderJni.get().setDeveloperModeEnabled(enabled);
++    }
++
++    public static void launchPicker(Activity activity, boolean incognito) {
++        if (incognito) {
++            toast(R.string.sharingan_zip_regular_only);
++            return;
++        }
++        if (!isDeveloperModeEnabled()) {
++            toast(R.string.sharingan_zip_enable_dev);
++            return;
++        }
++        if (sInstalling) {
++            toast(R.string.sharingan_zip_busy);
++            return;
++        }
++        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
++        intent.addCategory(Intent.CATEGORY_OPENABLE);
++        // Some document providers label ZIPs as octet-stream. Validate through the native
++        // ZIP parser, not a filename or an unreliable provider MIME type.
++        intent.setType("*/*");
++        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
++        try {
++            activity.startActivityForResult(intent, REQUEST_ZIP);
++        } catch (ActivityNotFoundException | SecurityException e) {
++            toast(R.string.sharingan_zip_no_picker);
++        }
++    }
++
++    public static boolean onPickerResult(
++            Activity activity, int requestCode, int resultCode, Intent data) {
++        if (requestCode != REQUEST_ZIP) return false;
++        if (resultCode != Activity.RESULT_OK || data == null || data.getData() == null) return true;
++        Uri uri = data.getData();
++        if (!"content".equals(uri.getScheme())) {
++            toast(R.string.sharingan_zip_invalid_uri);
++            return true;
++        }
++        if (!isDeveloperModeEnabled()) {
++            toast(R.string.sharingan_zip_enable_dev);
++            return true;
++        }
++        new AlertDialog.Builder(activity)
++                .setTitle(R.string.sharingan_zip_title)
++                .setMessage(R.string.sharingan_zip_confirm)
++                .setNegativeButton(android.R.string.cancel, null)
++                .setPositiveButton(R.string.sharingan_zip_install,
++                        (dialog, which) -> stage(activity, uri))
++                .show();
++        return true;
++    }
++
++    private static void stage(Activity activity, Uri uri) {
++        if (sInstalling) {
++            toast(R.string.sharingan_zip_busy);
++            return;
++        }
++        if (!isDeveloperModeEnabled()) {
++            toast(R.string.sharingan_zip_enable_dev);
++            return;
++        }
++        sInstalling = true;
++        toast(R.string.sharingan_zip_loading);
++        Context context = ContextUtils.getApplicationContext();
++        WeakReference<Activity> activityRef = new WeakReference<>(activity);
++        IO.execute(() -> {
++            File zip = null;
++            try {
++                zip = File.createTempFile("sharingan-extension-", ".zip", context.getCacheDir());
++                try (InputStream in = context.getContentResolver().openInputStream(uri);
++                        FileOutputStream out = new FileOutputStream(zip)) {
++                    if (in == null) throw new IOException("Document provider returned no data.");
++                    byte[] buffer = new byte[32768];
++                    long total = 0;
++                    int count;
++                    while ((count = in.read(buffer)) != -1) {
++                        total += count;
++                        if (total > MAX_ZIP_BYTES) throw new IOException("ZIP exceeds 64 MiB.");
++                        out.write(buffer, 0, count);
++                    }
++                    if (total == 0) throw new IOException("ZIP is empty.");
++                }
++                File staged = zip;
++                UI.post(() -> {
++                    DevModeExtensionLoader loader =
++                            new DevModeExtensionLoader(activityRef.get(), staged);
++                    if (!isDeveloperModeEnabled()) {
++                        loader.onComplete(false, context.getString(R.string.sharingan_zip_enable_dev));
++                        return;
++                    }
++                    DevModeExtensionLoaderJni.get().loadFromZip(loader, staged.getAbsolutePath());
++                });
++            } catch (IOException | SecurityException e) {
++                if (zip != null) zip.delete();
++                UI.post(() -> {
++                    sInstalling = false;
++                    showResult(activityRef.get(), false, e.getMessage());
++                });
++            }
++        });
++    }
++
++    @CalledByNative
++    private void onComplete(boolean success, String detail) {
++        sInstalling = false;
++        IO.execute(() -> mZip.delete());
++        showResult(mActivity.get(), success, detail);
++    }
++
++    private static void showResult(Activity activity, boolean success, String detail) {
++        if (success) {
++            toast(R.string.sharingan_zip_success);
++        } else if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
++            new AlertDialog.Builder(activity)
++                    .setTitle(R.string.sharingan_zip_failed)
++                    .setMessage(detail == null ? "Unable to read extension ZIP." : detail)
++                    .setPositiveButton(android.R.string.ok, null)
++                    .show();
++        } else {
++            toast(R.string.sharingan_zip_failed);
++        }
++    }
++
++    private static void toast(int message) {
++        Toast.makeText(ContextUtils.getApplicationContext(), message, Toast.LENGTH_LONG).show();
++    }
++
++    @NativeMethods
++    interface Natives {
++        boolean isDeveloperModeEnabled();
++        void setDeveloperModeEnabled(boolean enabled);
++        void loadFromZip(DevModeExtensionLoader caller, String path);
++    }
++}
+diff --git a/chrome/browser/extensions/dev_mode_extension_loader.cc b/chrome/browser/extensions/dev_mode_extension_loader.cc
+new file mode 100644
+index 0000000..67e7662
+--- /dev/null
++++ b/chrome/browser/extensions/dev_mode_extension_loader.cc
+@@ -0,0 +1,152 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++
++#include <string>
++#include <utility>
++
++#include "base/android/jni_android.h"
++#include "base/android/jni_string.h"
++#include "base/android/scoped_java_ref.h"
++#include "base/bind.h"
++#include "base/files/file_util.h"
++#include "base/task/task_runner_util.h"
++#include "chrome/browser/extensions/extension_service.h"
++#include "chrome/browser/extensions/unpacked_installer.h"
++#include "chrome/browser/profiles/profile.h"
++#include "chrome/browser/profiles/profile_manager.h"
++#include "chrome/common/pref_names.h"
++#include "components/prefs/pref_service.h"
++#include "content/public/browser/browser_thread.h"
++#include "extensions/browser/extension_file_task_runner.h"
++#include "extensions/browser/extension_system.h"
++#include "extensions/browser/zipfile_installer.h"
++#include "extensions/common/extension.h"
++#include "chrome/android/chrome_jni_headers/DevModeExtensionLoader_jni.h"
++
++namespace extensions {
++namespace {
++using JavaCallback = base::android::ScopedJavaGlobalRef<jobject>;
++
++bool DeveloperModeEnabled(Profile* profile) {
++  return profile && !profile->IsOffTheRecord() &&
++         profile->GetPrefs()->GetBoolean(prefs::kExtensionsUIDeveloperMode);
++}
++
++void Reply(JavaCallback callback, bool success, const std::string& detail) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  JNIEnv* env = base::android::AttachCurrentThread();
++  Java_DevModeExtensionLoader_onComplete(
++      env, callback, success, base::android::ConvertUTF8ToJavaString(env, detail));
++}
++
++void DeleteDirectory(const base::FilePath& path) {
++  if (path.empty()) return;
++  GetExtensionFileTaskRunner()->PostTask(FROM_HERE, base::BindOnce(
++      [](base::FilePath dir) { base::DeletePathRecursively(dir); }, path));
++}
++
++base::FilePath MakeInstallDirectory(const base::FilePath& parent) {
++  base::FilePath directory;
++  if (!base::CreateDirectory(parent) ||
++      !base::CreateTemporaryDirInDir(parent, "extension-", &directory))
++    return base::FilePath();
++  return directory;
++}
++
++void UnpackedComplete(JavaCallback callback,
++                      const base::FilePath& owned_directory,
++                      const Extension* extension,
++                      const base::FilePath& loaded_path,
++                      const std::string& error) {
++  // A successful unzip alone is NOT a successful extension install.
++  if (!extension) DeleteDirectory(owned_directory);
++  Reply(std::move(callback), extension != nullptr,
++        extension ? extension->id() : error);
++}
++
++void ZipComplete(base::WeakPtr<ExtensionService> service,
++                 JavaCallback callback,
++                 const base::FilePath& owned_directory,
++                 const base::FilePath& zip,
++                 const base::FilePath& unpacked,
++                 const std::string& error) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  if (!service || !DeveloperModeEnabled(service->profile())) {
++    DeleteDirectory(owned_directory);
++    Reply(std::move(callback), false, "Developer mode is off or the profile was closed.");
++    return;
++  }
++  if (unpacked.empty() || !error.empty() || unpacked != owned_directory) {
++    DeleteDirectory(owned_directory);
++    Reply(std::move(callback), false,
++          error.empty() ? "manifest.json must be at the ZIP root." : error);
++    return;
++  }
++  auto installer = UnpackedInstaller::Create(service.get());
++  installer->set_be_noisy_on_failure(false);
++  installer->set_allow_file_access(false);
++  installer->set_allow_incognito_access(false);
++  installer->set_completion_callback(base::BindOnce(
++      &UnpackedComplete, std::move(callback), owned_directory));
++  installer->Load(unpacked);
++}
++
++void DirectoryReady(base::WeakPtr<ExtensionService> service,
++                    JavaCallback callback,
++                    const base::FilePath& zip,
++                    const base::FilePath& directory) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  if (directory.empty() || !service || !DeveloperModeEnabled(service->profile())) {
++    DeleteDirectory(directory);
++    Reply(std::move(callback), false, "Unable to prepare extension storage or developer mode is off.");
++    return;
++  }
++  auto installer = ZipFileInstaller::Create(GetExtensionFileTaskRunner(),
++      base::BindOnce(&ZipComplete, service, std::move(callback), directory));
++  // Persistent profile storage: Android is free to evict the staging ZIP in cache.
++  // Only Chromium's sandboxed ZIP service extracts archive entries.
++  installer->LoadFromZipFileInDir(zip, directory);
++}
++}  // namespace
++
++static jboolean JNI_DevModeExtensionLoader_IsDeveloperModeEnabled(JNIEnv* env) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  return DeveloperModeEnabled(ProfileManager::GetLastUsedProfile());
++}
++
++static void JNI_DevModeExtensionLoader_SetDeveloperModeEnabled(JNIEnv* env,
++                                                               jboolean enabled) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  Profile* profile = ProfileManager::GetLastUsedProfile();
++  if (profile && !profile->IsOffTheRecord())
++    profile->GetPrefs()->SetBoolean(prefs::kExtensionsUIDeveloperMode, enabled);
++}
++
++static void JNI_DevModeExtensionLoader_LoadFromZip(
++    JNIEnv* env,
++    const base::android::JavaParamRef<jobject>& caller,
++    const base::android::JavaParamRef<jstring>& path) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  JavaCallback callback(env, caller);
++  Profile* profile = ProfileManager::GetLastUsedProfile();
++  if (!DeveloperModeEnabled(profile)) {
++    Reply(std::move(callback), false, "Enable extension developer mode first.");
++    return;
++  }
++  auto* system = ExtensionSystem::Get(profile);
++  auto* service = system ? system->extension_service() : nullptr;
++  if (!service) {
++    Reply(std::move(callback), false, "The extension service is unavailable.");
++    return;
++  }
++  base::FilePath zip(base::android::ConvertJavaStringToUTF8(env, path));
++  if (!zip.IsAbsolute() || zip.ReferencesParent()) {
++    Reply(std::move(callback), false, "Invalid staging path.");
++    return;
++  }
++  base::PostTaskAndReplyWithResult(GetExtensionFileTaskRunner().get(), FROM_HERE,
++      base::BindOnce(&MakeInstallDirectory,
++                    profile->GetPath().AppendASCII("SharinganDevExtensions")),
++      base::BindOnce(&DirectoryReady, service->AsWeakPtr(), std::move(callback), zip));
++}
++}  // namespace extensions

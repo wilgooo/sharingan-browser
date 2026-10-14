@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/EduBolthey/Kiwi-Browser-Revived.git",
+  "commit": "9806d8c9a2ae8952a1e68b64aedcd225bcd3fbe3",
+  "chromium_repository": "https://chromium.googlesource.com/chromium/src.git",
+  "chromium_version_candidate": "132.0.6834.83",
+  "build_verified": false,
+  "status": "experimental-overlay; base compatibility requires Linux build validation",
+  "application_id": "com.sharingan.browser",
+  "application_name": "Sharingan Browser"
+}

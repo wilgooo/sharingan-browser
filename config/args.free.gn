@@ -1,0 +1,21 @@
+# Experimental configuration for the standard GitHub-hosted Linux runner.
+target_os = "android"
+target_cpu = "arm64"
+chrome_public_manifest_package = "com.sharingan.browser"
+is_debug = false
+is_official_build = false
+is_component_build = false
+is_chrome_branded = false
+# Smaller object files and lower linker RAM; reduced native crash diagnostics.
+symbol_level = 0
+blink_symbol_level = 0
+v8_symbol_level = 0
+use_thin_lto = false
+concurrent_links = 1
+chrome_pgo_phase = 0
+use_remoteexec = false
+use_siso = false
+enable_extensions = true
+google_api_key = ""
+google_default_client_id = ""
+google_default_client_secret = ""

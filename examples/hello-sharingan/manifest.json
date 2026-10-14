@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Hello Sharingan",
+  "version": "1.0.0",
+  "description": "Smoke test for Sharingan Browser ZIP imports.",
+  "permissions": ["storage"],
+  "background": {"service_worker": "background.js"},
+  "action": {"default_popup": "popup.html"},
+  "content_scripts": [{
+    "matches": ["https://example.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}

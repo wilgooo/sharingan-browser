@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+out/
+*.apk
+*.aab
+*.jks
+*.keystore
+ci-logs/
+ci-artifacts/

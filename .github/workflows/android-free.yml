@@ -1,0 +1,68 @@
+name: Sharingan Android - free runner experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'build = attempt APK; preflight = measure reclaimed disk only'
+        type: choice
+        options: [build, preflight]
+        default: build
+      jobs:
+        description: 'Compile workers (fewer workers use less RAM)'
+        type: choice
+        options: ['2', '3', '4', '1']
+        default: '2'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sharingan-free-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  android:
+    # Public + standard hosted runner only. Never select a paid/custom label.
+    if: ${{ github.event.repository.private == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    env:
+      CI_MODE: ${{ inputs.mode }}
+      CI_JOBS: ${{ inputs.jobs }}
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out Sharingan source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify source package and tooling
+        run: |
+          /usr/bin/python3 scripts/verify_source.py
+          /usr/bin/python3 -B -m unittest discover -s tests -v
+
+      - name: Reclaim space and attempt source build
+        timeout-minutes: 330
+        run: /usr/bin/python3 -u scripts/ci/free_runner.py --mode "$CI_MODE" --jobs "$CI_JOBS"
+
+      - name: Upload diagnostics even after failure
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: sharingan-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ci-logs/
+          if-no-files-found: warn
+          retention-days: 1
+          compression-level: 6
+
+      - name: Upload APK only after a successful build
+        if: ${{ success() && inputs.mode == 'build' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: SharinganBrowser-dev-arm64-${{ github.run_id }}
+          path: ci-artifacts/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
