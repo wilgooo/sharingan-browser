@@ -1,6 +1,6 @@
 # Melanjutkan di Linux
 
-Status resep: disiapkan, belum dijalankan. Kandidat Chromium 132 belum terbukti kompatibel dengan overlay. Gunakan checkout khusus untuk eksperimen ini.
+Status resep: audit source Kiwi resmi cocok dengan Chromium 105.0.5195.24; kompilasi masih perlu dibuktikan. Gunakan checkout khusus untuk eksperimen ini.
 
 Untuk percobaan tanpa mesin sendiri, gunakan [workflow GitHub Actions gratis](GITHUB_ACTIONS_FREE.md). Workflow memakai driver CI tersendiri dengan ambang disk eksperimental; skrip fetch lokal tetap mensyaratkan 100 GiB.
 
@@ -16,7 +16,7 @@ Salin seluruh folder `sharingan-browser` ke Linux. Dari folder paket:
 bash scripts/fetch_chromium.sh /absolute/path/sharingan-build
 ```
 
-Direktori tujuan harus baru. Skrip mengambil checkout Chromium 132.0.6834.83 dan dependensi Android tanpa menjalankan hooks. `depot_tools` diambil dari upstream saat skrip dijalankan; revisinya belum dipin ke toolchain historis. Catat revisi yang dipakai saat melakukan build pertama.
+Direktori tujuan harus baru. Skrip mengambil checkout Chromium 105.0.5195.24 dan dependensi Android tanpa menjalankan hooks. Revisi Chromium dan depot_tools dipin dalam `config/upstream.lock.json`. Gunakan Ubuntu 22.04 x86-64 untuk resep ini.
 
 ## 2. Dependensi sistem dan hooks
 
@@ -25,10 +25,11 @@ export PATH="/absolute/path/sharingan-build/depot_tools:$PATH"
 cd /absolute/path/sharingan-build/src
 ```
 
-Gunakan instruksi `docs/android_build_instructions.md` **di checkout 132** untuk nama dan opsi script dependensi yang cocok. Jika tersedia pada checkout tersebut:
+Gunakan instruksi `docs/android_build_instructions.md` **di checkout 105** untuk nama dan opsi script dependensi yang cocok. Jika tersedia pada checkout tersebut:
 
 ```bash
-sudo build/install-build-deps-android.sh
+bash build/install-build-deps-android.sh --unsupported
+sudo apt-get install -y ninja-build
 ```
 
 Jika file tersebut tidak ada, ikuti instruksi versi checkout; jangan menyalin daftar dependensi dari versi Chromium terbaru secara membabi buta.
@@ -62,8 +63,8 @@ bash scripts/build_linux.sh /absolute/path/sharingan-build/src
 Skrip menjalankan:
 
 ```bash
-gn gen out/sharingan_arm64 --check --fail-on-unused-args
-autoninja -C out/sharingan_arm64 chrome_public_apk
+buildtools/linux64/gn gen out/sharingan_arm64 --check --fail-on-unused-args
+ninja -C out/sharingan_arm64 -j2 chrome_public_apk
 ```
 
 Jika sukses, keluaran yang diharapkan:

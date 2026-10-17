@@ -19,7 +19,6 @@ GIB = 1024 ** 3
 MIN_START_GIB = 70
 MIN_BUILD_GIB = 15
 RESERVE_GIB = 3
-DEPOT_REVISION = '26b75c9b6bd10093b52b3dab6e77c48a84471b7c'
 # Fixed allowlist. Never derive deletion targets from user input/environment.
 RECLAIM_PATHS = (
     '/usr/share/dotnet', '/usr/local/lib/android', '/opt/ghc',
@@ -219,11 +218,12 @@ def main():
         require_space(work, MIN_START_GIB)
         lock = json.loads((ROOT / 'config/upstream.lock.json').read_text())
         version = lock['chromium_version_candidate']
+        depot_revision = lock['depot_tools_commit']
         depot = work / 'depot_tools'
         src = work / 'src'
         runner.checkout('01-depot',
                         'https://chromium.googlesource.com/chromium/tools/depot_tools.git',
-                        DEPOT_REVISION, depot, minutes=10)
+                        depot_revision, depot, minutes=10)
         runner.env['PATH'] = str(depot) + ':' + runner.env['PATH']
         runner.checkout('04-chromium', lock['chromium_repository'],
                         f'refs/tags/{version}', src, minutes=90)
@@ -234,9 +234,12 @@ def main():
         runner.network('05-dependency-sync', [str(depot / 'gclient'), 'sync', '--nohooks',
                    '--no-history', '--shallow', '--jobs=2'], minutes=90)
         require_space(work, 20)
-        runner.run('06-system-dependencies', ['sudo', '/usr/bin/python3',
-                   'build/install-build-deps.py', '--android', '--no-prompt', '--no-syms',
-                   '--no-chromeos-fonts', '--no-nacl'], cwd=src, minutes=30)
+        # Chromium 105 predates install-build-deps.py. Jammy is newer than its
+        # distro allowlist, but still provides libncurses5 and the i386 SDK libs.
+        runner.run('06-system-dependencies', ['bash',
+                   'build/install-build-deps-android.sh', '--unsupported'], cwd=src, minutes=30)
+        # This baseline does not provision third_party/ninja through DEPS.
+        runner.run('06-ninja', ['sudo', 'apt-get', 'install', '-y', 'ninja-build'], minutes=5)
         runner.run('07-apt-clean', ['sudo', 'apt-get', 'clean'], minutes=2)
         runner.run('08-hooks', [str(depot / 'gclient'), 'runhooks'], minutes=45)
         runner.run('09-overlay', ['/usr/bin/python3', str(ROOT / 'scripts/prepare.py'), str(src)], minutes=15)
@@ -244,7 +247,7 @@ def main():
         shutil.copy2(ROOT / 'config/args.free.gn', out / 'args.gn')
         shutil.copy2(out / 'args.gn', logs / 'args.gn')
         shutil.copy2(work / '.gclient', logs / 'gclient.txt')
-        runner.state.update(chromium_version=version, depot_revision=DEPOT_REVISION,
+        runner.state.update(chromium_version=version, depot_revision=depot_revision,
                             kiwi_revision=lock['commit'], compile_jobs=args.jobs)
         runner.save()
         # Use the GN binary pinned by Chromium DEPS. The depot_tools wrapper
@@ -255,7 +258,7 @@ def main():
         runner.run('10-gn', [str(gn), 'gen', 'out/sharingan_arm64',
                    '--check', '--fail-on-unused-args'], cwd=src, minutes=10)
         require_space(work, MIN_BUILD_GIB)
-        runner.run('11-compile', [str(src / 'third_party/ninja/ninja'), '-C',
+        runner.run('11-compile', ['/usr/bin/ninja', '-C',
                    'out/sharingan_arm64', f'-j{args.jobs}', 'chrome_public_apk'], cwd=src, minutes=300)
         apk = out / 'apks/ChromePublic.apk'
         if not apk.is_file() or apk.stat().st_size == 0:

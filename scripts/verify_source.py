@@ -11,6 +11,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     overlay = ROOT / 'chromium-overlay'
+    lock = json.loads((ROOT / 'config/upstream.lock.json').read_text())
+    version = dict(line.split('=', 1) for line in
+                   (overlay / 'chrome/VERSION').read_text().splitlines() if '=' in line)
+    assert '.'.join(version[key] for key in ('MAJOR', 'MINOR', 'BUILD', 'PATCH')) == lock['chromium_version_candidate'], 'Overlay and Chromium versions disagree.'
     manifest = json.loads((ROOT / 'config/overlay.sha256.json').read_text())
     for name, digest in manifest.items():
         path = overlay / name

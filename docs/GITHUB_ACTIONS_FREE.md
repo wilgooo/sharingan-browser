@@ -1,6 +1,6 @@
 # Percobaan build di GitHub Actions standar
 
-**Preflight sukses; percobaan build #4 gagal saat evaluasi GN karena inkompatibilitas source Kiwi/Chromium 132.** Tidak ada APK. Retry otomatis dipause sambil menunggu perbaikan baseline; lihat [BUILD_BLOCKER.md](BUILD_BLOCKER.md). Kapasitas runner untuk kompilasi penuh belum terbukti.
+**Baseline baru: Kiwi resmi / Chromium 105.0.5195.24, runner standar `ubuntu-22.04`.** Audit dan port Sharingan sudah dilakukan; kapasitas untuk kompilasi penuh dan APK belum terbukti. Run #4 sebelumnya gagal dengan baseline 132 yang tidak cocok. Lihat [BASELINE.md](BASELINE.md).
 
 ## Hasil preflight pertama
 
@@ -45,7 +45,7 @@ Workflow hanya manual. Push tidak otomatis memulai build panjang. Dua run untuk 
 
 | Optimasi | Tujuan / tradeoff |
 |---|---|
-| `ubuntu-24.04` x86-64 standar | Menghindari runner berbayar dan perubahan distro otomatis dari `ubuntu-latest` |
+| `ubuntu-22.04` x86-64 standar | Library host termasuk libncurses5 cocok dengan toolchain Chromium 105; tetap runner gratis |
 | Hapus toolchain preinstalled yang tidak dipakai | Membebaskan .NET, Android SDK bawaan, Haskell, Boost, Swift, dan hosted tool cache; Chromium mengambil toolchain yang cocok sendiri |
 | Shallow clone + `gclient --no-history --shallow` | Mengurangi history Git, tetap mengambil file build yang diperlukan |
 | Checkout `small`; skip coverage/telemetry/PGO test dependencies | Tidak mengunduh beberapa komponen yang tidak diperlukan build development |
@@ -79,20 +79,20 @@ Compute runner standar publik gratis menurut dokumentasi GitHub. Artifact tetap 
 |---|---|
 | Cleanup/disk gate | Runner tidak punya cukup kapasitas untuk ambang eksperimen; lihat `before_cleanup`/`after_cleanup` |
 | Chromium clone/dependency sync | Periksa network, disk, dan log gclient sebelum mengulang |
-| System dependencies/hooks | Periksa dukungan Ubuntu 24.04 dan toolchain historis Chromium 132 |
+| System dependencies/hooks | Periksa log installer shell, library Ubuntu 22.04, dan toolchain Chromium 105 |
 | Overlay | Periksa checkout/tag dan perubahan file dari hooks; jangan bypass pemeriksaan tanpa memahami error |
 | GN | Dependency graph/arg/source baseline bermasalah; jangan menghapus `--check` untuk menutupi masalah |
 | Compile | Perbaiki error compiler pertama; exit 137/SIGKILL dapat menunjukkan tekanan memori tetapi perlu bukti dari log |
 | Timeout | Fetch+build melebihi budget; workflow ini tidak menyediakan resume object build lintas run |
 | APK berhasil diunggah | Kompilasi berhasil, tetapi belum membuktikan browsing/ZIP/MV3/Web Store berfungsi; jalankan `TEST_PLAN.md` |
 
-Baseline Kiwi masih eksperimental. Mengubah kapasitas runner tidak menyelesaikan inkompatibilitas source. Depot tools dipin ke commit yang dicatat dalam driver; kompatibilitas revisi tool tersebut dengan Chromium 132 belum diuji melalui build penuh.
+Baseline Kiwi masih eksperimental. Mengubah kapasitas runner tidak menyelesaikan inkompatibilitas source. Depot tools dipin dalam `config/upstream.lock.json`; kompatibilitas revisi tool tersebut dengan Chromium 105 masih perlu dibuktikan melalui build penuh.
 
 ## Referensi
 
 - [Standard hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
 - [Actions limits](https://docs.github.com/en/actions/reference/limits)
 - [Billing dan artifact storage](https://docs.github.com/en/billing/concepts/product-billing/github-actions)
-- [Ubuntu 24.04 runner image](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md)
-- [Chromium 132 DEPS](https://chromium.googlesource.com/chromium/src/+/132.0.6834.83/DEPS)
-- [Chromium 132 link concurrency](https://chromium.googlesource.com/chromium/src/+/132.0.6834.83/build/toolchain/concurrent_links.gni)
+- [Ubuntu 22.04 runner image](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md)
+- [Chromium 105 DEPS](https://chromium.googlesource.com/chromium/src/+/105.0.5195.24/DEPS)
+- [Chromium 105 link concurrency](https://chromium.googlesource.com/chromium/src/+/105.0.5195.24/build/toolchain/concurrent_links.gni)

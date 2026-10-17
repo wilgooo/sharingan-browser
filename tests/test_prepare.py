@@ -65,6 +65,15 @@ class PrepareTests(unittest.TestCase):
             self.apply()
         self.assertEqual((self.src / 'chrome/test.txt').read_text(), 'User edit')
 
+    def test_matching_tag_with_unexpected_commit_rejected(self):
+        lock_path = self.bundle / 'config/upstream.lock.json'
+        lock = json.loads(lock_path.read_text())
+        lock['chromium_commit'] = '0' * 40
+        lock_path.write_text(json.dumps(lock))
+        with self.assertRaisesRegex(RuntimeError, 'audited baseline'):
+            self.apply()
+        self.assertEqual((self.src / 'chrome/test.txt').read_text(), 'Chromium')
+
     def test_tampered_bundle_rejected_before_write(self):
         (self.bundle / 'chromium-overlay/chrome/test.txt').write_text('Tampered')
         with self.assertRaisesRegex(RuntimeError, 'checksum mismatch'):

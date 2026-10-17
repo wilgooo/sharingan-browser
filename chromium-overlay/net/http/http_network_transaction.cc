@@ -1715,6 +1715,28 @@ void HttpNetworkTransaction::CacheNetErrorDetailsAndResetStream() {
 }
 
 HttpResponseHeaders* HttpNetworkTransaction::GetResponseHeaders() const {
+  std::string header_value_;
+  std::string header_value_1;
+  std::string header_value_2;
+  std::string header_value_3;
+
+  if (request_ != NULL
+      && (GetHostAndOptionalPort(request_->url) == "news.google.com" || GetHostAndOptionalPort(request_->url) == "consent.google.com" || GetHostAndOptionalPort(request_->url) == "d3ward.github.io"))
+  {
+     if (response_.headers && !response_.headers->GetNormalizedHeader(
+             "Access-Control-Allow-Origin", &header_value_))
+       response_.headers->AddHeader("Access-Control-Allow-Origin", "chrome-search://local-ntp");
+     if (response_.headers && !response_.headers->GetNormalizedHeader(
+             "Access-Control-Expose-Headers", &header_value_1))
+       response_.headers->AddHeader("Access-Control-Expose-Headers", "chrome-search://local-ntp");
+     if (response_.headers && !response_.headers->GetNormalizedHeader(
+             "Access-Control-Allow-Credentials", &header_value_2))
+       response_.headers->AddHeader("Access-Control-Allow-Credentials", "true");
+     if (response_.headers && !response_.headers->GetNormalizedHeader(
+             "X-Kiwi-Processed", &header_value_3))
+       response_.headers->AddHeader("X-Kiwi-Processed", "Yes");
+  }
+
   return response_.headers.get();
 }
 

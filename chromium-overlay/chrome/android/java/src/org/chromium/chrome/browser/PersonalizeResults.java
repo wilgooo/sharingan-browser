@@ -18,15 +18,13 @@ public class PersonalizeResults {
        if (tab != null && shouldRewrapText) {
           tab.getWebContents().evaluateJavaScript("(function() { var pendingUpdate=false;function viewportHandler(event){if(pendingUpdate)return;pendingUpdate=true;requestAnimationFrame(()=>{pendingUpdate=false;document.getElementsByTagName('html')[0].style.maxWidth=window.visualViewport.width+'px';var miniLeft=visualViewport.offsetLeft;var miniTop = -(visualViewport.offsetTop + visualViewport.offsetTop * ((window.pageYOffset / window.innerHeight) / 2));document.getElementsByTagName('html')[0].style.transition='0s ease-in-out';if (miniLeft == 0 && miniTop == 0) { document.getElementsByTagName('html')[0].style.transform=''; } else { document.getElementsByTagName('html')[0].style.transform='translate('+miniLeft+'px, '+miniTop+'px) scale(1.0)'; } })}window.visualViewport.addEventListener('resize',viewportHandler);window.visualViewport.addEventListener('scroll', viewportHandler); })();", null);
        }
-       boolean isChromeWebStore = tab != null && (tab.getUrl().getSpec().startsWith("https://chrome.google.com/webstore")
-               || tab.getUrl().getSpec().startsWith("https://chromewebstore.google.com"));
-       if (isChromeWebStore) {
-          tab.getWebContents().evaluateJavaScript("(function() { " + MAKE_USER_AGENT_WRITABLE + " window.navigator.userAgent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36'; window.addEventListener('load', function() { if (document.location.pathname == '/webstore/unsupported') { document.location = '/'; } var node = document.createElement('style');    document.body.appendChild(node);    window.addStyleString = function(str) {        node.innerHTML = str;    }; addStyleString('div { visibility: visible !important; } '); }); })();", null);
+       if (tab != null && tab.getUrl().getSpec().startsWith("https://chrome.google.com/webstore")) {
+          tab.getWebContents().evaluateJavaScript("(function() { if (!document.location.href.includes('https://chrome.google.com/webstore')) { return; } " + MAKE_USER_AGENT_WRITABLE + " window.navigator.userAgent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36'; window.addEventListener('load', function() { if (document.location.pathname == '/webstore/unsupported') { document.location = '/webstore/'; } var node = document.createElement('style');    document.body.appendChild(node);    window.addStyleString = function(str) {        node.innerHTML = str;    }; addStyleString('div { visibility: visible !important; } '); }); })();", null);
        }
-       if (isChromeWebStore && !ContextUtils.getAppSharedPreferences().getBoolean("cws_mobile_friendly", false)) {
-          tab.getWebContents().evaluateJavaScript("(function() { window.addEventListener('load', function() { var t=document.querySelector('meta[name=\"viewport\"]');t&&(t.content=\"initial-scale=0.1\",t.content=\"width=1200\") }); })();", null);
+       if (tab != null && tab.getUrl().getSpec().startsWith("https://chrome.google.com/webstore") && !ContextUtils.getAppSharedPreferences().getBoolean("cws_mobile_friendly", false)) {
+          tab.getWebContents().evaluateJavaScript("(function() { if (!document.location.href.includes('https://chrome.google.com/webstore')) { return; } window.addEventListener('load', function() { var t=document.querySelector('meta[name=\"viewport\"]');t&&(t.content=\"initial-scale=0.1\",t.content=\"width=1200\") }); })();", null);
        }
-       if (isChromeWebStore && ContextUtils.getAppSharedPreferences().getBoolean("cws_mobile_friendly", false)) {
+       if (tab != null && tab.getUrl().getSpec().startsWith("https://chrome.google.com/webstore") && ContextUtils.getAppSharedPreferences().getBoolean("cws_mobile_friendly", false)) {
           tab.getWebContents().evaluateJavaScript(CWS_MOBILE_SCRIPT, null);
        }
        if (tab != null && tab.getUrl().getSpec().startsWith("https://microsoftedge.microsoft.com/addons")) {
@@ -199,7 +197,7 @@ public class PersonalizeResults {
 
     private static final String CWS_MOBILE_SCRIPT = ""
 +"(function() {"
-+"if (!document.location.href.includes('google.com') || !document.location.href.includes('webstore')) {return;}"
++"if (!document.location.href.includes('https://chrome.google.com/webstore')) {return;}"
 +"function waitForElementToDisplay(selector,callback,checkFrequencyInMs,timeoutInMs){var startTimeInMs=Date.now();!function loopSearch(){null==document.querySelector(selector)?setTimeout((function(){timeoutInMs&&Date.now()-startTimeInMs>timeoutInMs||loopSearch()}),checkFrequencyInMs):callback()}()}"
 +"window.addEventListener(\"load\", function () { console.log(\"Inject cws_mobile_script \"); "
 +"if(document.getElementById('lrdnjct') == undefined){"

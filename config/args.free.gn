@@ -14,8 +14,13 @@ use_thin_lto = false
 concurrent_links = 1
 chrome_pgo_phase = 0
 use_remoteexec = false
-use_siso = false
+use_goma = false
 enable_extensions = true
+# Match the official Kiwi reference configuration for Android extensions.
+enable_nacl = false
+enable_pdf = false
+enable_plugins = false
+treat_warnings_as_errors = false
 google_api_key = ""
 google_default_client_id = ""
 google_default_client_secret = ""

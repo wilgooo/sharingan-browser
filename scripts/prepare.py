@@ -32,6 +32,8 @@ def prepare(src):
     candidate = lock['chromium_version_candidate']
     if git(src, 'rev-parse', 'HEAD') != git(src, 'rev-parse', 'refs/tags/' + candidate + '^{commit}'):
         raise RuntimeError('Expected Chromium tag ' + candidate + '; refusing a different revision.')
+    if lock.get('chromium_commit') and git(src, 'rev-parse', 'HEAD') != lock['chromium_commit']:
+        raise RuntimeError('Chromium commit differs from the audited baseline; refusing to apply overlay.')
     if git(src, 'status', '--porcelain', '--untracked-files=no'):
         raise RuntimeError('Tracked source files have local changes. Use a clean dedicated checkout.')
     out = src / 'out/sharingan_arm64'
@@ -59,7 +61,7 @@ def prepare(src):
     shutil.copy2(ROOT / 'config/args.gn', out / 'args.gn')
     stamp.write_text(json.dumps({'overlay_digest': digest, 'upstream': lock}, indent=2) + '\n')
     print(f'Applied {len(manifest)} source files to {src}.')
-    print('EXPERIMENTAL: no successful Chromium 132 build has been established for this overlay.')
+    print('EXPERIMENTAL: Chromium ' + candidate + '; compilation and Android runtime still require validation.')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)

@@ -289,54 +289,50 @@ class AutocompleteMediator implements OnSuggestionsReceivedListener,
 
     /** @see org.chromium.chrome.browser.omnibox.UrlFocusChangeListener#onUrlFocusChange(boolean) */
     void onUrlFocusChange(boolean hasFocus) {
-        try {
-            if (hasFocus) {
-                dismissDeleteDialog(DialogDismissalCause.DISMISSED_BY_NATIVE);
-                mRefineActionUsage = RefineActionUsage.NOT_USED;
-                mOmniboxFocusResultedInNavigation = false;
-                mSuggestionsListScrolled = false;
-                mUrlFocusTime = System.currentTimeMillis();
-                if (mJankTracker != null) {
-                    mJankTracker.startTrackingScenario(JankScenario.OMNIBOX_FOCUS);
-                }
+        if (hasFocus) {
+            dismissDeleteDialog(DialogDismissalCause.DISMISSED_BY_NATIVE);
+            mRefineActionUsage = RefineActionUsage.NOT_USED;
+            mOmniboxFocusResultedInNavigation = false;
+            mSuggestionsListScrolled = false;
+            mUrlFocusTime = System.currentTimeMillis();
+            mJankTracker.startTrackingScenario(JankScenario.OMNIBOX_FOCUS);
 
-                setSuggestionVisibilityState(SuggestionVisibilityState.PENDING_ALLOW);
+            setSuggestionVisibilityState(SuggestionVisibilityState.PENDING_ALLOW);
 
-                if (mDataProvider != null && mDataProvider.getPageClassification(false)
-                        != PageClassification.ANDROID_SEARCH_WIDGET_VALUE) {
-                    postAutocompleteRequest(this::startZeroSuggest, SCHEDULE_FOR_IMMEDIATE_EXECUTION);
-                } else if (mUrlBarEditingTextProvider != null) {
-                    String text = mUrlBarEditingTextProvider.getTextWithoutAutocomplete();
-                    onTextChanged(text, text);
-                }
+            // Ask directly for zero-suggestions related to current input, unless the user is
+            // currently visiting SearchActivity and the input is populated from the launch intent.
+            // For SearchActivity, in most cases the input will be empty, triggering the same
+            // response (starting zero suggestions), but if the Activity was launched with a QUERY,
+            // then the query might point to a different URL than the reported Page, and the
+            // suggestion would take the user to the DSE home page.
+            // This is tracked by MobileStartup.LaunchCause / EXTERNAL_SEARCH_ACTION_INTENT
+            // metric.
+            if (mDataProvider.getPageClassification(false)
+                    != PageClassification.ANDROID_SEARCH_WIDGET_VALUE) {
+                postAutocompleteRequest(this::startZeroSuggest, SCHEDULE_FOR_IMMEDIATE_EXECUTION);
             } else {
-                if (mJankTracker != null) {
-                    mJankTracker.finishTrackingScenario(JankScenario.OMNIBOX_FOCUS);
-                }
-                cancelAutocompleteRequests();
-                SuggestionsMetrics.recordOmniboxFocusResultedInNavigation(
-                        mOmniboxFocusResultedInNavigation);
-                SuggestionsMetrics.recordRefineActionUsage(mRefineActionUsage);
-                if (mDataProvider != null && mDelegate != null) {
-                    SuggestionsMetrics.recordSuggestionsListScrolled(
-                            mDataProvider.getPageClassification(mDelegate.didFocusUrlFromFakebox()),
-                            mSuggestionsListScrolled);
-                }
-
-                setSuggestionVisibilityState(SuggestionVisibilityState.DISALLOWED);
-                mEditSessionState = EditSessionState.INACTIVE;
-                mNewOmniboxEditSessionTimestamp = -1;
-                // Prevent any upcoming omnibox suggestions from showing once a URL is loaded (and as
-                // a consequence the omnibox is unfocused).
-                hideSuggestions();
+                String text = mUrlBarEditingTextProvider.getTextWithoutAutocomplete();
+                onTextChanged(text, text);
             }
+        } else {
+            mJankTracker.finishTrackingScenario(JankScenario.OMNIBOX_FOCUS);
+            cancelAutocompleteRequests();
+            SuggestionsMetrics.recordOmniboxFocusResultedInNavigation(
+                    mOmniboxFocusResultedInNavigation);
+            SuggestionsMetrics.recordRefineActionUsage(mRefineActionUsage);
+            SuggestionsMetrics.recordSuggestionsListScrolled(
+                    mDataProvider.getPageClassification(mDelegate.didFocusUrlFromFakebox()),
+                    mSuggestionsListScrolled);
 
-            if (mDropdownViewInfoListBuilder != null) {
-                mDropdownViewInfoListBuilder.onUrlFocusChange(hasFocus);
-            }
-        } catch (Throwable t) {
-            org.chromium.base.Log.e("AutocompleteMediator", "Exception during onUrlFocusChange", t);
+            setSuggestionVisibilityState(SuggestionVisibilityState.DISALLOWED);
+            mEditSessionState = EditSessionState.INACTIVE;
+            mNewOmniboxEditSessionTimestamp = -1;
+            // Prevent any upcoming omnibox suggestions from showing once a URL is loaded (and as
+            // a consequence the omnibox is unfocused).
+            hideSuggestions();
         }
+
+        mDropdownViewInfoListBuilder.onUrlFocusChange(hasFocus);
     }
 
     /**
@@ -872,29 +868,21 @@ class AutocompleteMediator implements OnSuggestionsReceivedListener,
      * This method should not be called directly. Schedule execution using postAutocompleteRequest.
      */
     private void startZeroSuggest() {
-        try {
-            // Reset "edited" state in the omnibox if zero suggest is triggered -- new edits
-            // now count as a new session.
-            mEditSessionState = EditSessionState.INACTIVE;
-            mNewOmniboxEditSessionTimestamp = -1;
-            if (!mNativeInitialized || mAutocomplete == null) return;
+        // Reset "edited" state in the omnibox if zero suggest is triggered -- new edits
+        // now count as a new session.
+        mEditSessionState = EditSessionState.INACTIVE;
+        mNewOmniboxEditSessionTimestamp = -1;
+        assert mNativeInitialized
+            : "startZeroSuggest should be scheduled using postAutocompleteRequest";
 
-            if (mDelegate != null && mDelegate.isUrlBarFocused()
-                    && mDataProvider != null
-                    && (mDataProvider.hasTab() || mDataProvider.isInOverviewAndShowingOmnibox())) {
-                int pageClassification =
-                        mDataProvider.getPageClassification(mDelegate.didFocusUrlFromFakebox());
-                mShouldCacheSuggestions =
-                        pageClassification == PageClassification.ANDROID_SEARCH_WIDGET_VALUE;
-                String text = mUrlBarEditingTextProvider != null
-                        ? mUrlBarEditingTextProvider.getTextWithAutocomplete() : "";
-                String url = mDataProvider.getCurrentUrl();
-                String title = mDataProvider.getTitle();
-                mAutocomplete.startZeroSuggest(text != null ? text : "",
-                        url != null ? url : "", pageClassification, title != null ? title : "");
-            }
-        } catch (Throwable t) {
-            org.chromium.base.Log.e("AutocompleteMediator", "Exception during startZeroSuggest", t);
+        if (mDelegate.isUrlBarFocused()
+                && (mDataProvider.hasTab() || mDataProvider.isInOverviewAndShowingOmnibox())) {
+            int pageClassification =
+                    mDataProvider.getPageClassification(mDelegate.didFocusUrlFromFakebox());
+            mShouldCacheSuggestions =
+                    pageClassification == PageClassification.ANDROID_SEARCH_WIDGET_VALUE;
+            mAutocomplete.startZeroSuggest(mUrlBarEditingTextProvider.getTextWithAutocomplete(),
+                    mDataProvider.getCurrentUrl(), pageClassification, mDataProvider.getTitle());
         }
     }
 

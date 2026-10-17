@@ -207,37 +207,17 @@ class DropdownItemViewInfoListBuilder {
             mBuiltListHasFullyConcealedElements = false;
         }
 
-        if (mHeaderProcessor != null) {
-            try {
-                mHeaderProcessor.onUrlFocusChange(hasFocus);
-            } catch (Throwable t) {
-                org.chromium.base.Log.e("DropdownItemBuilder", "Error in mHeaderProcessor.onUrlFocusChange", t);
-            }
-        }
+        mHeaderProcessor.onUrlFocusChange(hasFocus);
         for (int index = 0; index < mPriorityOrderedSuggestionProcessors.size(); index++) {
-            try {
-                mPriorityOrderedSuggestionProcessors.get(index).onUrlFocusChange(hasFocus);
-            } catch (Throwable t) {
-                org.chromium.base.Log.e("DropdownItemBuilder", "Error in processor " + index + " onUrlFocusChange", t);
-            }
+            mPriorityOrderedSuggestionProcessors.get(index).onUrlFocusChange(hasFocus);
         }
     }
 
     /** Signals that native initialization has completed. */
     void onNativeInitialized() {
-        if (mHeaderProcessor != null) {
-            try {
-                mHeaderProcessor.onNativeInitialized();
-            } catch (Throwable t) {
-                org.chromium.base.Log.e("DropdownItemBuilder", "Error in mHeaderProcessor.onNativeInitialized", t);
-            }
-        }
+        mHeaderProcessor.onNativeInitialized();
         for (int index = 0; index < mPriorityOrderedSuggestionProcessors.size(); index++) {
-            try {
-                mPriorityOrderedSuggestionProcessors.get(index).onNativeInitialized();
-            } catch (Throwable t) {
-                org.chromium.base.Log.e("DropdownItemBuilder", "Error in processor " + index + " onNativeInitialized", t);
-            }
+            mPriorityOrderedSuggestionProcessors.get(index).onNativeInitialized();
         }
     }
 

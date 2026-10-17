@@ -297,20 +297,12 @@ public abstract class UrlBar extends AutocompleteEditText {
     @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         mFocused = focused;
-        try {
-            super.onFocusChanged(focused, direction, previouslyFocusedRect);
-        } catch (Throwable t) {
-            Log.w(TAG, "Ignoring exception in UrlBar#onFocusChanged.", t);
-        }
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
 
         if (focused) {
             mPendingScroll = false;
         }
-        try {
-            fixupTextDirection();
-        } catch (Throwable t) {
-            Log.w(TAG, "Ignoring exception in UrlBar#fixupTextDirection.", t);
-        }
+        fixupTextDirection();
     }
 
     /**
@@ -438,9 +430,20 @@ public abstract class UrlBar extends AutocompleteEditText {
 
         try {
             return super.onTouchEvent(event);
-        } catch (Throwable e) {
-            // Work around platform bugs, cursor handles, or clipboard/IME exceptions
-            Log.w(TAG, "Ignoring exception in UrlBar#onTouchEvent.", e);
+        } catch (NullPointerException e) {
+            // Working around a platform bug (b/25562038) that was fixed in N that can throw an
+            // exception during text selection. We just swallow the exception. The outcome is that
+            // the text selection handle doesn't show.
+
+            // If this happens on N or later, there's a different issue here that we might want to
+            // know about.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) throw e;
+
+            Log.w(TAG, "Ignoring NPE in UrlBar#onTouchEvent.", e);
+            return true;
+        } catch (IndexOutOfBoundsException e) {
+            // Work around crash of unknown origin (https://crbug.com/837419).
+            Log.w(TAG, "Ignoring IndexOutOfBoundsException in UrlBar#onTouchEvent.", e);
             return true;
         }
     }

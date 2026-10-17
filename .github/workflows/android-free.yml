@@ -25,7 +25,8 @@ jobs:
   android:
     # Public + standard hosted runner only. Never select a paid/custom label.
     if: ${{ github.event.repository.private == false }}
-    runs-on: ubuntu-24.04
+    # Chromium 105's Android tools need libncurses5 and the older host libraries.
+    runs-on: ubuntu-22.04
     timeout-minutes: 350
     env:
       CI_MODE: ${{ inputs.mode }}

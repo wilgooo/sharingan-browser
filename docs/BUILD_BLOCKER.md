@@ -1,5 +1,7 @@
 # Build blocked by baseline incompatibility
 
+> Historical report for run #4. On 2026-10-18 the incompatible fork/132 combination was replaced by official Kiwi/Chromium 105. See [BASELINE.md](BASELINE.md). A successful APK is still unverified.
+
 Observed on 14 October 2026 in [run #4](https://github.com/wilgooo/sharingan-browser/actions/runs/38583341931), source commit `934c46a87657be205d93b744f2c9dfdd5bcc4402`. Total workflow duration: 53m22s. No APK was produced and native compilation never started.
 
 ## What passed

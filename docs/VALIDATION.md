@@ -41,3 +41,7 @@ Jalankan GN/build dari source pada Linux untuk menetapkan baseline yang benar-be
 - **Preflight GitHub terverifikasi:** [run #1](https://github.com/wilgooo/sharingan-browser/actions/runs/38576425331), 14 Oktober 2026, commit `61ef07f3f035fb4f3ef9c254edef073f65f7dd12`. Verifikasi source dan 18 tes lolos; cleanup runner sebenarnya menaikkan ruang kosong 84,97 → 113,85 GiB; artifact diagnostik diunggah. Job selesai dalam 1 menit 40 detik.
 - **Percobaan build #4:** checkout, dependency sync, system packages, hooks, dan overlay selesai. GN dijalankan dan gagal pada source compatibility. 22 tes tooling lolos. Lihat [BUILD_BLOCKER.md](BUILD_BLOCKER.md) untuk log dan temuan tambahan.
 - **Tidak dijalankan:** kompilasi Java/C++/JNI, instalasi APK, dan pengujian extension pada Android.
+
+## Baseline replacement — 2026-10-18
+
+Official Kiwi 105 replaces the Revived fork/Chromium 132 combination. See [BASELINE.md](BASELINE.md) for pinned commits, full-overlay blob comparison and port details. 23 host tests, 8,289 hashes/resource checks, actionlint and shell syntax passed. No APK or successful Linux compile is claimed yet.

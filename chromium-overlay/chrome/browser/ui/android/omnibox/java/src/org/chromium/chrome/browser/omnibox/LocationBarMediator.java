@@ -135,17 +135,12 @@ class LocationBarMediator
             new Property<LocationBarMediator, Float>(Float.class, "") {
                 @Override
                 public Float get(LocationBarMediator object) {
-                    if (mLocationBarLayout instanceof LocationBarTablet) {
-                        return ((LocationBarTablet) mLocationBarLayout).getWidthChangeFraction();
-                    }
-                    return 0f;
+                    return ((LocationBarTablet) mLocationBarLayout).getWidthChangeFraction();
                 }
 
                 @Override
                 public void set(LocationBarMediator object, Float value) {
-                    if (mLocationBarLayout instanceof LocationBarTablet) {
-                        ((LocationBarTablet) mLocationBarLayout).setWidthChangeAnimationFraction(value);
-                    }
+                    ((LocationBarTablet) mLocationBarLayout).setWidthChangeAnimationFraction(value);
                 }
             };
 
@@ -731,7 +726,7 @@ class LocationBarMediator
      *         bar. This should also be used to create animators for showing toolbar buttons.
      */
     /* package */ ObjectAnimator createShowButtonAnimatorForTablet(View button) {
-        if (!mIsTablet || button == null) return null;
+        assert mIsTablet;
         if (button.getVisibility() != View.VISIBLE) {
             button.setAlpha(0.f);
         }
@@ -748,7 +743,7 @@ class LocationBarMediator
      *         bar. This should also be used to create animators for hiding toolbar buttons.
      */
     /* package */ ObjectAnimator createHideButtonAnimatorForTablet(View button) {
-        if (!mIsTablet || button == null) return null;
+        assert mIsTablet;
         ObjectAnimator buttonAnimator = ObjectAnimator.ofFloat(button, View.ALPHA, 0.f);
         buttonAnimator.setInterpolator(BakedBezierInterpolator.FADE_OUT_CURVE);
         buttonAnimator.setDuration(ICON_FADE_ANIMATION_DURATION_MS);
@@ -766,11 +761,10 @@ class LocationBarMediator
      */
     /* package */ List<Animator> getShowButtonsWhenUnfocusedAnimatorsForTablet(
             int toolbarStartPaddingDifference) {
-        ArrayList<Animator> animators = new ArrayList<>();
-        if (!mIsTablet || !(mLocationBarLayout instanceof LocationBarTablet)) {
-            return animators;
-        }
+        assert mIsTablet;
         LocationBarTablet locationBarTablet = ((LocationBarTablet) mLocationBarLayout);
+
+        ArrayList<Animator> animators = new ArrayList<>();
 
         Animator widthChangeAnimator =
                 ObjectAnimator.ofFloat(this, mWidthChangeFractionPropertyTablet, 0f);
@@ -799,30 +793,26 @@ class LocationBarMediator
         // button will be showing. If the delete button is currently showing, the bookmark button
         // should not fade in.
         if (!locationBarTablet.isDeleteButtonVisible()) {
-            Animator anim = createShowButtonAnimatorForTablet(
-                    locationBarTablet.getBookmarkButtonForAnimation());
-            if (anim != null) animators.add(anim);
+            animators.add(createShowButtonAnimatorForTablet(
+                    locationBarTablet.getBookmarkButtonForAnimation()));
         }
 
         if (shouldShowSaveOfflineButton()) {
-            Animator anim = createShowButtonAnimatorForTablet(
-                    locationBarTablet.getSaveOfflineButtonForAnimation());
-            if (anim != null) animators.add(anim);
+            animators.add(createShowButtonAnimatorForTablet(
+                    locationBarTablet.getSaveOfflineButtonForAnimation()));
         } else {
             if (!locationBarTablet.isMicButtonVisible()
                     || locationBarTablet.getMicButtonAlpha() != 1.f) {
                 // If the microphone button is already fully visible, don't animate its appearance.
-                Animator anim = createShowButtonAnimatorForTablet(
-                        locationBarTablet.getMicButtonForAnimation());
-                if (anim != null) animators.add(anim);
+                animators.add(createShowButtonAnimatorForTablet(
+                        locationBarTablet.getMicButtonForAnimation()));
             }
             if (shouldShowLensButton()
                     && (!locationBarTablet.isLensButtonVisible()
                             || locationBarTablet.getLensButtonAlpha() != 1.f)) {
                 // If the Lens button is already fully visible, don't animate its appearance.
-                Animator anim = createShowButtonAnimatorForTablet(
-                        locationBarTablet.getLensButtonForAnimation());
-                if (anim != null) animators.add(anim);
+                animators.add(createShowButtonAnimatorForTablet(
+                        locationBarTablet.getLensButtonForAnimation()));
             }
         }
 
@@ -840,11 +830,9 @@ class LocationBarMediator
      */
     /* package */ List<Animator> getHideButtonsWhenUnfocusedAnimatorsForTablet(
             int toolbarStartPaddingDifference) {
-        ArrayList<Animator> animators = new ArrayList<>();
-        if (!mIsTablet || !(mLocationBarLayout instanceof LocationBarTablet)) {
-            return animators;
-        }
         LocationBarTablet locationBarTablet = ((LocationBarTablet) mLocationBarLayout);
+
+        ArrayList<Animator> animators = new ArrayList<>();
 
         Animator widthChangeAnimator =
                 ObjectAnimator.ofFloat(this, mWidthChangeFractionPropertyTablet, 1f);
@@ -874,28 +862,24 @@ class LocationBarMediator
         // button will be showing. If the delete button is currently showing, the bookmark button
         // should not fade out.
         if (!locationBarTablet.isDeleteButtonVisible()) {
-            Animator anim = createHideButtonAnimatorForTablet(
-                    locationBarTablet.getBookmarkButtonForAnimation());
-            if (anim != null) animators.add(anim);
+            animators.add(createHideButtonAnimatorForTablet(
+                    locationBarTablet.getBookmarkButtonForAnimation()));
         }
 
         if (shouldShowSaveOfflineButton() && locationBarTablet.isSaveOfflineButtonVisible()) {
-            Animator anim = createHideButtonAnimatorForTablet(
-                    locationBarTablet.getSaveOfflineButtonForAnimation());
-            if (anim != null) animators.add(anim);
+            animators.add(createHideButtonAnimatorForTablet(
+                    locationBarTablet.getSaveOfflineButtonForAnimation()));
         } else if (!(mUrlHasFocus && !locationBarTablet.isDeleteButtonVisible())) {
             // If the save offline button isn't enabled, the microphone button always shows when
             // buttons are shown in the unfocused location bar. When buttons are hidden in the
             // unfocused location bar, the microphone shows if the location bar is focused and the
             // delete button isn't showing. The microphone button should not be hidden if the
             // url bar is currently focused and the delete button isn't showing.
-            Animator anim = createHideButtonAnimatorForTablet(
-                    locationBarTablet.getMicButtonForAnimation());
-            if (anim != null) animators.add(anim);
+            animators.add(createHideButtonAnimatorForTablet(
+                    locationBarTablet.getMicButtonForAnimation()));
             if (shouldShowLensButton()) {
-                Animator lensAnim = createHideButtonAnimatorForTablet(
-                        locationBarTablet.getLensButtonForAnimation());
-                if (lensAnim != null) animators.add(lensAnim);
+                animators.add(createHideButtonAnimatorForTablet(
+                        locationBarTablet.getLensButtonForAnimation()));
             }
         }
 

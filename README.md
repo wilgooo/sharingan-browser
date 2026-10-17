@@ -2,7 +2,7 @@
 
 Browser Android berbasis Chromium/Kiwi dengan pengelola extension dan import extension ZIP melalui developer mode.
 
-**Status: build terblokir pada evaluasi GN karena overlay Kiwi tidak cocok dengan Chromium 132; belum ada APK.** Percobaan Linux sudah mencapai penerapan source, tetapi belum mencapai kompilasi. Lihat [bukti dan langkah perbaikan baseline](docs/BUILD_BLOCKER.md). Paket ini berisi overlay source Kiwi yang dipin, perubahan Sharingan yang sudah terintegrasi, patch terpisah, skrip persiapan/build Linux, workflow GitHub Actions standar, serta extension uji. Ini bukan checkout Chromium lengkap. File-file Chromium yang tidak ada di overlay harus diambil lewat proses checkout.
+**Status: fitur Sharingan sudah dipindahkan ke overlay Kiwi resmi yang cocok dengan Chromium 105.0.5195.24; percobaan kompilasi Linux baru diperlukan. Belum ada APK.** Audit membandingkan Git blob seluruh overlay: 7.746 file identik dengan Chromium 105, 364 modifikasi Kiwi, 176 tambahan Kiwi. Lihat [audit baseline](docs/BASELINE.md). Source ini adalah prototipe dengan engine lama, bukan browser harian yang dipelihara keamanannya. Paket berisi overlay, patch Sharingan, skrip build, workflow gratis, serta extension uji; checkout Chromium lengkap diambil saat build.
 
 ## Yang sudah ditulis
 
@@ -21,7 +21,7 @@ Untuk memakai rancangan fitur setelah build: buka tab reguler → Settings → a
 
 Handoff hanya tersedia sebagai Markdown; folder `browser-build/` dan patch lamanya tidak tersedia. Implementasi di paket ini ditulis ulang dari source publik.
 
-Repo pilihan handoff, `EduBolthey/Kiwi-Browser-Revived`, diperiksa pada commit `9806d8c9a2ae8952a1e68b64aedcd225bcd3fbe3`:
+Repo awal pilihan handoff, `EduBolthey/Kiwi-Browser-Revived`, diperiksa pada commit `9806d8c9a2ae8952a1e68b64aedcd225bcd3fbe3`:
 
 1. `CHROMIUM_VERSION` dan `KIWI_VERSION` menyebut 132.0.6834.83, tetapi `VERSION` masih 93.0.4577.21. Ini tanda metadata tidak konsisten, **bukan bukti bahwa engine yang bisa dibangun pasti 93 atau 132**.
 2. Workflow `build_kiwi_standalone.yml` mengunduh APK Kiwi yang sudah jadi, mengubah resource/native bytes, kemudian menandatanganinya ulang. Workflow itu **tidak membuktikan source berhasil dikompilasi**.
@@ -30,7 +30,7 @@ Repo pilihan handoff, `EduBolthey/Kiwi-Browser-Revived`, diperiksa pada commit `
 5. ZIP installer pada fork memakai variabel global `additional_path` untuk direktori manifest. Patch menghapus state bersama itu dan memulihkan kontrak manifest root. ZIP dengan folder pembungkus ditolak. Ekstraksi tetap menggunakan layanan unzip Chromium.
 6. Android Chromium membutuhkan Linux x86-64. Mac dapat dipakai untuk mengedit source dan menjalankan pemeriksaan paket, bukan build APK native.
 
-**Chromium 132 adalah kandidat baseline yang gagal pada evaluasi GN dalam run #4.** Ada nama build flag dan import GN warisan yang tidak sesuai, sementara `chrome/VERSION` overlay menyebut 105.0.5195.24. Baseline perlu dicocokkan ulang/diporting; perbaikan konfigurasi runner saja tidak cukup. Versi engine lama ini juga belum layak dinyatakan siap rilis harian tanpa pemeliharaan keamanan.
+**Chromium 132 gagal pada evaluasi GN dalam run #4.** Pada 18 Oktober 2026, overlay diganti ke Kiwi resmi yang sumbernya cocok dengan Chromium 105. Audit dan port sudah selesai; sukses build belum diklaim. [Riwayat kegagalan](docs/BUILD_BLOCKER.md).
 
 ## Coba build gratis di GitHub Actions
 
@@ -42,7 +42,7 @@ Pilih `preflight` untuk mengukur ruang setelah cleanup, atau `build` untuk menco
 
 | Path | Isi |
 |---|---|
-| `chromium-overlay/` | 8.291 file source/resource dari fork yang dipin, termasuk perubahan Sharingan |
+| `chromium-overlay/` | 8.289 file source/resource dari Kiwi resmi yang dipin, termasuk perubahan Sharingan |
 | `patches/sharingan.patch` | Perubahan Sharingan terhadap commit fork yang dipin; jangan diterapkan dua kali di atas overlay siap pakai |
 | `config/upstream.lock.json` | Asal source, commit, kandidat versi, dan status build |
 | `config/overlay.sha256.json` | Hash setiap file overlay untuk pemeriksaan integritas |
@@ -81,7 +81,7 @@ Pemeriksaan ini tidak menggantikan kompilasi Java/C++, GN, instalasi APK, atau p
 
 ## Sumber
 
-- [Kiwi-Browser-Revived, commit yang dipin](https://github.com/EduBolthey/Kiwi-Browser-Revived/tree/9806d8c9a2ae8952a1e68b64aedcd225bcd3fbe3)
+- [Kiwi resmi, baseline baru](https://github.com/kiwibrowser/src.next/tree/7be7edd1532148f22103cb4c5a1964d96297836f)
 - [Workflow repack yang diperiksa](https://github.com/EduBolthey/Kiwi-Browser-Revived/blob/9806d8c9a2ae8952a1e68b64aedcd225bcd3fbe3/.github/workflows/build_kiwi_standalone.yml)
 - [Dokumentasi build Android Chromium](https://chromium.googlesource.com/chromium/src/+/main/docs/android_build_instructions.md)
 

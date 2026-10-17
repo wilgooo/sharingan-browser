@@ -1739,16 +1739,12 @@ public class ToolbarManager implements UrlFocusChangeListener, ThemeColorObserve
      * @param reason The given reason.
      */
     public void setUrlBarFocus(boolean focused, @OmniboxFocusReason int reason) {
-        if (!mInitializedWithNative || mLocationBar == null) return;
+        if (!mInitializedWithNative) return;
         if (mLocationBar.getOmniboxStub() == null) return;
-        try {
-            boolean wasFocused = mLocationBar.getOmniboxStub().isUrlBarFocused();
-            mLocationBar.getOmniboxStub().setUrlBarFocus(focused, null, reason);
-            if (wasFocused && focused) {
-                mLocationBar.selectAll();
-            }
-        } catch (Throwable t) {
-            org.chromium.base.Log.e("ToolbarManager", "Failed to set URL bar focus: " + t.getMessage(), t);
+        boolean wasFocused = mLocationBar.getOmniboxStub().isUrlBarFocused();
+        mLocationBar.getOmniboxStub().setUrlBarFocus(focused, null, reason);
+        if (wasFocused && focused) {
+            mLocationBar.selectAll();
         }
     }
 

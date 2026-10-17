@@ -1,5 +1,5 @@
 diff --git a/chrome/android/BUILD.gn b/chrome/android/BUILD.gn
-index 7c56c68..56a2386 100644
+index 7c56c68a..56a23869 100644
 --- a/chrome/android/BUILD.gn
 +++ b/chrome/android/BUILD.gn
 @@ -4027,6 +4027,7 @@ if (android_64bit_target_cpu) {
@@ -11,7 +11,7 @@ index 7c56c68..56a2386 100644
      # files, so include these files in chrome_jni_headers.
      "java/src/org/chromium/chrome/browser/AppHooks.java",
 diff --git a/chrome/android/chrome_java_resources.gni b/chrome/android/chrome_java_resources.gni
-index 7a9ba86..0196903 100644
+index 7a9ba86c..01969031 100644
 --- a/chrome/android/chrome_java_resources.gni
 +++ b/chrome/android/chrome_java_resources.gni
 @@ -196,6 +196,7 @@ kiwi_java_resources = [
@@ -23,7 +23,7 @@ index 7a9ba86..0196903 100644
    "java/res/anim/activity_close_exit.xml",
    "java/res/anim/activity_open_enter.xml",
 diff --git a/chrome/android/chrome_java_sources.gni b/chrome/android/chrome_java_sources.gni
-index f9b1303..1dc6554 100644
+index f9b13033..1dc6554f 100644
 --- a/chrome/android/chrome_java_sources.gni
 +++ b/chrome/android/chrome_java_sources.gni
 @@ -26,6 +26,7 @@ kiwi_java_sources = [
@@ -35,7 +35,7 @@ index f9b1303..1dc6554 100644
    "java/src/org/chromium/chrome/browser/ActivityTabProvider.java",
    "java/src/org/chromium/chrome/browser/ActivityUtils.java",
 diff --git a/chrome/android/java/AndroidManifest.xml b/chrome/android/java/AndroidManifest.xml
-index 15c4f76..721ac3a 100644
+index 15c4f76e..721ac3a0 100644
 --- a/chrome/android/java/AndroidManifest.xml
 +++ b/chrome/android/java/AndroidManifest.xml
 @@ -171,9 +171,9 @@ by a child template that "extends" this file.
@@ -51,8 +51,23 @@ index 15c4f76..721ac3a 100644
          android:largeHeap="false"
          android:manageSpaceActivity="@string/manage_space_activity"
          android:supportsRtl="true"
+diff --git a/chrome/android/java/res/drawable/sharingan_launcher.xml b/chrome/android/java/res/drawable/sharingan_launcher.xml
+new file mode 100644
+index 00000000..f2aca7fa
+--- /dev/null
++++ b/chrome/android/java/res/drawable/sharingan_launcher.xml
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="108dp" android:height="108dp"
++    android:viewportWidth="108" android:viewportHeight="108">
++    <path android:fillColor="#15151B" android:pathData="M0,0h108v108h-108z"/>
++    <path android:fillColor="#EF3340" android:pathData="M16,54C34,22 74,22 92,54C74,86 34,86 16,54z"/>
++    <path android:fillColor="#15151B" android:pathData="M54,35a19,19 0,1 0,0 38a19,19 0,1 0,0 -38"/>
++    <path android:fillColor="#FFFFFF" android:pathData="M60,40a5,5 0,1 0,0 10a5,5 0,1 0,0 -10"/>
++</vector>
 diff --git a/chrome/android/java/res/menu/main_menu.xml b/chrome/android/java/res/menu/main_menu.xml
-index cea0c48..d7dddd0 100644
+index cea0c489..d7dddd0b 100644
 --- a/chrome/android/java/res/menu/main_menu.xml
 +++ b/chrome/android/java/res/menu/main_menu.xml
 @@ -67,6 +67,9 @@
@@ -66,7 +81,7 @@ index cea0c48..d7dddd0 100644
              android:title="@string/main_menu_extensions"
              android:icon="@drawable/ic_extensions" />
 diff --git a/chrome/android/java/res/values/strings.xml b/chrome/android/java/res/values/strings.xml
-index 7a51cf8..2201497 100644
+index 7a51cf80..22014978 100644
 --- a/chrome/android/java/res/values/strings.xml
 +++ b/chrome/android/java/res/values/strings.xml
 @@ -114,4 +114,18 @@
@@ -89,7 +104,7 @@ index 7a51cf8..2201497 100644
 +    <string name="sharingan_zip_failed">Extension installation failed</string>
  </resources>
 diff --git a/chrome/android/java/res/xml/main_preferences.xml b/chrome/android/java/res/xml/main_preferences.xml
-index 1bd3923..3c8506b 100644
+index 1bd39237..3c8506b4 100644
 --- a/chrome/android/java/res/xml/main_preferences.xml
 +++ b/chrome/android/java/res/xml/main_preferences.xml
 @@ -27,6 +27,13 @@
@@ -107,7 +122,7 @@ index 1bd3923..3c8506b 100644
          android:key="basics_section"
          android:order="5"
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
-index 0a53b0c..03d8925 100644
+index 0a53b0c5..03d89251 100644
 --- a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
 @@ -147,6 +147,7 @@ import org.chromium.chrome.browser.partnercustomizations.PartnerBrowserCustomiza
@@ -141,123 +156,9 @@ index 0a53b0c..03d8925 100644
          if (super.onActivityResultWithNative(requestCode, resultCode, intent)) return true;
          if (VrModuleProvider.getDelegate().onActivityResultWithNative(requestCode, resultCode)) {
              return true;
-diff --git a/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java b/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
-index d4f6fce..0f6c337 100644
---- a/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
-+++ b/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
-@@ -21,6 +21,8 @@ import android.view.View;
- import androidx.annotation.Nullable;
- import androidx.annotation.VisibleForTesting;
- import androidx.preference.Preference;
-+import androidx.preference.SwitchPreferenceCompat;
-+import org.chromium.chrome.browser.extensions.DevModeExtensionLoader;
- import androidx.preference.PreferenceFragmentCompat;
- 
- import org.chromium.base.ContextUtils;
-@@ -168,10 +170,19 @@ public class MainSettings extends PreferenceFragmentCompat
-     public void onResume() {
-         super.onResume();
-         updatePreferences();
-+        ((SwitchPreferenceCompat) findPreference("sharingan_extension_dev_mode"))
-+                .setChecked(DevModeExtensionLoader.isDeveloperModeEnabled());
-     }
- 
-     private void createPreferences() {
-         SettingsUtils.addPreferencesFromResource(this, R.xml.main_preferences);
-+        SwitchPreferenceCompat extensionDevMode =
-+                findPreference("sharingan_extension_dev_mode");
-+        extensionDevMode.setChecked(DevModeExtensionLoader.isDeveloperModeEnabled());
-+        extensionDevMode.setOnPreferenceChangeListener((preference, value) -> {
-+            DevModeExtensionLoader.setDeveloperModeEnabled((Boolean) value);
-+            return true;
-+        });
- 
-         cachePreferences();
- 
-diff --git a/chrome/browser/extensions/BUILD.gn b/chrome/browser/extensions/BUILD.gn
-index 5fd74f6..902e2b4 100644
---- a/chrome/browser/extensions/BUILD.gn
-+++ b/chrome/browser/extensions/BUILD.gn
-@@ -958,6 +958,11 @@ static_library("extensions") {
-     "//url",
-   ]
- 
-+  if (is_android) {
-+    sources += [ "dev_mode_extension_loader.cc" ]
-+    deps += [ "//chrome/android:chrome_jni_headers" ]
-+  }
-+
-   if (is_linux || is_mac || is_win) {
-     sources += [
-       "api/system_indicator/system_indicator_api.cc",
-diff --git a/extensions/browser/zipfile_installer.cc b/extensions/browser/zipfile_installer.cc
-index 8bf2ef3..2260fba 100644
---- a/extensions/browser/zipfile_installer.cc
-+++ b/extensions/browser/zipfile_installer.cc
-@@ -26,8 +26,6 @@ namespace extensions {
- 
- namespace {
- 
--base::FilePath additional_path;
--
- constexpr char kExtensionHandlerTempDirError[] =
-     "Could not create temporary directory for zipped extension.";
- constexpr char kExtensionHandlerFileUnzipError[] =
-@@ -130,12 +128,9 @@ void ZipFileInstaller::ManifestUnzipped(const base::FilePath& unzip_dir,
-     return;
-   }
- 
--  base::FilePath new_unzip_dir;
--  new_unzip_dir = unzip_dir.Append(FILE_PATH_LITERAL("/")).Append(additional_path).Append(FILE_PATH_LITERAL("/"));
--  LOG(INFO) << "[EXTENSIONS] redressed new_unzip_dir: " << new_unzip_dir;
-   base::PostTaskAndReplyWithResult(
-       io_task_runner_.get(), FROM_HERE,
--      base::BindOnce(&ReadFileContent, new_unzip_dir.Append(kManifestFilename)),
-+      base::BindOnce(&ReadFileContent, unzip_dir.Append(kManifestFilename)),
-       base::BindOnce(&ZipFileInstaller::ManifestRead, this, unzip_dir));
- }
- 
-@@ -218,9 +213,7 @@ void ZipFileInstaller::UnzipDone(const base::FilePath& unzip_dir,
-     return;
-   }
- 
--  base::FilePath new_unzip_dir;
--  new_unzip_dir = unzip_dir.Append(FILE_PATH_LITERAL("/")).Append(additional_path);
--  std::move(done_callback_).Run(zip_file_, new_unzip_dir, std::string());
-+  std::move(done_callback_).Run(zip_file_, unzip_dir, std::string());
- }
- 
- void ZipFileInstaller::ReportFailure(const std::string& error) {
-@@ -247,11 +240,6 @@ bool ZipFileInstaller::ShouldExtractFile(bool is_theme,
- // static
- bool ZipFileInstaller::IsManifestFile(const base::FilePath& file_path) {
-   CHECK(!file_path.IsAbsolute());
--  if (base::FilePath::CompareEqualIgnoreCase(file_path.BaseName().value(), kManifestFilename)) {
--    LOG(INFO) << "[EXTENSIONS] ZipFileInstaller::IsManifestFile (isManifest: true): " << file_path << " - dirName: " << file_path.DirName();
--    additional_path = file_path.DirName();
--    return true;
--  }
-   return base::FilePath::CompareEqualIgnoreCase(file_path.value(),
-                                                 kManifestFilename);
- }
-diff --git a/chrome/android/java/res/drawable/sharingan_launcher.xml b/chrome/android/java/res/drawable/sharingan_launcher.xml
-new file mode 100644
-index 0000000..f2aca7f
---- /dev/null
-+++ b/chrome/android/java/res/drawable/sharingan_launcher.xml
-@@ -0,0 +1,9 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<vector xmlns:android="http://schemas.android.com/apk/res/android"
-+    android:width="108dp" android:height="108dp"
-+    android:viewportWidth="108" android:viewportHeight="108">
-+    <path android:fillColor="#15151B" android:pathData="M0,0h108v108h-108z"/>
-+    <path android:fillColor="#EF3340" android:pathData="M16,54C34,22 74,22 92,54C74,86 34,86 16,54z"/>
-+    <path android:fillColor="#15151B" android:pathData="M54,35a19,19 0,1 0,0 38a19,19 0,1 0,0 -38"/>
-+    <path android:fillColor="#FFFFFF" android:pathData="M60,40a5,5 0,1 0,0 10a5,5 0,1 0,0 -10"/>
-+</vector>
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java b/chrome/android/java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java
 new file mode 100644
-index 0000000..da9ac8e
+index 00000000..da9ac8ec
 --- /dev/null
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java
 @@ -0,0 +1,186 @@
@@ -447,9 +348,58 @@ index 0000000..da9ac8e
 +        void loadFromZip(DevModeExtensionLoader caller, String path);
 +    }
 +}
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java b/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
+index d4f6fce5..0f6c3375 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/settings/MainSettings.java
+@@ -21,6 +21,8 @@ import android.view.View;
+ import androidx.annotation.Nullable;
+ import androidx.annotation.VisibleForTesting;
+ import androidx.preference.Preference;
++import androidx.preference.SwitchPreferenceCompat;
++import org.chromium.chrome.browser.extensions.DevModeExtensionLoader;
+ import androidx.preference.PreferenceFragmentCompat;
+ 
+ import org.chromium.base.ContextUtils;
+@@ -168,10 +170,19 @@ public class MainSettings extends PreferenceFragmentCompat
+     public void onResume() {
+         super.onResume();
+         updatePreferences();
++        ((SwitchPreferenceCompat) findPreference("sharingan_extension_dev_mode"))
++                .setChecked(DevModeExtensionLoader.isDeveloperModeEnabled());
+     }
+ 
+     private void createPreferences() {
+         SettingsUtils.addPreferencesFromResource(this, R.xml.main_preferences);
++        SwitchPreferenceCompat extensionDevMode =
++                findPreference("sharingan_extension_dev_mode");
++        extensionDevMode.setChecked(DevModeExtensionLoader.isDeveloperModeEnabled());
++        extensionDevMode.setOnPreferenceChangeListener((preference, value) -> {
++            DevModeExtensionLoader.setDeveloperModeEnabled((Boolean) value);
++            return true;
++        });
+ 
+         cachePreferences();
+ 
+diff --git a/chrome/browser/extensions/BUILD.gn b/chrome/browser/extensions/BUILD.gn
+index 5fd74f69..902e2b45 100644
+--- a/chrome/browser/extensions/BUILD.gn
++++ b/chrome/browser/extensions/BUILD.gn
+@@ -958,6 +958,11 @@ static_library("extensions") {
+     "//url",
+   ]
+ 
++  if (is_android) {
++    sources += [ "dev_mode_extension_loader.cc" ]
++    deps += [ "//chrome/android:chrome_jni_headers" ]
++  }
++
+   if (is_linux || is_mac || is_win) {
+     sources += [
+       "api/system_indicator/system_indicator_api.cc",
 diff --git a/chrome/browser/extensions/dev_mode_extension_loader.cc b/chrome/browser/extensions/dev_mode_extension_loader.cc
 new file mode 100644
-index 0000000..67e7662
+index 00000000..67e76626
 --- /dev/null
 +++ b/chrome/browser/extensions/dev_mode_extension_loader.cc
 @@ -0,0 +1,152 @@
@@ -605,3 +555,53 @@ index 0000000..67e7662
 +      base::BindOnce(&DirectoryReady, service->AsWeakPtr(), std::move(callback), zip));
 +}
 +}  // namespace extensions
+diff --git a/extensions/browser/zipfile_installer.cc b/extensions/browser/zipfile_installer.cc
+index 8bf2ef3f..2260fba8 100644
+--- a/extensions/browser/zipfile_installer.cc
++++ b/extensions/browser/zipfile_installer.cc
+@@ -26,8 +26,6 @@ namespace extensions {
+ 
+ namespace {
+ 
+-base::FilePath additional_path;
+-
+ constexpr char kExtensionHandlerTempDirError[] =
+     "Could not create temporary directory for zipped extension.";
+ constexpr char kExtensionHandlerFileUnzipError[] =
+@@ -130,12 +128,9 @@ void ZipFileInstaller::ManifestUnzipped(const base::FilePath& unzip_dir,
+     return;
+   }
+ 
+-  base::FilePath new_unzip_dir;
+-  new_unzip_dir = unzip_dir.Append(FILE_PATH_LITERAL("/")).Append(additional_path).Append(FILE_PATH_LITERAL("/"));
+-  LOG(INFO) << "[EXTENSIONS] redressed new_unzip_dir: " << new_unzip_dir;
+   base::PostTaskAndReplyWithResult(
+       io_task_runner_.get(), FROM_HERE,
+-      base::BindOnce(&ReadFileContent, new_unzip_dir.Append(kManifestFilename)),
++      base::BindOnce(&ReadFileContent, unzip_dir.Append(kManifestFilename)),
+       base::BindOnce(&ZipFileInstaller::ManifestRead, this, unzip_dir));
+ }
+ 
+@@ -218,9 +213,7 @@ void ZipFileInstaller::UnzipDone(const base::FilePath& unzip_dir,
+     return;
+   }
+ 
+-  base::FilePath new_unzip_dir;
+-  new_unzip_dir = unzip_dir.Append(FILE_PATH_LITERAL("/")).Append(additional_path);
+-  std::move(done_callback_).Run(zip_file_, new_unzip_dir, std::string());
++  std::move(done_callback_).Run(zip_file_, unzip_dir, std::string());
+ }
+ 
+ void ZipFileInstaller::ReportFailure(const std::string& error) {
+@@ -247,11 +240,6 @@ bool ZipFileInstaller::ShouldExtractFile(bool is_theme,
+ // static
+ bool ZipFileInstaller::IsManifestFile(const base::FilePath& file_path) {
+   CHECK(!file_path.IsAbsolute());
+-  if (base::FilePath::CompareEqualIgnoreCase(file_path.BaseName().value(), kManifestFilename)) {
+-    LOG(INFO) << "[EXTENSIONS] ZipFileInstaller::IsManifestFile (isManifest: true): " << file_path << " - dirName: " << file_path.DirName();
+-    additional_path = file_path.DirName();
+-    return true;
+-  }
+   return base::FilePath::CompareEqualIgnoreCase(file_path.value(),
+                                                 kManifestFilename);
+ }
