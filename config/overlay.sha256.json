@@ -1,4 +1,5 @@
 {
+  "apps/BUILD.gn": "f2634d42014ed6f3bc9c9ae8588ee286536617b5d2f10fac9af3dac806bfa5bb",
   "base/BUILD.gn": "a39b1493206ef4744a527893278dcf1ed7aa087ee083986da0ba7ac4c12b9a5c",
   "base/DEPS": "72f3ab7a4e64a2b5f1c2d7608769147666157530639e46e71cddd0baeefd4026",
   "base/DIR_METADATA": "eb913f5a050801faf5e97bbc1af539fbd822cf5a78fe5a5602d2afd84de0368b",
