@@ -55,3 +55,9 @@ Added both pinned Chromium 105 BUILD.gn files to the overlay and narrowed the gu
 ## Run #6 — extension apps platform guard
 
 Run 39050221926 failed after 25m57s at GN. The reported failure moved from GuestView to `apps/BUILD.gn:10`, reached via `extensions/shell`. Both `chrome/browser/extensions` and the browser UI also depend on `//apps`, so removing the shell would not remove the runtime dependency. Added the pinned Chromium105 apps BUILD.gn with Android allowed only when extensions are enabled; iOS and extensions-disabled configurations remain rejected. Its sources and dependency list are unchanged. Overlay now contains 8,292 files. APK compilation has not begun; GN/runtime compatibility remains unverified.
+
+## Run #7 — keep-alive registry platform guard
+
+Run 39052302376 failed at GN after 25m39s, at `components/keep_alive_registry/BUILD.gn:5` via `extensions/shell`. No APK compilation occurred. The pinned registry implementation uses base counters/observers; Windows-specific stability reporting is already conditionally compiled. Added its original BUILD.gn with Android allowed only with extensions enabled, retaining all sources and dependencies. Overlay contains 8,293 files. This permits graph generation to proceed; it does not establish Android lifecycle behavior or compilation success.
+
+The pinned GN builder generates dependencies of all targets in the default toolchain in loaded files. Merely selecting `--root-target` would not reliably exclude sibling extension test/shell targets, so that flag is not being presented as a fix. Host source checks and reverse patch applicability are checked locally; full GN validation remains on CI.

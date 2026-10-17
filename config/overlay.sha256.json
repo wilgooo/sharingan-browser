@@ -3955,6 +3955,7 @@
   "components/javascript_dialogs/tab_modal_dialog_manager_delegate.h": "cded0800a8db6cdbf819622d019d34ac882b2511a42817e76af1d6a585096b19",
   "components/javascript_dialogs/tab_modal_dialog_view.h": "46c21a1d5947bf58978c3f0f5f13ad9b21834513fef7ab012548733750982158",
   "components/javascript_dialogs_strings.grdp": "d0e2d9d58896d985d29dd4980393e6ad2ab7004b93a1d5b2194cbef95e525623",
+  "components/keep_alive_registry/BUILD.gn": "896b6189ce190e1d74c471b6a70b86898ae31e9e8ed90c185b55e7a50836fa37",
   "components/live_caption_strings.grdp": "a053fd1951da76c75bc18e5509d2c1a9470215c71d18f80908b48cdddd5899fd",
   "components/login_dialog_strings.grdp": "af20a7905318e1a9868abeb458da70ad51aabe9a49cb6a94434c99db177d21c4",
   "components/management_ios_strings.grdp": "16bf5481a98224aa67362883f6abdfe48a1cc2e9c9f1ffe567a5e17105c55a2b",
