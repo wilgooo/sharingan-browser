@@ -555,6 +555,113 @@ index 00000000..67e76626
 +      base::BindOnce(&DirectoryReady, service->AsWeakPtr(), std::move(callback), zip));
 +}
 +}  // namespace extensions
+diff --git a/components/guest_view/browser/BUILD.gn b/components/guest_view/browser/BUILD.gn
+new file mode 100644
+index 00000000..37ae6d5f
+--- /dev/null
++++ b/components/guest_view/browser/BUILD.gn
+@@ -0,0 +1,66 @@
++# Copyright 2015 The Chromium Authors. All rights reserved.
++# Use of this source code is governed by a BSD-style license that can be
++# found in the LICENSE file.
++
++import("//extensions/buildflags/buildflags.gni")
++
++# Sharingan/Kiwi deliberately enables extensions and GuestViews on Android.
++# Keep rejecting mobile configurations without that support, and all iOS builds.
++assert(!is_ios && (!is_android || enable_extensions))
++
++static_library("browser") {
++  output_name = "guest_view_browser"
++  sources = [
++    "//components/guest_view/browser/bad_message.cc",
++    "//components/guest_view/browser/bad_message.h",
++    "//components/guest_view/browser/guest_view.h",
++    "//components/guest_view/browser/guest_view_base.cc",
++    "//components/guest_view/browser/guest_view_base.h",
++    "//components/guest_view/browser/guest_view_event.cc",
++    "//components/guest_view/browser/guest_view_event.h",
++    "//components/guest_view/browser/guest_view_manager.cc",
++    "//components/guest_view/browser/guest_view_manager.h",
++    "//components/guest_view/browser/guest_view_manager_delegate.cc",
++    "//components/guest_view/browser/guest_view_manager_delegate.h",
++    "//components/guest_view/browser/guest_view_manager_factory.h",
++    "//components/guest_view/browser/guest_view_message_handler.cc",
++    "//components/guest_view/browser/guest_view_message_handler.h",
++  ]
++
++  public_deps = [
++    "//base",
++    "//components/guest_view/common",
++  ]
++  deps = [
++    "//build:chromeos_buildflags",
++    "//components/crash/core/common:crash_key",
++    "//components/guest_view/common:mojom",
++    "//components/zoom",
++    "//content/public/browser",
++    "//content/public/common",
++    "//third_party/blink/public/common",
++    "//url",
++  ]
++}
++
++static_library("test_support") {
++  testonly = true
++  sources = [
++    "//components/guest_view/browser/test_guest_view_manager.cc",
++    "//components/guest_view/browser/test_guest_view_manager.h",
++  ]
++
++  public_deps = [
++    ":browser",
++    "//content/test:test_support",
++  ]
++}
++
++source_set("unit_tests") {
++  testonly = true
++  sources = [ "guest_view_manager_unittest.cc" ]
++  deps = [
++    ":test_support",
++    "//testing/gtest",
++  ]
++}
+diff --git a/components/guest_view/renderer/BUILD.gn b/components/guest_view/renderer/BUILD.gn
+new file mode 100644
+index 00000000..c7af6da8
+--- /dev/null
++++ b/components/guest_view/renderer/BUILD.gn
+@@ -0,0 +1,29 @@
++# Copyright 2015 The Chromium Authors. All rights reserved.
++# Use of this source code is governed by a BSD-style license that can be
++# found in the LICENSE file.
++
++import("//extensions/buildflags/buildflags.gni")
++
++# Sharingan/Kiwi deliberately enables extensions and GuestViews on Android.
++# Keep rejecting mobile configurations without that support, and all iOS builds.
++assert(!is_ios && (!is_android || enable_extensions))
++
++static_library("renderer") {
++  sources = [
++    "guest_view_container.cc",
++    "guest_view_container.h",
++    "guest_view_request.cc",
++    "guest_view_request.h",
++  ]
++
++  deps = [
++    "//base",
++    "//components/guest_view/common",
++    "//components/guest_view/common:mojom",
++    "//content/public/common",
++    "//content/public/renderer",
++    "//ipc",
++    "//third_party/blink/public:blink",
++    "//v8",
++  ]
++}
 diff --git a/extensions/browser/zipfile_installer.cc b/extensions/browser/zipfile_installer.cc
 index 8bf2ef3f..2260fba8 100644
 --- a/extensions/browser/zipfile_installer.cc

@@ -45,3 +45,9 @@ Jalankan GN/build dari source pada Linux untuk menetapkan baseline yang benar-be
 ## Baseline replacement — 2026-10-18
 
 Official Kiwi 105 replaces the Revived fork/Chromium 132 combination. See [BASELINE.md](BASELINE.md) for pinned commits, full-overlay blob comparison and port details. 23 host tests, 8,289 hashes/resource checks, actionlint and shell syntax passed. No APK or successful Linux compile is claimed yet.
+
+## Run #5 — guest_view platform guard
+
+Run 39048291733 failed after 23m58s at GN, before compilation. Dependency sync, system dependencies, hooks and the 8,289-file overlay succeeded. GN rejected `components/guest_view/browser/BUILD.gn:9` (`assert(!is_android && !is_ios)`), reached through extension test support; runtime extension sources also depend on this component. The same guard exists in the renderer target.
+
+Added both pinned Chromium 105 BUILD.gn files to the overlay and narrowed the guard to allow Android only when `enable_extensions` is true, retaining the iOS rejection. No sandbox or extension permission enforcement is changed. The final overlay now has 8,291 files. GN and compilation still require a new CI run; this is not evidence of a working APK.

@@ -3827,6 +3827,8 @@
   "components/flags_strings.grdp": "e48534dd64697f2560118322947dccf2ac3270035fc194c0b5781849c0763290",
   "components/fullscreen_control_strings.grdp": "459a80e43681a61bb545ccc52ce61c6ee16fd4df8d4375415667ed330756ae0f",
   "components/global_media_controls_strings.grdp": "68263946190bd26551e24b1b5e4d47516dc3b4cc33def5b54f84de122815d40d",
+  "components/guest_view/browser/BUILD.gn": "bd776385faab9adef71e68688cf3f3275aba05a83740714e70c56acf3ff8492a",
+  "components/guest_view/renderer/BUILD.gn": "2bd33506989a88ff081d38a0952ed6748294dbd7bc80f50ec8e9f7f90deae91e",
   "components/heavy_ad_intervention_strings.grdp": "1427c5f18423fa4a780482fb687d410c7fd460aaa1c0c5347dececadfeec17c2",
   "components/history/DEPS": "71b2b455acb4715653a0c874405678d179eb7382a5130612f26511267c4efe8f",
   "components/history/DIR_METADATA": "6c3822d506ebafbd0e16ee529fb243144d4ca8511aede6c788cda1dd5fa6e419",

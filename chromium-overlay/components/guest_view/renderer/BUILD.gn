@@ -1,0 +1,29 @@
+# Copyright 2015 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//extensions/buildflags/buildflags.gni")
+
+# Sharingan/Kiwi deliberately enables extensions and GuestViews on Android.
+# Keep rejecting mobile configurations without that support, and all iOS builds.
+assert(!is_ios && (!is_android || enable_extensions))
+
+static_library("renderer") {
+  sources = [
+    "guest_view_container.cc",
+    "guest_view_container.h",
+    "guest_view_request.cc",
+    "guest_view_request.h",
+  ]
+
+  deps = [
+    "//base",
+    "//components/guest_view/common",
+    "//components/guest_view/common:mojom",
+    "//content/public/common",
+    "//content/public/renderer",
+    "//ipc",
+    "//third_party/blink/public:blink",
+    "//v8",
+  ]
+}
