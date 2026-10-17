@@ -86,3 +86,7 @@ Pemeriksaan ini tidak menggantikan kompilasi Java/C++, GN, instalasi APK, atau p
 - [Dokumentasi build Android Chromium](https://chromium.googlesource.com/chromium/src/+/main/docs/android_build_instructions.md)
 
 Tidak ada biner, source tertutup, atau aset Lemur yang disalin. Lisensi dan atribusi upstream dipertahankan; lihat `LICENSE`, `UPSTREAM_LICENSE`, serta pemberitahuan dalam source.
+
+### Family Link limitation
+
+This experimental Android extension build does not support supervised/child accounts or Family Link parental controls. Chromium 105 assumes extension supervision uses ChromeOS desktop dialogs, which have not been ported to Android.

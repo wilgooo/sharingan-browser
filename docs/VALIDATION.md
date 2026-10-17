@@ -61,3 +61,9 @@ Run 39050221926 failed after 25m57s at GN. The reported failure moved from Guest
 Run 39052302376 failed at GN after 25m39s, at `components/keep_alive_registry/BUILD.gn:5` via `extensions/shell`. No APK compilation occurred. The pinned registry implementation uses base counters/observers; Windows-specific stability reporting is already conditionally compiled. Added its original BUILD.gn with Android allowed only with extensions enabled, retaining all sources and dependencies. Overlay contains 8,293 files. This permits graph generation to proceed; it does not establish Android lifecycle behavior or compilation success.
 
 The pinned GN builder generates dependencies of all targets in the default toolchain in loaded files. Merely selecting `--root-target` would not reliably exclude sibling extension test/shell targets, so that flag is not being presented as a fix. Host source checks and reverse patch applicability are checked locally; full GN validation remains on CI.
+
+## Run #8 — unsupported Android extension supervision
+
+Run 39054525224 failed at GN in chrome/browser/BUILD.gn:7551: the combination of supervised users and extensions asserts ChromeOS. Upstream chrome/common/features.gni enables supervision for all Android builds outside declare_args(), so passing a GN argument would not fix it. The extension delegate uses desktop parent-permission dialogs; simply removing the assertion would not port that UI.
+
+The overlay now disables Family Link supervision only for Android builds with extensions enabled, preserving upstream defaults on ChromeOS and Android without extensions. This prototype does not support supervised/child accounts or Family Link and must not be presented as providing parental controls. No certificate, sandbox, or extension permission checks are removed. 8,294 source hashes and reverse patch applicability pass locally; GN and compilation still require CI validation.
