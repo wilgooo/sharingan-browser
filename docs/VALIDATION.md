@@ -79,3 +79,7 @@ Run 39102538692 failed at GN in cr_components/app_management/BUILD.gn:13, pulled
 ## Run #11 — remaining desktop color resource group
 
 Run 39104120907 failed at GN on cr_components/color_change_listener/BUILD.gn:9. Kiwi's `|| true` override in the parent resource group forced this desktop-only target onto Android. Restored the existing desktop condition for the color-change listener and its grouped Lottie resources, keeping dependencies and matching GRDP references together. The earlier four desktop resource targets no longer produced the reported error. Source checks and reverse-patch checks pass; GN and APK compilation remain unverified.
+
+## Run #12 — shared extension WebUI components
+
+Run 39107847798 failed during GN on ui/webui/resources/cr_components/BUILD.gn:12. Unlike the excluded desktop subgroups, this shared group supplies managed_footnote imported by chrome/browser/resources/extensions/item_list.ts. Added the pinned upstream BUILD.gn with Android permitted only when extensions are enabled and iOS still rejected; existing ChromeOS-only branches are preserved. No runtime policy logic changes. Source hashes and reverse patch applicability pass; full GN and APK validation remain pending CI.
