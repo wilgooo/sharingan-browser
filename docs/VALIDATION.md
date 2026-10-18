@@ -71,3 +71,7 @@ The overlay now disables Family Link supervision only for Android builds with ex
 ## Run #9 — shared HID utility guard
 
 Run 39056531232 failed during GN at services/device/public/cpp/hid/BUILD.gn:11. The official Kiwi extensions/browser target depends on these HID parser/filter utilities in both runtime and tests. The upstream assertion documents an Android binary-size guard because the device backend is absent. Added the pinned BUILD.gn allowing the utility target only on Android builds with extensions enabled, without changing sources, service bindings or permission checks. This does not implement Android HID device access; HID extensions remain unsupported/unverified. 8,295 source hashes and reverse patch applicability checked locally; GN and compilation await CI.
+
+## Run #10 — desktop-only Polymer resource dependencies
+
+Run 39102538692 failed at GN in cr_components/app_management/BUILD.gn:13, pulled unconditionally by Kiwi's forced Polymer resource group. The pinned app_management, customize_themes, help_bubble, and most_visited targets all explicitly reject Android and iOS. Moved all four dependency entries and matching GRDP references together under a desktop condition in ui/webui/resources/BUILD.gn. Common Polymer/cr_elements resources remain enabled for extension WebUI. This does not remove the Android browser's native most-visited implementation. Local checksum/source and reverse-patch checks pass; GN and APK compilation remain unverified pending CI.

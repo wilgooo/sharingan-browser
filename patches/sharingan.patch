@@ -1022,3 +1022,49 @@ index 00000000..5ef56cbe
 +    "//services/device/public/mojom",
 +  ]
 +}
+diff --git a/ui/webui/resources/BUILD.gn b/ui/webui/resources/BUILD.gn
+index 943c9d8f..f8462241 100644
+--- a/ui/webui/resources/BUILD.gn
++++ b/ui/webui/resources/BUILD.gn
+@@ -52,25 +52,33 @@ generate_grd("build_grd") {
+   if (include_polymer || true) {
+     public_deps += [
+       "cr_components:build_grdp",
+-      "cr_components/app_management:build_grdp",
+-      "cr_components/customize_themes:build_grdp",
+-      "cr_components/help_bubble:build_grdp",
+-      "cr_components/most_visited:build_grdp",
+       "cr_elements:build_grdp",
+       "js/browser_command:build_grdp",
+       "//third_party/polymer/v3_0:build_grdp",
+     ]
+     grdp_files += [
+       "$root_gen_dir/third_party/polymer/v3_0/polymer_3_0_resources.grdp",
+-      "$root_gen_dir/ui/webui/resources/cr_components/app_management/resources.grdp",
+       "$root_gen_dir/ui/webui/resources/cr_components/cr_components_resources.grdp",
+-      "$root_gen_dir/ui/webui/resources/cr_components/customize_themes/resources.grdp",
+-      "$root_gen_dir/ui/webui/resources/cr_components/help_bubble/resources.grdp",
+-      "$root_gen_dir/ui/webui/resources/cr_components/most_visited/resources.grdp",
+       "$root_gen_dir/ui/webui/resources/cr_elements/cr_elements_resources.grdp",
+       "$root_gen_dir/ui/webui/resources/js/browser_command/resources.grdp",
+     ]
+ 
++    # Polymer is needed by Android extensions; these desktop surfaces are not.
++    if (!is_android && !is_ios) {
++      public_deps += [
++        "cr_components/app_management:build_grdp",
++        "cr_components/customize_themes:build_grdp",
++        "cr_components/help_bubble:build_grdp",
++        "cr_components/most_visited:build_grdp",
++      ]
++      grdp_files += [
++        "$root_gen_dir/ui/webui/resources/cr_components/app_management/resources.grdp",
++        "$root_gen_dir/ui/webui/resources/cr_components/customize_themes/resources.grdp",
++        "$root_gen_dir/ui/webui/resources/cr_components/help_bubble/resources.grdp",
++        "$root_gen_dir/ui/webui/resources/cr_components/most_visited/resources.grdp",
++      ]
++    }
++
+     if (use_nss_certs) {
+       public_deps += [ "cr_components/certificate_manager:build_grdp" ]
+       grdp_files +=
