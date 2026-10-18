@@ -75,3 +75,7 @@ Run 39056531232 failed during GN at services/device/public/cpp/hid/BUILD.gn:11. 
 ## Run #10 — desktop-only Polymer resource dependencies
 
 Run 39102538692 failed at GN in cr_components/app_management/BUILD.gn:13, pulled unconditionally by Kiwi's forced Polymer resource group. The pinned app_management, customize_themes, help_bubble, and most_visited targets all explicitly reject Android and iOS. Moved all four dependency entries and matching GRDP references together under a desktop condition in ui/webui/resources/BUILD.gn. Common Polymer/cr_elements resources remain enabled for extension WebUI. This does not remove the Android browser's native most-visited implementation. Local checksum/source and reverse-patch checks pass; GN and APK compilation remain unverified pending CI.
+
+## Run #11 — remaining desktop color resource group
+
+Run 39104120907 failed at GN on cr_components/color_change_listener/BUILD.gn:9. Kiwi's `|| true` override in the parent resource group forced this desktop-only target onto Android. Restored the existing desktop condition for the color-change listener and its grouped Lottie resources, keeping dependencies and matching GRDP references together. The earlier four desktop resource targets no longer produced the reported error. Source checks and reverse-patch checks pass; GN and APK compilation remain unverified.

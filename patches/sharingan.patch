@@ -1023,7 +1023,7 @@ index 00000000..5ef56cbe
 +  ]
 +}
 diff --git a/ui/webui/resources/BUILD.gn b/ui/webui/resources/BUILD.gn
-index 943c9d8f..f8462241 100644
+index 943c9d8f..d832d58d 100644
 --- a/ui/webui/resources/BUILD.gn
 +++ b/ui/webui/resources/BUILD.gn
 @@ -52,25 +52,33 @@ generate_grd("build_grd") {
@@ -1068,3 +1068,12 @@ index 943c9d8f..f8462241 100644
      if (use_nss_certs) {
        public_deps += [ "cr_components/certificate_manager:build_grdp" ]
        grdp_files +=
+@@ -108,7 +116,7 @@ generate_grd("build_grd") {
+     ]
+   }
+ 
+-  if (!is_android && !is_ios || true) {
++  if (!is_android && !is_ios) {
+     public_deps += [
+       "cr_components/color_change_listener:build_grdp",
+       "//third_party/lottie:build_grdp",

@@ -8249,7 +8249,7 @@
   "ui/webui/mojo_bubble_web_ui_controller.h": "f5ca0bba99d004eafbc868cbb0285ecb50041faa466353a797ce33864388615e",
   "ui/webui/mojo_web_ui_controller.cc": "07c32c2dbaffd10ae6260fea5a921be6dd726df18cf623f87b19571139c1fb53",
   "ui/webui/mojo_web_ui_controller.h": "301f903437904cafa8aceee9b29a0052b0da66c0e331fb19343b6a8dec98fbb5",
-  "ui/webui/resources/BUILD.gn": "9a930d91cb72b5057898c896b0d86d136ebca50ddfc2435e94f666b353ed48a0",
+  "ui/webui/resources/BUILD.gn": "fc86d5c59a1d3fe444b596212f5ef85c1741d980cab39bcdb7322cc4e6001ed7",
   "ui/webui/resources/PRESUBMIT.py": "86b72eb419eb6bda974e3cb58118881c3d91ba1b1505895f0980b2388be44b67",
   "ui/webui/resources/cr_elements/BUILD.gn": "4028e96ad5fc0d914777afcd8b448fb72ead536ba3aea1a540e8a975019936c2",
   "ui/webui/resources/cr_elements/README.md": "196d6ff7c8aa81c99a0da488cf578032c8109d6726a8a638e237bd247604722b",
