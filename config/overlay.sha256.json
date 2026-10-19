@@ -4046,6 +4046,7 @@
   "components/undo_strings.grdp": "d3d3affdc092ede147ec2f055815fc50386f26b9ad2c9486569476e4ee3732b8",
   "components/user_education_strings.grdp": "1fc16da28809f431d94757e6c7b31ebf32c99bed572dd034c46594103468230f",
   "components/version_ui_strings.grdp": "4f86f424ccaec88065682ed742f1a8208c6cd8686a8d9e03cf4fd8ee1ad5d22a",
+  "components/web_modal/BUILD.gn": "f5af3fb8056980df67f1fd0bc6bd8548e02e41ab1d90ecd87e557430418d2b14",
   "components/webapps_strings.grdp": "b77a90edff2674b4ce90d09b23254cbb1629d7c00d6a7cd5969ed9ee6b9ff352",
   "components/webxr_strings.grdp": "853f07d904879576b78e80963e3ea879d54ce3c70f92da403a90467d0c7dcf93",
   "content/BUILD.gn": "9783a5187eaddff99f23f3254932c56cd6c399b362fa3138ebb6c225584e4f99",

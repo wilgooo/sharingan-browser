@@ -36,6 +36,16 @@ class AuditGateTest(unittest.TestCase):
         self.assertEqual(audit.reachable_strings(text), ['android'])
         self.assertEqual(audit.reachable_strings(text, {'is_android': False}), ['desktop'])
 
+    def test_modal_core_enabled_without_desktop_tests_on_android(self):
+        text = (ROOT / 'chromium-overlay/components/web_modal/BUILD.gn').read_text()
+        reachable = audit.reachable_strings(text)
+        self.assertIn('web_modal', reachable)
+        self.assertNotIn('unit_tests', reachable)
+        self.assertNotIn('test_support', reachable)
+        self.assertNotIn('//content/test:test_support', reachable)
+        self.assertFalse(audit.condition('!is_ios && (!is_android || enable_extensions)',
+                                        dict(audit.ANDROID, enable_extensions=False)))
+
     def test_known_blockers_are_closed(self):
         self.assertEqual(audit.check(), [])
 

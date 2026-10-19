@@ -39,3 +39,13 @@ Changes are local and unbuilt. No GitHub Actions dispatch, GN generation, native
 All confirmed missing-source and platform-edge blockers from the static audit are addressed in source. This is **not** a claim that the APK builds or that every remaining port issue has been discovered. GN, compiler/linker, WebUI asset loading, extension action/activeTab/popup behavior, import lifecycle and permissions require execution after the user authorizes it. The old guest_view/apps/keep_alive/HID port assertions remain scoped to Android extensions; their runtime platform support is still unverified.
 
 Chromium 105 remains an obsolete prototype engine without Family Link. ZIP expanded-size quotas, reinstall identity/cleanup, modern engine maintenance and other audit risks are not represented as solved by these build-blocker changes. No retry should be started automatically.
+
+## Build 14 follow-up (19 October 2026)
+
+GN exposed `components/web_modal` through `extensions/browser:browser_sources`.
+Pinned `app_window.cc` and `native_app_window.h` require its modal-manager/host
+interfaces, so the dependency is retained. Inspection of the core shows generic
+WebContents/input/visibility management and abstract native host interfaces, with
+no Views/GTK dependency. The core is enabled only for Android with extensions;
+desktop test targets remain excluded. This permits GN evaluation and does not
+claim that Android app-window dialog presentation is implemented or tested.
