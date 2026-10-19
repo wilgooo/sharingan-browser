@@ -7,3 +7,5 @@ out/
 *.keystore
 ci-logs/
 ci-artifacts/
+
+.ci-cache/

@@ -44,9 +44,34 @@ jobs:
           /usr/bin/python3 scripts/verify_source.py
           /usr/bin/python3 -B -m unittest discover -s tests -v
 
+      - name: Select weekly package cache
+        if: ${{ inputs.mode == 'build' }}
+        id: cache-key
+        run: echo "week=$(date -u +%G-%V)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore Linux package downloads
+        if: ${{ inputs.mode == 'build' }}
+        id: apt-cache
+        continue-on-error: true
+        timeout-minutes: 5
+        uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: .ci-cache/apt
+          key: apt-v1-ubuntu22-x64-${{ steps.cache-key.outputs.week }}-${{ hashFiles('config/upstream.lock.json', 'scripts/ci/package_cache.py') }}
+
       - name: Reclaim space and attempt source build
         timeout-minutes: 330
         run: /usr/bin/python3 -u scripts/ci/free_runner.py --mode "$CI_MODE" --jobs "$CI_JOBS"
+
+      # Save explicitly even if GN/compilation fails after dependencies install.
+      - name: Save Linux package downloads
+        if: ${{ always() && inputs.mode == 'build' && steps.apt-cache.outputs.cache-hit != 'true' && hashFiles('.ci-cache/apt/.ready') != '' }}
+        continue-on-error: true
+        timeout-minutes: 5
+        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: .ci-cache/apt
+          key: apt-v1-ubuntu22-x64-${{ steps.cache-key.outputs.week }}-${{ hashFiles('config/upstream.lock.json', 'scripts/ci/package_cache.py') }}
 
       - name: Upload diagnostics even after failure
         if: ${{ always() }}

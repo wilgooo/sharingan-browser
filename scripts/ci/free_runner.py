@@ -12,6 +12,8 @@ import signal
 import subprocess
 import sys
 import time
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from package_cache import export_packages
 
 ROOT = Path(__file__).resolve().parents[2]
 GIB = 1024 ** 3
@@ -236,10 +238,25 @@ def main():
         require_space(work, 20)
         # Chromium 105 predates install-build-deps.py. Jammy is newer than its
         # distro allowlist, but still provides libncurses5 and the i386 SDK libs.
+        # Reuse download files only. APT still resolves dependencies and verifies
+        # repository metadata/checksums; never restore /usr or dpkg state.
+        package_cache = ROOT / '.ci-cache/apt'
+        package_cache.mkdir(parents=True, exist_ok=True)
+        packages = [str(p) for p in package_cache.glob('*.deb')
+                    if p.is_file() and not p.is_symlink()]
+        if packages:
+            runner.run('06-restore-packages', ['sudo', 'cp', '--', *packages,
+                       '/var/cache/apt/archives/'], minutes=3)
+        runner.run('06-keep-packages', ['sudo', '/usr/bin/python3', '-c',
+                   'from pathlib import Path; Path("/etc/apt/apt.conf.d/99sharingan-keep-downloads").write_text(\'APT::Keep-Downloaded-Packages "true";\\nBinary::apt::APT::Keep-Downloaded-Packages "true";\\n\')'], minutes=1)
         runner.run('06-system-dependencies', ['bash',
                    'build/install-build-deps-android.sh', '--unsupported'], cwd=src, minutes=30)
         # This baseline does not provision third_party/ninja through DEPS.
         runner.run('06-ninja', ['sudo', 'apt-get', 'install', '-y', 'ninja-build'], minutes=5)
+        runner.state['package_cache'] = export_packages(
+            Path('/var/cache/apt/archives'), package_cache)
+        runner.save()
+        print('Package cache: ' + json.dumps(runner.state['package_cache']), flush=True)
         runner.run('07-apt-clean', ['sudo', 'apt-get', 'clean'], minutes=2)
         runner.run('08-hooks', [str(depot / 'gclient'), 'runhooks'], minutes=45)
         runner.run('09-overlay', ['/usr/bin/python3', str(ROOT / 'scripts/prepare.py'), str(src)], minutes=15)

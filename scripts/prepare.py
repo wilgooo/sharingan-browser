@@ -39,6 +39,9 @@ def prepare(src):
     out = src / 'out/sharingan_arm64'
     if (out / 'args.gn').exists():
         raise RuntimeError('Existing Sharingan build args found; use a clean dedicated checkout.')
+    # Read tracked names once instead of spawning Git for each overlay file.
+    tracked = set(subprocess.check_output(
+        ['git', '-C', str(src), 'ls-files', '-z'], text=True).split('\0'))
     # Preflight every file before writing. Reject symlinks and traversal destinations.
     for name, expected in manifest.items():
         source = ROOT / 'chromium-overlay' / name
@@ -51,7 +54,7 @@ def prepare(src):
             raise RuntimeError('Destination escapes checkout: ' + name)
         if dest.is_symlink():
             raise RuntimeError('Destination is a symlink: ' + name)
-        if dest.exists() and not git(src, 'ls-files', '--', name):
+        if dest.exists() and name not in tracked:
             raise RuntimeError('Untracked file would be replaced: ' + name)
     for name in manifest:
         dest = src / name
