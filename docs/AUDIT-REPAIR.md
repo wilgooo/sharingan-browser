@@ -64,3 +64,11 @@ mDNS consumer was already guarded by enable_service_discovery. Pinned feature
 defaults disable service discovery on Android. Move the dependency into the
 same feature block, preserving desktop consumers and the upstream assertion.
 Regression coverage checks that both source and dependency follow the flag.
+
+## Build 17 follow-up (19 October 2026)
+
+A second unconditional discovery edge in platform_apps loaded the same desktop
+target. Inspected all C++/header sources listed in the pinned target, including
+Mac additions; none directly references discovery/DnsSd. Keep the legacy desktop
+dependency under !is_android; Android does not load it. Add that second edge to
+the regression gate. This does not claim the whole platform-app port compiles.

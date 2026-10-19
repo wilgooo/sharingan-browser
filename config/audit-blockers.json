@@ -203,6 +203,9 @@
       "//chrome/browser/media/router/discovery",
       "api/mdns/mdns_api.cc",
       "api/mdns/mdns_api.h"
+    ],
+    "chrome/browser/apps/platform_apps/BUILD.gn": [
+      "//chrome/browser/media/router/discovery"
     ]
   }
 }

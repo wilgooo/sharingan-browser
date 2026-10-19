@@ -1473,6 +1473,7 @@
   "chrome/browser/app_controller_mac.mm": "06001fce653f3fc48234af1b01da6a87834c099d537d87a8b58c3557bc83648b",
   "chrome/browser/app_controller_mac_browsertest.mm": "b86c71ef6a8a46c3cad382b4fd096dd9db806c1d7df86ceb735c83a997d73a6f",
   "chrome/browser/app_controller_mac_unittest.mm": "9c2d70a38c5455f0a994ba910061e63dd6b8f6257ae86ba3d0e71e1df5314e99",
+  "chrome/browser/apps/platform_apps/BUILD.gn": "a178dd654948fc1ebf4b81fc264e5cb4e207f23f754a490c310e7b29e794ce8f",
   "chrome/browser/autocomplete/DIR_METADATA": "75d773e8cdc2a4706f87ee3bb839589e4aa66f2372772cb7a8e4d57dcbe9f21d",
   "chrome/browser/autocomplete/OWNERS": "98c3126fb4ab887f21572d0eed36ecdcad5231ec547ca62cb77d8baad055b569",
   "chrome/browser/autocomplete/autocomplete_browsertest.cc": "5530a0e66fe67edfb5f6006277b9bf820c709f743aba04306bb1c11255f6dce1",

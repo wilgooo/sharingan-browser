@@ -63,6 +63,12 @@ class AuditGateTest(unittest.TestCase):
             self.assertEqual('api/mdns/mdns_api.cc' in reachable, enabled)
             self.assertEqual('//chrome/browser/media/router/discovery' in reachable, enabled)
 
+    def test_platform_apps_discovery_remains_desktop_only(self):
+        text = (ROOT / 'chromium-overlay/chrome/browser/apps/platform_apps/BUILD.gn').read_text()
+        label = '//chrome/browser/media/router/discovery'
+        self.assertNotIn(label, audit.reachable_strings(text))
+        self.assertIn(label, audit.reachable_strings(text, dict(audit.ANDROID, is_android=False)))
+
     def test_known_blockers_are_closed(self):
         self.assertEqual(audit.check(), [])
 
