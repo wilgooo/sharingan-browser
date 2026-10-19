@@ -380,22 +380,22 @@ static_library("renderer") {
     ]
   }
 
-  if (!is_android || is_android) {
+  # Kiwi's Android renderer client uses SearchBox for instant-process frames.
+  # Keep that implementation without importing desktop Read Anything bindings.
+  sources += [
+    "searchbox/searchbox.cc",
+    "searchbox/searchbox.h",
+    "searchbox/searchbox_extension.cc",
+    "searchbox/searchbox_extension.h",
+  ]
+  deps += [ "//components/crx_file" ]
+
+  if (!is_android) {
     sources += [
       "accessibility/read_anything_app_controller.cc",
       "accessibility/read_anything_app_controller.h",
-#      "media/chrome_speech_recognition_client.cc",
-#      "media/chrome_speech_recognition_client.h",
-      "searchbox/searchbox.cc",
-      "searchbox/searchbox.h",
-      "searchbox/searchbox_extension.cc",
-      "searchbox/searchbox_extension.h",
     ]
-
-    deps += [
-      "//chrome/common/accessibility:mojo_bindings",
-      "//components/crx_file",
-    ]
+    deps += [ "//chrome/common/accessibility:mojo_bindings" ]
   }
 
   if (is_android) {

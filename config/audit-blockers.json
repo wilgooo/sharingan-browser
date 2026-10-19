@@ -193,6 +193,11 @@
       "//ui/webui/resources/cr_components/customize_themes:mojom",
       "//ui/webui/resources/cr_components/history_clusters:mojo_bindings",
       "//ui/webui/resources/cr_components/most_visited:mojom"
+    ],
+    "chrome/renderer/BUILD.gn": [
+      "//chrome/common/accessibility:mojo_bindings",
+      "accessibility/read_anything_app_controller.cc",
+      "accessibility/read_anything_app_controller.h"
     ]
   }
 }

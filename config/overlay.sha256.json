@@ -3548,7 +3548,7 @@
   "chrome/chrome_repack_locales.gni": "2e04efb6f6c52d571981f0f84bfa0cb53c2d1e7614e89a3d988e6d2e0696d021",
   "chrome/common/features.gni": "e9a900eb1f6f46117a8b0b133675b65c58ee80b11ebbb443d685ffd3fa92a1a6",
   "chrome/process_version_rc_template.gni": "c657056c5afd3d360de3545bc8f38836255096bcc8dea95393b7a4d51aa1723a",
-  "chrome/renderer/BUILD.gn": "44c86530f5c217b1c37f250926aff390122981d528cc3ba3589ef5b46e425481",
+  "chrome/renderer/BUILD.gn": "0edcaa4ab0a5b0030186fa51db88eb5529a94757f72e258c76ecd53df51c1d29",
   "chrome/renderer/DEPS": "eb667f7ea5c7adb1f49df0b3bb493467ce52a62c37f984849ff88db3e720cdce",
   "chrome/renderer/DIR_METADATA": "e82970553d5b7f29c5af48bc8239aa3cfb4c51c8e78b427400586254dc6ff888",
   "chrome/renderer/OWNERS": "a96340a3764a28e5fe19829a7eb45769c94676640dad75df78a0178c0da54bff",

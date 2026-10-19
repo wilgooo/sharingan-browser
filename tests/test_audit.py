@@ -46,6 +46,15 @@ class AuditGateTest(unittest.TestCase):
         self.assertFalse(audit.condition('!is_ios && (!is_android || enable_extensions)',
                                         dict(audit.ANDROID, enable_extensions=False)))
 
+    def test_renderer_keeps_android_searchbox_without_desktop_accessibility(self):
+        text = (ROOT / 'chromium-overlay/chrome/renderer/BUILD.gn').read_text()
+        reachable = audit.reachable_strings(text)
+        self.assertIn('searchbox/searchbox.cc', reachable)
+        self.assertNotIn('//chrome/common/accessibility:mojo_bindings', reachable)
+        regressed = text.replace('if (!is_android)', 'if (!is_android || is_android)')
+        self.assertIn('//chrome/common/accessibility:mojo_bindings',
+                      audit.reachable_strings(regressed))
+
     def test_known_blockers_are_closed(self):
         self.assertEqual(audit.check(), [])
 

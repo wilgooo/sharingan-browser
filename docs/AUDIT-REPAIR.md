@@ -49,3 +49,10 @@ WebContents/input/visibility management and abstract native host interfaces, wit
 no Views/GTK dependency. The core is enabled only for Android with extensions;
 desktop test targets remain excluded. This permits GN evaluation and does not
 claim that Android app-window dialog presentation is implemented or tested.
+
+## Build 15 follow-up (19 October 2026)
+
+GN reached desktop Read Anything Mojo through a tautological Android renderer
+guard. Separate Read Anything sources and bindings behind `!is_android`; keep
+SearchBox and crx_file because Kiwi's Android renderer client instantiates and
+queries SearchBox. A regression test exercises the former tautology.
