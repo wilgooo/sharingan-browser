@@ -3452,7 +3452,11 @@ static_library("browser") {
       "//url:origin_android",
     ]
 
-    deps -= [ "//components/storage_monitor" ]
+    # Sharingan: BrowserProcessImpl destroys the extensions StorageMonitor;
+    # //chrome/browser/extensions already links it on Android.
+    if (!enable_extensions) {
+      deps -= [ "//components/storage_monitor" ]
+    }
 
     if (enable_supervised_users) {
       sources += [
@@ -6833,6 +6837,24 @@ static_library("browser") {
       "media/cast_remoting_connector.h",
     ]
     deps += [ "//media/mojo/mojom:remoting" ]
+  }
+
+  # Sharingan: Kiwi compiles extension and web-app sources on Android. Mirror
+  # the desktop owners of those headers so `gn check` validates the includes.
+  if (is_android && enable_extensions) {
+    deps += [
+      "//chrome/browser/ui/tabs:tab_enums",
+      "//chrome/browser/web_applications",
+      "//chrome/browser/web_applications/app_service",
+      "//components/keep_alive_registry",
+      "//extensions/browser",
+      "//extensions/browser/api:api_implementations",
+    ]
+    allow_circular_includes_from += [
+      # TODO(crbug.com/1200215): Same web-app cycle as the desktop build.
+      "//chrome/browser/web_applications",
+      "//chrome/browser/web_applications/app_service",
+    ]
   }
 
   if (enable_extensions) {

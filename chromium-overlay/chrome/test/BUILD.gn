@@ -346,6 +346,23 @@ static_library("test_support") {
       sources += [ "../browser/android/vr/register_jni_monochrome.cc" ]
     }
     allow_circular_includes_from = [ ":test_support_ui_android" ]
+
+    # Sharingan: Kiwi builds extensions and web apps on Android. Export the
+    # same test owners as desktop so dependent tests pass `gn check`.
+    if (enable_extensions) {
+      public_deps += [
+        "//chrome/browser/extensions:test_support",
+        "//chrome/browser/web_applications",
+        "//components/crx_file",
+        "//components/keep_alive_registry",
+        "//components/pref_registry",
+        "//components/storage_monitor",
+        "//components/storage_monitor:test_support",
+        "//components/ukm:test_support",
+        "//extensions/browser:test_support",
+        "//extensions/common:test_support",
+      ]
+    }
   } else {
     public_deps += [
       # Android uses //chrome:chrome_android_core instead of the //chrome/app
@@ -6342,6 +6359,17 @@ test("unit_tests") {
       "//content/public/android:content_java",
       "//ui/events/devices:test_support",
     ]
+
+    # Sharingan: owners of extension/web-app unit test headers on Android.
+    # The GRIT source_set public-deps the _grit action desktop lists directly.
+    if (enable_extensions) {
+      deps += [
+        "//chrome/browser/resources:component_extension_resources",
+        "//chrome/browser/supervised_user:test_support",
+        "//chrome/browser/ui/tabs:tab_enums",
+        "//chrome/browser/web_applications:web_applications_test_support",
+      ]
+    }
     if (use_v8_context_snapshot) {
       deps += [ "//tools/v8_context_snapshot:v8_context_snapshot_assets" ]
     } else {

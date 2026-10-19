@@ -962,7 +962,12 @@ static_library("extensions") {
       "global_shortcut_listener_android.h",
       "sharingan_app_menu_bridge.cc",
     ]
-    deps += [ "//chrome/android:chrome_jni_headers" ]
+    deps += [
+      "//chrome/android:chrome_jni_headers",
+
+      # Owner of the component_extension_resources_map.h used on Android.
+      "//chrome/browser/resources:component_extension_resources",
+    ]
   }
 
   if (is_linux || is_mac || is_win) {

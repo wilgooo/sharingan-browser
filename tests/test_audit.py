@@ -94,6 +94,41 @@ class AuditGateTest(unittest.TestCase):
         self.assertNotIn('//content/browser/devtools:devtools_resources', ext)
         self.assertNotIn('$root_gen_dir/content/browser/devtools/devtools_resources.pak', ext)
 
+    def test_extension_core_does_not_include_chrome_embedder(self):
+        text = (ROOT / 'chromium-overlay/extensions/browser/extension_registrar.cc').read_text()
+        self.assertNotRegex(text, r'#include "chrome/browser/(android|ui|profiles)/')
+        self.assertNotIn('AppMenuBridge', text)
+        self.assertNotIn('TabModelList', text)
+
+    def test_android_declares_extension_and_web_app_include_owners(self):
+        browser = audit.reachable_strings((ROOT / 'chromium-overlay/chrome/browser/BUILD.gn').read_text())
+        for label in ['//extensions/browser', '//chrome/browser/web_applications',
+                      '//chrome/browser/web_applications/app_service', '//components/keep_alive_registry',
+                      '//chrome/browser/ui/tabs:tab_enums']:
+            self.assertIn(label, browser)
+        ui = audit.reachable_strings((ROOT / 'chromium-overlay/chrome/browser/ui/BUILD.gn').read_text())
+        for label in ['//chrome/browser/web_applications', '//chrome/browser/web_applications/extensions',
+                      '//components/services/app_service/public/cpp:intents', '//components/keep_alive_registry']:
+            self.assertIn(label, ui)
+        self.assertNotIn('//extensions/components/native_app_window', ui)
+        sync = audit.reachable_strings((ROOT / 'chromium-overlay/components/background_sync/BUILD.gn').read_text())
+        self.assertIn('//components/keep_alive_registry', sync)
+
+    def test_android_test_support_exports_extension_test_owners(self):
+        tests = audit.reachable_strings((ROOT / 'chromium-overlay/chrome/test/BUILD.gn').read_text())
+        for label in ['//components/crx_file', '//extensions/common:test_support',
+                      '//chrome/browser/extensions:test_support', '//components/ukm:test_support',
+                      '//chrome/browser/supervised_user:test_support',
+                      '//chrome/browser/resources:component_extension_resources']:
+            self.assertIn(label, tests)
+        self.assertNotIn('//chrome/browser/resources:component_extension_resources_grit', tests)
+        weblayer = audit.reachable_strings((ROOT / 'chromium-overlay/weblayer/test/BUILD.gn').read_text())
+        self.assertIn('//components/keep_alive_registry', weblayer)
+
+    def test_android_keeps_storage_monitor_with_extensions(self):
+        text = (ROOT / 'chromium-overlay/chrome/browser/BUILD.gn').read_text()
+        self.assertRegex(text, r'if \(!enable_extensions\) \{\s*deps -= \[ "//components/storage_monitor" \]')
+
     def test_known_blockers_are_closed(self):
         self.assertEqual(audit.check(), [])
 

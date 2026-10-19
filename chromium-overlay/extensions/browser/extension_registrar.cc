@@ -35,15 +35,7 @@
 #include "chrome/browser/ash/crosapi/browser_util.h"
 #endif  // BUILDFLAG(IS_CHROMEOS_ASH)
 
-#include "chrome/browser/android/tab_android.h"
-#include "chrome/browser/ui/android/tab_model/tab_model.h"
-#include "chrome/browser/ui/android/tab_model/tab_model_list.h"
-#include "content/public/browser/web_contents.h"
-#include "chrome/browser/profiles/profile.h"
-
 using content::DevToolsAgentHost;
-
-std::string AppMenuBridge_GetRunningExtensionsInternal(Profile* profile, content::WebContents* web_contents);
 
 namespace extensions {
 
@@ -518,22 +510,6 @@ void ExtensionRegistrar::ActivateExtension(const Extension* extension,
   // service worker-based, it may be necessary to spin up its context.
   if (BackgroundInfo::HasLazyContext(extension))
     MaybeSpinUpLazyContext(extension, is_newly_added);
-  AppMenuBridge_GetRunningExtensionsInternal(Profile::FromBrowserContext(browser_context_), nullptr);
-
-  TabModelList::TabModelVector tab_model_vector = TabModelList::models();
-  if (!tab_model_vector.size())
-    return ;
-
-  for (TabModel* tab_model : tab_model_vector) {
-    TabAndroid* tab = tab_model->GetTabAt(0);
-    if (!tab)
-      continue ;
-
-    if (tab->web_contents()) {
-      AppMenuBridge_GetRunningExtensionsInternal(Profile::FromBrowserContext(browser_context_), tab->web_contents());
-      continue ;
-    }
-  }
 }
 
 void ExtensionRegistrar::DeactivateExtension(const Extension* extension,

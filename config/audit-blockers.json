@@ -228,7 +228,8 @@
       "views/extensions/media_gallery_checkbox_view.h",
       "views/extensions/settings_overridden_dialog_view.cc",
       "views/extensions/settings_overridden_dialog_view.h",
-      "views/javascript_app_modal_event_blocker.h"
+      "views/javascript_app_modal_event_blocker.h",
+      "//extensions/components/native_app_window"
     ],
     "BUILD.gn": [
       "//extensions:extensions_unittests"
