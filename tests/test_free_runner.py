@@ -135,6 +135,36 @@ class RunnerTests(unittest.TestCase):
         origin = subprocess.check_output(['git', '-C', str(target), 'remote', 'get-url', 'origin'], text=True).strip()
         self.assertEqual(origin, source.as_uri())
 
+class InstallScriptTests(unittest.TestCase):
+    SNAP = 'if package_exists snapcraft; then\n    dev_list="${dev_list} snapcraft"\nfi\n'
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        (self.root / 'src/build').mkdir(parents=True)
+        (self.root / 'src/build/install-build-deps-android.sh').write_text('#!/bin/bash\necho android\n')
+
+    def write_main(self, body):
+        (self.root / 'src/build/install-build-deps.sh').write_text(body)
+
+    def test_staged_installer_drops_snapcraft_and_keeps_source_clean(self):
+        original = 'before\n' + self.SNAP + 'after\n'
+        self.write_main(original)
+        android = ci.stage_install_scripts(self.root / 'src', self.root / 'staged')
+        self.assertEqual(android.name, 'install-build-deps-android.sh')
+        staged = (android.parent / 'install-build-deps.sh').read_text()
+        self.assertNotIn('snapcraft', staged)
+        self.assertIn('before', staged)
+        self.assertIn('after', staged)
+        self.assertEqual((self.root / 'src/build/install-build-deps.sh').read_text(), original)
+
+    def test_staged_installer_fails_loudly_when_upstream_changes(self):
+        self.write_main('no snap block here\n')
+        with self.assertRaises(RuntimeError):
+            ci.stage_install_scripts(self.root / 'src', self.root / 'staged')
+
+
 class ModeTests(unittest.TestCase):
     WORKFLOW = Path(__file__).resolve().parents[1] / '.github/workflows/android-free.yml'
 

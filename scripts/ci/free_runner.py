@@ -186,6 +186,26 @@ class Runner:
                  cwd=destination, minutes=10)
 
 
+SNAPCRAFT_BLOCK = 'if package_exists snapcraft; then\n    dev_list="${dev_list} snapcraft"\nfi\n'
+
+
+def stage_install_scripts(src, destination):
+    """Copy the Android dependency installers without snapcraft.
+
+    snapcraft is a snap wrapper that downloads core24 from api.snapcraft.io and
+    is not used by the Android build; that download timed out in run 21. The
+    Chromium checkout stays untouched so prepare.py still sees clean sources.
+    """
+    destination.mkdir(parents=True, exist_ok=True)
+    main = (src / 'build/install-build-deps.sh').read_text()
+    if main.count(SNAPCRAFT_BLOCK) != 1:
+        raise RuntimeError('install-build-deps.sh snapcraft block changed; review before installing.')
+    (destination / 'install-build-deps.sh').write_text(main.replace(SNAPCRAFT_BLOCK, ''))
+    android = destination / 'install-build-deps-android.sh'
+    shutil.copy2(src / 'build/install-build-deps-android.sh', android)
+    return android
+
+
 # preflight: disk only; gn-only: stop after `gn gen --check`; build: compile the APK.
 MODES = ('preflight', 'gn-only', 'build')
 
@@ -261,8 +281,9 @@ def main():
                        '/var/cache/apt/archives/'], minutes=3)
         runner.run('06-keep-packages', ['sudo', '/usr/bin/python3', '-c',
                    'from pathlib import Path; Path("/etc/apt/apt.conf.d/99sharingan-keep-downloads").write_text(\'APT::Keep-Downloaded-Packages "true";\\nBinary::apt::APT::Keep-Downloaded-Packages "true";\\n\')'], minutes=1)
+        installer = stage_install_scripts(src, work / 'install-deps')
         runner.run('06-system-dependencies', ['bash',
-                   'build/install-build-deps-android.sh', '--unsupported'], cwd=src, minutes=30)
+                   str(installer), '--unsupported'], cwd=src, minutes=30)
         # This baseline does not provision third_party/ninja through DEPS.
         runner.run('06-ninja', ['sudo', 'apt-get', 'install', '-y', 'ninja-build'], minutes=5)
         runner.state['package_cache'] = export_packages(
