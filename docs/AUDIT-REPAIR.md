@@ -72,3 +72,7 @@ target. Inspected all C++/header sources listed in the pinned target, including
 Mac additions; none directly references discovery/DnsSd. Keep the legacy desktop
 dependency under !is_android; Android does not load it. Add that second edge to
 the regression gate. This does not claim the whole platform-app port compiles.
+
+## Build 18: desktop Views in extension UI
+
+Run 39265508909 failed GN at ui/views: assert(toolkit_views), reached via apps/ui/views. chrome/browser/ui's enable_extensions block mixed shared extension sources with Views dialogs and widgets. The pinned apps/ui/views target contains app_window_frame_view and requires ui/views; the JavaScript modal factory directly includes Views widget/constrained-window headers. Guard the Views source list and non-Mac apps/ui/views edge with toolkit_views. Shared extension sources/dependencies remain enabled. The host audit now models toolkit_views=false on Android and checks both desktop preservation and Android exclusion. This closes this observed graph edge, not proof that GN or Android runtime passes.

@@ -2894,7 +2894,7 @@
   "chrome/browser/tabmodel/android/java/src/org/chromium/chrome/browser/tabmodel/TabWindowManager.java": "554c42fdeeb5e380177d77dc045bbb16bf48a7343f6e0de09c07a4b056949056",
   "chrome/browser/tabmodel/android/java/src/org/chromium/chrome/browser/tabmodel/TabWindowManagerTest.java": "1ce7077e246c996a66ce8a9a7a9710d68fe061bbc1b017fe60918f2523b5fdd9",
   "chrome/browser/test_presubmit.py": "a3c1ff1f1fab463413559b1d9eecf30f5f98c26a88551d9e415008687d1dd325",
-  "chrome/browser/ui/BUILD.gn": "60ad24f5c4c5965f49382104816afaa6abdf5cd0237fc62fb161a4a1864b34ab",
+  "chrome/browser/ui/BUILD.gn": "afc2b4c4755d0338bb17e6bd66b44e0143240291b1aa7ce51c3daaa835763965",
   "chrome/browser/ui/DEPS": "c93c18c022e250e9ace95618064a6acce3139a5f489ada5d188844ae055d8861",
   "chrome/browser/ui/OWNERS": "fbbf76386914506c7ecfa4fe76852d6aa5fb799d67a39d83c779644638d65b6a",
   "chrome/browser/ui/README.md": "568419702e3abfa0062c885c3a15f83afb766c1453e5b17b451aed70a35f128e",

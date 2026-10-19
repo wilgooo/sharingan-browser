@@ -206,6 +206,29 @@
     ],
     "chrome/browser/apps/platform_apps/BUILD.gn": [
       "//chrome/browser/media/router/discovery"
+    ],
+    "chrome/browser/ui/BUILD.gn": [
+      "//apps/ui/views",
+      "views/chrome_javascript_app_modal_view_factory_views.cc",
+      "views/extensions/browser_action_drag_data.cc",
+      "views/extensions/browser_action_drag_data.h",
+      "views/extensions/extension_action_platform_delegate_views.cc",
+      "views/extensions/extension_action_platform_delegate_views.h",
+      "views/extensions/extension_dialog.cc",
+      "views/extensions/extension_dialog.h",
+      "views/extensions/extension_dialog_observer.cc",
+      "views/extensions/extension_dialog_observer.h",
+      "views/extensions/extension_popup.cc",
+      "views/extensions/extension_popup.h",
+      "views/extensions/extension_view_views.cc",
+      "views/extensions/extension_view_views.h",
+      "views/extensions/media_galleries_dialog_views.cc",
+      "views/extensions/media_galleries_dialog_views.h",
+      "views/extensions/media_gallery_checkbox_view.cc",
+      "views/extensions/media_gallery_checkbox_view.h",
+      "views/extensions/settings_overridden_dialog_view.cc",
+      "views/extensions/settings_overridden_dialog_view.h",
+      "views/javascript_app_modal_event_blocker.h"
     ]
   }
 }

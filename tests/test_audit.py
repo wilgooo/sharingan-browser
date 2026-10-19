@@ -69,6 +69,17 @@ class AuditGateTest(unittest.TestCase):
         self.assertNotIn(label, audit.reachable_strings(text))
         self.assertIn(label, audit.reachable_strings(text, dict(audit.ANDROID, is_android=False)))
 
+    def test_extension_ui_separates_views_from_android_core(self):
+        text = (ROOT / 'chromium-overlay/chrome/browser/ui/BUILD.gn').read_text()
+        android = audit.reachable_strings(text)
+        self.assertIn('//extensions/browser', android)
+        self.assertIn('extensions/extension_install_ui_default.cc', android)
+        self.assertNotIn('//apps/ui/views', android)
+        self.assertNotIn('views/extensions/extension_popup.cc', android)
+        desktop = audit.reachable_strings(text, dict(audit.ANDROID, is_android=False, toolkit_views=True))
+        self.assertIn('//apps/ui/views', desktop)
+        self.assertIn('views/extensions/extension_popup.cc', desktop)
+
     def test_known_blockers_are_closed(self):
         self.assertEqual(audit.check(), [])
 

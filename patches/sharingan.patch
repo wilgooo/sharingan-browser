@@ -1218,6 +1218,80 @@ index 00000000..c7ff60c8
 +  return base::android::ConvertUTF8ToJavaString(env, popup);
 +}
 +}  // namespace extensions
+diff --git a/chrome/browser/ui/BUILD.gn b/chrome/browser/ui/BUILD.gn
+index 3f4929cc..03d55c0c 100644
+--- a/chrome/browser/ui/BUILD.gn
++++ b/chrome/browser/ui/BUILD.gn
+@@ -5424,26 +5424,6 @@ static_library("ui") {
+       "extensions/settings_overridden_dialog_controller.h",
+       "extensions/settings_overridden_params_providers.cc",
+       "extensions/settings_overridden_params_providers.h",
+-      "views/chrome_javascript_app_modal_view_factory_views.cc",
+-      "views/extensions/browser_action_drag_data.cc",
+-      "views/extensions/browser_action_drag_data.h",
+-      "views/extensions/extension_action_platform_delegate_views.cc",
+-      "views/extensions/extension_action_platform_delegate_views.h",
+-      "views/extensions/extension_dialog.cc",
+-      "views/extensions/extension_dialog.h",
+-      "views/extensions/extension_dialog_observer.cc",
+-      "views/extensions/extension_dialog_observer.h",
+-      "views/extensions/extension_popup.cc",
+-      "views/extensions/extension_popup.h",
+-      "views/extensions/extension_view_views.cc",
+-      "views/extensions/extension_view_views.h",
+-      "views/extensions/media_galleries_dialog_views.cc",
+-      "views/extensions/media_galleries_dialog_views.h",
+-      "views/extensions/media_gallery_checkbox_view.cc",
+-      "views/extensions/media_gallery_checkbox_view.h",
+-      "views/extensions/settings_overridden_dialog_view.cc",
+-      "views/extensions/settings_overridden_dialog_view.h",
+-      "views/javascript_app_modal_event_blocker.h",
+       "web_applications/app_browser_controller.cc",
+       "web_applications/app_browser_controller.h",
+       "web_applications/draggable_region_host_impl.cc",
+@@ -5483,6 +5463,32 @@ static_library("ui") {
+       "webui/extensions/extension_icon_source.h",
+     ]
+ 
++    # Native desktop widgets require Views; Android uses its own UI.
++    if (toolkit_views) {
++      sources += [
++        "views/chrome_javascript_app_modal_view_factory_views.cc",
++        "views/extensions/browser_action_drag_data.cc",
++        "views/extensions/browser_action_drag_data.h",
++        "views/extensions/extension_action_platform_delegate_views.cc",
++        "views/extensions/extension_action_platform_delegate_views.h",
++        "views/extensions/extension_dialog.cc",
++        "views/extensions/extension_dialog.h",
++        "views/extensions/extension_dialog_observer.cc",
++        "views/extensions/extension_dialog_observer.h",
++        "views/extensions/extension_popup.cc",
++        "views/extensions/extension_popup.h",
++        "views/extensions/extension_view_views.cc",
++        "views/extensions/extension_view_views.h",
++        "views/extensions/media_galleries_dialog_views.cc",
++        "views/extensions/media_galleries_dialog_views.h",
++        "views/extensions/media_gallery_checkbox_view.cc",
++        "views/extensions/media_gallery_checkbox_view.h",
++        "views/extensions/settings_overridden_dialog_view.cc",
++        "views/extensions/settings_overridden_dialog_view.h",
++        "views/javascript_app_modal_event_blocker.h",
++      ]
++    }
++
+     if (is_chromeos_ash) {
+       deps += [ "//chrome/browser/ui/ash/system_web_apps" ]
+       allow_circular_includes_from +=
+@@ -5491,7 +5497,8 @@ static_library("ui") {
+ 
+     if (is_mac) {
+       sources += [ "views/javascript_app_modal_event_blocker_mac.h" ]
+-    } else {
++    }
++    if (!is_mac && toolkit_views) {
+       deps += [ "//apps/ui/views" ]
+     }
+ 
 diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java
 new file mode 100644
 index 00000000..3b2b8f8c
