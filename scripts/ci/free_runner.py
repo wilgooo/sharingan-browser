@@ -200,7 +200,10 @@ def stage_install_scripts(src, destination):
     main = (src / 'build/install-build-deps.sh').read_text()
     if main.count(SNAPCRAFT_BLOCK) != 1:
         raise RuntimeError('install-build-deps.sh snapcraft block changed; review before installing.')
-    (destination / 'install-build-deps.sh').write_text(main.replace(SNAPCRAFT_BLOCK, ''))
+    staged = destination / 'install-build-deps.sh'
+    staged.write_text(main.replace(SNAPCRAFT_BLOCK, ''))
+    # The Android wrapper executes this script directly, so keep it executable.
+    shutil.copymode(src / 'build/install-build-deps.sh', staged)
     android = destination / 'install-build-deps-android.sh'
     shutil.copy2(src / 'build/install-build-deps-android.sh', android)
     return android

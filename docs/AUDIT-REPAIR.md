@@ -92,3 +92,5 @@ Run 39275093147 resolved every label and failed in `gn check` include validation
 ## Build 21: snapcraft download in dependency install
 
 Run 39281973774 (commit 1908e33) failed before GN in `06-system-dependencies`: Chromium 105's `install-build-deps.sh` adds `snapcraft` when apt lists it, and on Jammy that package's pre-install script downloads the `core24` snap from api.snapcraft.io, which timed out, so dpkg exited 100. The same stage passed in run 20, so this was a network failure, but snapcraft is unused by the Android build. The runner now executes staged copies of the two installer scripts with only that block removed (it fails if the upstream block changes); the Chromium checkout stays unmodified. The Build 20 GN repair remains untested on CI.
+
+Run 39285822290 (gn-only, commit 795fec5) then failed the same stage with exit 126: the staged `install-build-deps.sh` was written without its executable bit, and the Android wrapper executes it directly. The staged copy now keeps the source file mode (100755 upstream). That run also skipped the package-cache restore because the cache steps were still limited to build mode; fixed in 2551c22.

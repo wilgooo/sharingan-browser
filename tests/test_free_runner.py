@@ -3,6 +3,7 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
 import sys
 import subprocess
@@ -144,9 +145,13 @@ class InstallScriptTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         (self.root / 'src/build').mkdir(parents=True)
         (self.root / 'src/build/install-build-deps-android.sh').write_text('#!/bin/bash\necho android\n')
+        for name in ['install-build-deps-android.sh']:
+            (self.root / 'src/build' / name).chmod(0o755)
 
     def write_main(self, body):
-        (self.root / 'src/build/install-build-deps.sh').write_text(body)
+        main = self.root / 'src/build/install-build-deps.sh'
+        main.write_text(body)
+        main.chmod(0o755)
 
     def test_staged_installer_drops_snapcraft_and_keeps_source_clean(self):
         original = 'before\n' + self.SNAP + 'after\n'
@@ -158,6 +163,9 @@ class InstallScriptTests(unittest.TestCase):
         self.assertIn('before', staged)
         self.assertIn('after', staged)
         self.assertEqual((self.root / 'src/build/install-build-deps.sh').read_text(), original)
+        # install-build-deps-android.sh executes the main script directly.
+        self.assertTrue(os.access(android.parent / 'install-build-deps.sh', os.X_OK))
+        self.assertTrue(os.access(android, os.X_OK))
 
     def test_staged_installer_fails_loudly_when_upstream_changes(self):
         self.write_main('no snap block here\n')
