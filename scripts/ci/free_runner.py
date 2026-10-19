@@ -186,11 +186,23 @@ class Runner:
                  cwd=destination, minutes=10)
 
 
-def main():
+# preflight: disk only; gn-only: stop after `gn gen --check`; build: compile the APK.
+MODES = ('preflight', 'gn-only', 'build')
+
+
+def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--mode', choices=('preflight', 'build'), default='build')
+    parser.add_argument('--mode', choices=MODES, default='build')
     parser.add_argument('--jobs', type=int, choices=(1, 2, 3, 4), default=2)
-    args = parser.parse_args()
+    return parser.parse_args(argv)
+
+
+def compiles(mode):
+    return mode == 'build'
+
+
+def main():
+    args = parse_args()
     require_disposable_runner()
     logs = ROOT / 'ci-logs'
     logs.mkdir(exist_ok=True)
@@ -274,6 +286,9 @@ def main():
             raise RuntimeError('Chromium GN binary missing; dependency sync must install buildtools/linux64/gn.')
         runner.run('10-gn', [str(gn), 'gen', 'out/sharingan_arm64',
                    '--check', '--fail-on-unused-args'], cwd=src, minutes=10)
+        if not compiles(args.mode):
+            runner.state['status'] = 'gn-complete'
+            return
         require_space(work, MIN_BUILD_GIB)
         runner.run('11-compile', ['/usr/bin/ninja', '-C',
                    'out/sharingan_arm64', f'-j{args.jobs}', 'chrome_public_apk'], cwd=src, minutes=300)

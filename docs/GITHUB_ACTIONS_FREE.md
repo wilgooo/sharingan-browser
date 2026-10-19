@@ -34,6 +34,7 @@ Repo publik proyek sudah tersedia di [wilgooo/sharingan-browser](https://github.
 4. Buka **Actions → Sharingan Android - free runner experiment → Run workflow** pada branch default.
 5. Pilih mode:
    - **preflight**: hanya cleanup dan pengukuran runner. Tidak download Chromium dan tidak membuat APK. Baca `disk_gate_passed` pada `status.json`.
+   - **gn-only**: sama dengan build sampai `gn gen --check`, lalu berhenti tanpa Ninja/APK (`status: gn-complete`). Pakai ini selama masih memperbaiki error GN supaya jatah runner tidak habis untuk compile; cache paket tetap disimpan.
    - **build**: cleanup → shallow checkout → sync dependensi → dependency installer resmi → hooks → overlay → GN → Ninja → APK. Default dua worker; tiga/empat worker bisa lebih cepat dengan risiko RAM lebih tinggi.
 6. Setelah selesai, buka halaman run → **Artifacts**:
    - `sharingan-diagnostics-…`: per-stage log, `status.json`, metrik disk/RAM/swap, dan konfigurasi build jika tahap tersebut tercapai.

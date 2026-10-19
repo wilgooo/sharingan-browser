@@ -135,5 +135,27 @@ class RunnerTests(unittest.TestCase):
         origin = subprocess.check_output(['git', '-C', str(target), 'remote', 'get-url', 'origin'], text=True).strip()
         self.assertEqual(origin, source.as_uri())
 
+class ModeTests(unittest.TestCase):
+    WORKFLOW = Path(__file__).resolve().parents[1] / '.github/workflows/android-free.yml'
+
+    def test_gn_only_mode_is_accepted(self):
+        self.assertEqual(ci.parse_args(['--mode', 'gn-only']).mode, 'gn-only')
+        self.assertEqual(ci.parse_args([]).mode, 'build')
+
+    def test_unknown_mode_is_rejected(self):
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            ci.parse_args(['--mode', 'compile-only'])
+
+    def test_only_build_mode_compiles(self):
+        self.assertFalse(ci.compiles('gn-only'))
+        self.assertFalse(ci.compiles('preflight'))
+        self.assertTrue(ci.compiles('build'))
+
+    def test_workflow_offers_gn_only_and_keeps_apk_upload_build_only(self):
+        text = self.WORKFLOW.read_text()
+        self.assertIn('options: [build, gn-only, preflight]', text)
+        self.assertIn("inputs.mode != 'preflight' && steps.apt-cache", text)
+        self.assertIn("if: ${{ success() && inputs.mode == 'build' }}", text)
+
 if __name__ == '__main__':
     unittest.main()
