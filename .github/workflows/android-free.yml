@@ -45,12 +45,12 @@ jobs:
           /usr/bin/python3 -B -m unittest discover -s tests -v
 
       - name: Select weekly package cache
-        if: ${{ inputs.mode == 'build' }}
+        if: ${{ inputs.mode != 'preflight' }}
         id: cache-key
         run: echo "week=$(date -u +%G-%V)" >> "$GITHUB_OUTPUT"
 
       - name: Restore Linux package downloads
-        if: ${{ inputs.mode == 'build' }}
+        if: ${{ inputs.mode != 'preflight' }}
         id: apt-cache
         continue-on-error: true
         timeout-minutes: 5

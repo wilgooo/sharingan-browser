@@ -187,5 +187,11 @@ class ModeTests(unittest.TestCase):
         self.assertIn("inputs.mode != 'preflight' && steps.apt-cache", text)
         self.assertIn("if: ${{ success() && inputs.mode == 'build' }}", text)
 
+    def test_gn_only_restores_the_package_cache_it_saves(self):
+        text = self.WORKFLOW.read_text()
+        for step in ['- name: Select weekly package cache', '- name: Restore Linux package downloads']:
+            block = text.split(step, 1)[1].split('- name:', 1)[0]
+            self.assertIn("if: ${{ inputs.mode != 'preflight' }}", block)
+
 if __name__ == '__main__':
     unittest.main()
