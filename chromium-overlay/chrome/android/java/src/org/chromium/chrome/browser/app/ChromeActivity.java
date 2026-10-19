@@ -100,7 +100,6 @@ import org.chromium.chrome.browser.dependency_injection.ChromeActivityComponent;
 import org.chromium.chrome.browser.dependency_injection.ModuleFactoryOverrides;
 import org.chromium.chrome.browser.device.DeviceClassManager;
 import org.chromium.chrome.browser.PersonalizeResults;
-import org.chromium.chrome.browser.FixDevToolsWindow;
 import org.chromium.chrome.browser.dom_distiller.DomDistillerUIUtils;
 import org.chromium.chrome.browser.download.DownloadManagerService;
 import org.chromium.chrome.browser.download.DownloadUtils;
@@ -255,22 +254,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.chromium.base.ContextUtils;
 import org.chromium.chrome.browser.ApplicationLifetime;
 import org.chromium.chrome.browser.AppMenuBridge;
 import org.chromium.chrome.browser.browsing_data.ClearBrowsingDataTabsFragment;
-import org.chromium.chrome.browser.night_mode.WebContentsDarkModeController;
 import org.chromium.chrome.browser.preferences.SharedPreferencesManager;
 import org.chromium.chrome.browser.night_mode.ThemeType;
-import org.chromium.chrome.browser.settings.SettingsLauncherImpl;
-import org.chromium.components.browser_ui.settings.SettingsLauncher;
 import org.chromium.components.content_settings.ContentSettingValues;
 import org.chromium.components.content_settings.ContentSettingsType;
 import org.chromium.components.browser_ui.site_settings.WebsitePreferenceBridge;
 import org.chromium.components.browser_ui.site_settings.WebsitePreferenceBridgeJni;
-import org.chromium.ui.widget.Toast;
 
-import org.chromium.chrome.browser.AppMenuBridge;
 
 /**
  * A {@link AsyncInitializationActivity} that builds and manages a {@link CompositorViewHolder}
@@ -872,7 +865,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
 
             @Override
             public void onUrlUpdated(Tab tab){
-              FixDevToolsWindow.Execute(tab);
               PersonalizeResults.Execute(tab);
               mRootUiCoordinator.getStatusBarColorController().updateStatusBarColor();
             }
@@ -2420,25 +2412,14 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
         @BrowserProfileType
         int type = Profile.getBrowserProfileTypeFromProfile(getCurrentTabModel().getProfile());
 
-        if (mMenuTitleCondensed != null && !mMenuTitleCondensed.equals("") && mMenuTitleCondensed.contains("Extension: ")) {
-            String[] extensionInfo = mMenuTitleCondensed.split(": ");
-            String extensionId = extensionInfo[1];
-            String extensionUrl = "";
-            if (extensionInfo.length > 2)
-                extensionUrl = extensionInfo[2];
-            Log.d("Kiwi", "Pressed extension menu: " + extensionId + " - url: " + extensionUrl);
-            Tab tab = getActivityTab();
-            if (tab != null) {
-                WebContents webContents = tab.getWebContents();
-                LaunchMetrics.commitLaunchMetrics(webContents);
-                AppMenuBridge.grantExtensionActiveTab(Profile.fromWebContents(webContents).getOriginalProfile(), webContents, extensionId);
-                if (!extensionUrl.equals(""))
-                  getCurrentTabCreator().launchUrl(extensionUrl, TabLaunchType.FROM_CHROME_UI);
-                else
-                  AppMenuBridge.callExtension(Profile.fromWebContents(webContents).getOriginalProfile(), webContents, extensionId);
-                return true;
+        if (mMenuTitleCondensed != null && mMenuTitleCondensed.startsWith("Extension: ")) {
+            String extensionId = mMenuTitleCondensed.substring("Extension: ".length());
+            if (!extensionId.matches("[a-p]{32}") || getActivityTab() == null) return false;
+            String popup = AppMenuBridge.runAction(getActivityTab().getWebContents(), extensionId);
+            if (!popup.isEmpty()) {
+                getCurrentTabCreator().launchUrl(popup, TabLaunchType.FROM_CHROME_UI);
             }
-            return false;
+            return true;
         }
 
         if (id == R.id.preferences_id) {
@@ -2757,13 +2738,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             RecordUserAction.record("MobileMenuSwitchAdblock");
         }
 
-        if (id == R.id.developer_tools_id) {
-            AppMenuBridge.openDevTools(currentTab.getWebContents());
-        }
 
-        if (id == R.id.disable_proxy_id) {
-            AppMenuBridge.disableProxy(Profile.fromWebContents(currentTab.getWebContents()).getOriginalProfile());
-        }
+
+
 
         if (id == R.id.auto_dark_web_contents_id || id == R.id.auto_dark_web_contents_check_id) {
             // Get values needed to check/enable auto dark for the current site.

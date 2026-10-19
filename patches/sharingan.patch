@@ -76,13 +76,14 @@ index 00000000..573d3035
 +  ]
 +}
 diff --git a/chrome/android/BUILD.gn b/chrome/android/BUILD.gn
-index 7c56c68a..56a23869 100644
+index 7c56c68a..cf1adc7e 100644
 --- a/chrome/android/BUILD.gn
 +++ b/chrome/android/BUILD.gn
-@@ -4027,6 +4027,7 @@ if (android_64bit_target_cpu) {
+@@ -4027,6 +4027,8 @@ if (android_64bit_target_cpu) {
  
  generate_jni("chrome_jni_headers") {
    sources = [
++    "java/src/org/chromium/chrome/browser/AppMenuBridge.java",
 +    "java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java",
      # Files under a feature's public/ dir are included in chrome_java's source
      # files, so include these files in chrome_jni_headers.
@@ -100,10 +101,31 @@ index 7a9ba86c..01969031 100644
    "java/res/anim/activity_close_exit.xml",
    "java/res/anim/activity_open_enter.xml",
 diff --git a/chrome/android/chrome_java_sources.gni b/chrome/android/chrome_java_sources.gni
-index f9b13033..1dc6554f 100644
+index f9b13033..8764ce47 100644
 --- a/chrome/android/chrome_java_sources.gni
 +++ b/chrome/android/chrome_java_sources.gni
-@@ -26,6 +26,7 @@ kiwi_java_sources = [
+@@ -5,16 +5,6 @@
+ kiwi_java_sources = [
+   "java/src/org/chromium/chrome/browser/AppMenuBridge.java",
+   "java/src/org/chromium/chrome/browser/PersonalizeResults.java",
+-  "java/src/org/chromium/chrome/browser/FixDevToolsWindow.java",
+-  "java/src/org/chromium/chrome/browser/accessibility/settings/NightScalePreference.java",
+-  "java/src/org/chromium/chrome/browser/compositor/layouts/phone/StackLayout.java",
+-  "java/src/org/chromium/chrome/browser/compositor/layouts/phone/StackLayoutBase.java",
+-  "java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/NonOverlappingStack.java",
+-  "java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/OverlappingStack.java",
+-  "java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/Stack.java",
+-  "java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/StackAnimation.java",
+-  "java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/StackTab.java",
+-  "java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/StackViewAnimation.java",
+   "java/src/org/chromium/chrome/browser/translate/settings/TranslateSettings.java",
+   "java/src/org/chromium/chrome/browser/translate/settings/RadioButtonGroupTranslatePreference.java",
+   "java/src/org/chromium/chrome/browser/settings/TabSwitcherSettings.java",
+@@ -22,10 +12,10 @@ kiwi_java_sources = [
+   "java/src/org/chromium/chrome/browser/settings/ToolbarSettings.java",
+   "java/src/org/chromium/chrome/browser/settings/NightModeSettings.java",
+   "java/src/org/chromium/chrome/browser/settings/RadioButtonGroupNightModePreference.java",
+-  "java/src/org/chromium/chrome/browser/init/ChromeBrowserReferrer.java",
  ]
  
  chrome_java_sources = [
@@ -158,10 +180,10 @@ index cea0c489..d7dddd0b 100644
              android:title="@string/main_menu_extensions"
              android:icon="@drawable/ic_extensions" />
 diff --git a/chrome/android/java/res/values/strings.xml b/chrome/android/java/res/values/strings.xml
-index 7a51cf80..22014978 100644
+index 7a51cf80..87820b46 100644
 --- a/chrome/android/java/res/values/strings.xml
 +++ b/chrome/android/java/res/values/strings.xml
-@@ -114,4 +114,18 @@
+@@ -114,4 +114,19 @@
  
      <string name="accessibility_preferences_cws_mobile_friendly_title">Optimize Extensions Web Store</string>
      <string name="accessibility_preferences_cws_mobile_friendly_summary">Improve the appearance of Extensions Web Store</string>
@@ -179,9 +201,10 @@ index 7a51cf80..22014978 100644
 +    <string name="sharingan_zip_loading">Installing extension…</string>
 +    <string name="sharingan_zip_success">Extension installed. Manage it in Extensions.</string>
 +    <string name="sharingan_zip_failed">Extension installation failed</string>
++    <string name="sharingan_restart_notice">Changes saved. Close and reopen Sharingan Browser to apply them.</string>
  </resources>
 diff --git a/chrome/android/java/res/xml/main_preferences.xml b/chrome/android/java/res/xml/main_preferences.xml
-index 1bd39237..3c8506b4 100644
+index 1bd39237..024336b7 100644
 --- a/chrome/android/java/res/xml/main_preferences.xml
 +++ b/chrome/android/java/res/xml/main_preferences.xml
 @@ -27,6 +27,13 @@
@@ -198,11 +221,61 @@ index 1bd39237..3c8506b4 100644
      <PreferenceCategory
          android:key="basics_section"
          android:order="5"
+@@ -104,13 +111,6 @@
+         android:icon="@drawable/ics_tab_switcher"
+         android:title="@string/preferences_tabswitcher"
+         app:iconTint="@color/default_icon_color_tint_list"/>
+-    <org.chromium.components.browser_ui.settings.ChromeBasePreference
+-        android:fragment="org.chromium.chrome.browser.settings.ToolbarSettings"
+-        android:key="toolbar_options"
+-        android:order="11"
+-        android:icon="@drawable/ics_toolbar_shortcut"
+-        android:title="@string/preferences_toolbar"
+-        app:iconTint="@color/default_icon_color_tint_list"/>
+     <Preference
+         android:fragment="org.chromium.chrome.browser.toolbar.adaptive.settings.AdaptiveToolbarPreferenceFragment"
+         android:key="toolbar_shortcut"
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/AppMenuBridge.java b/chrome/android/java/src/org/chromium/chrome/browser/AppMenuBridge.java
+new file mode 100644
+index 00000000..1a3f0f8a
+--- /dev/null
++++ b/chrome/android/java/src/org/chromium/chrome/browser/AppMenuBridge.java
+@@ -0,0 +1,22 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++package org.chromium.chrome.browser;
++import org.chromium.base.annotations.JNINamespace;
++import org.chromium.base.annotations.NativeMethods;
++import org.chromium.content_public.browser.WebContents;
++/** Android extension action menu; native code rechecks the current profile and extension. */
++@JNINamespace("extensions")
++public final class AppMenuBridge {
++    private AppMenuBridge() {}
++    public static String getRunningExtensions(WebContents contents) {
++        return contents == null ? "" : AppMenuBridgeJni.get().getRunningExtensions(contents);
++    }
++    public static String runAction(WebContents contents, String extensionId) {
++        return contents == null ? "" : AppMenuBridgeJni.get().runAction(contents, extensionId);
++    }
++    @NativeMethods
++    interface Natives {
++        String getRunningExtensions(WebContents contents);
++        String runAction(WebContents contents, String extensionId);
++    }
++}
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
-index 0a53b0c5..03d89251 100644
+index 0a53b0c5..f1dd0c13 100644
 --- a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
-@@ -147,6 +147,7 @@ import org.chromium.chrome.browser.partnercustomizations.PartnerBrowserCustomiza
+@@ -100,7 +100,6 @@ import org.chromium.chrome.browser.dependency_injection.ChromeActivityComponent;
+ import org.chromium.chrome.browser.dependency_injection.ModuleFactoryOverrides;
+ import org.chromium.chrome.browser.device.DeviceClassManager;
+ import org.chromium.chrome.browser.PersonalizeResults;
+-import org.chromium.chrome.browser.FixDevToolsWindow;
+ import org.chromium.chrome.browser.dom_distiller.DomDistillerUIUtils;
+ import org.chromium.chrome.browser.download.DownloadManagerService;
+ import org.chromium.chrome.browser.download.DownloadUtils;
+@@ -147,6 +146,7 @@ import org.chromium.chrome.browser.partnercustomizations.PartnerBrowserCustomiza
  import org.chromium.chrome.browser.preferences.Pref;
  import org.chromium.chrome.browser.printing.TabPrinter;
  import org.chromium.chrome.browser.profiles.Profile;
@@ -210,7 +283,87 @@ index 0a53b0c5..03d89251 100644
  import org.chromium.chrome.browser.read_later.ReadingListUtils;
  import org.chromium.chrome.browser.selection.SelectionPopupBackPressHandler;
  import org.chromium.chrome.browser.settings.SettingsLauncherImpl;
-@@ -2824,6 +2825,12 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+@@ -254,22 +254,16 @@ import java.util.ArrayList;
+ import java.util.List;
+ import java.util.function.Consumer;
+ 
+-import org.chromium.base.ContextUtils;
+ import org.chromium.chrome.browser.ApplicationLifetime;
+ import org.chromium.chrome.browser.AppMenuBridge;
+ import org.chromium.chrome.browser.browsing_data.ClearBrowsingDataTabsFragment;
+-import org.chromium.chrome.browser.night_mode.WebContentsDarkModeController;
+ import org.chromium.chrome.browser.preferences.SharedPreferencesManager;
+ import org.chromium.chrome.browser.night_mode.ThemeType;
+-import org.chromium.chrome.browser.settings.SettingsLauncherImpl;
+-import org.chromium.components.browser_ui.settings.SettingsLauncher;
+ import org.chromium.components.content_settings.ContentSettingValues;
+ import org.chromium.components.content_settings.ContentSettingsType;
+ import org.chromium.components.browser_ui.site_settings.WebsitePreferenceBridge;
+ import org.chromium.components.browser_ui.site_settings.WebsitePreferenceBridgeJni;
+-import org.chromium.ui.widget.Toast;
+ 
+-import org.chromium.chrome.browser.AppMenuBridge;
+ 
+ /**
+  * A {@link AsyncInitializationActivity} that builds and manages a {@link CompositorViewHolder}
+@@ -871,7 +865,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+ 
+             @Override
+             public void onUrlUpdated(Tab tab){
+-              FixDevToolsWindow.Execute(tab);
+               PersonalizeResults.Execute(tab);
+               mRootUiCoordinator.getStatusBarColorController().updateStatusBarColor();
+             }
+@@ -2419,25 +2412,14 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+         @BrowserProfileType
+         int type = Profile.getBrowserProfileTypeFromProfile(getCurrentTabModel().getProfile());
+ 
+-        if (mMenuTitleCondensed != null && !mMenuTitleCondensed.equals("") && mMenuTitleCondensed.contains("Extension: ")) {
+-            String[] extensionInfo = mMenuTitleCondensed.split(": ");
+-            String extensionId = extensionInfo[1];
+-            String extensionUrl = "";
+-            if (extensionInfo.length > 2)
+-                extensionUrl = extensionInfo[2];
+-            Log.d("Kiwi", "Pressed extension menu: " + extensionId + " - url: " + extensionUrl);
+-            Tab tab = getActivityTab();
+-            if (tab != null) {
+-                WebContents webContents = tab.getWebContents();
+-                LaunchMetrics.commitLaunchMetrics(webContents);
+-                AppMenuBridge.grantExtensionActiveTab(Profile.fromWebContents(webContents).getOriginalProfile(), webContents, extensionId);
+-                if (!extensionUrl.equals(""))
+-                  getCurrentTabCreator().launchUrl(extensionUrl, TabLaunchType.FROM_CHROME_UI);
+-                else
+-                  AppMenuBridge.callExtension(Profile.fromWebContents(webContents).getOriginalProfile(), webContents, extensionId);
+-                return true;
++        if (mMenuTitleCondensed != null && mMenuTitleCondensed.startsWith("Extension: ")) {
++            String extensionId = mMenuTitleCondensed.substring("Extension: ".length());
++            if (!extensionId.matches("[a-p]{32}") || getActivityTab() == null) return false;
++            String popup = AppMenuBridge.runAction(getActivityTab().getWebContents(), extensionId);
++            if (!popup.isEmpty()) {
++                getCurrentTabCreator().launchUrl(popup, TabLaunchType.FROM_CHROME_UI);
+             }
+-            return false;
++            return true;
+         }
+ 
+         if (id == R.id.preferences_id) {
+@@ -2756,13 +2738,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+             RecordUserAction.record("MobileMenuSwitchAdblock");
+         }
+ 
+-        if (id == R.id.developer_tools_id) {
+-            AppMenuBridge.openDevTools(currentTab.getWebContents());
+-        }
+ 
+-        if (id == R.id.disable_proxy_id) {
+-            AppMenuBridge.disableProxy(Profile.fromWebContents(currentTab.getWebContents()).getOriginalProfile());
+-        }
++
++
+ 
+         if (id == R.id.auto_dark_web_contents_id || id == R.id.auto_dark_web_contents_check_id) {
+             // Get values needed to check/enable auto dark for the current site.
+@@ -2824,6 +2802,12 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
              currentTab.getWebContents().notifyRendererPreferenceUpdate();
          }
  
@@ -223,7 +376,7 @@ index 0a53b0c5..03d89251 100644
          if (id == R.id.extensions_id) {
              RecordUserAction.record("MobileMenuExtensions");
              TabCreator tabCreator = getTabCreator(currentTab.isIncognito());
-@@ -2960,6 +2967,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+@@ -2960,6 +2944,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
  
      @Override
      public boolean onActivityResultWithNative(int requestCode, int resultCode, Intent intent) {
@@ -233,6 +386,114 @@ index 0a53b0c5..03d89251 100644
          if (super.onActivityResultWithNative(requestCode, resultCode, intent)) return true;
          if (VrModuleProvider.getDelegate().onActivityResultWithNative(requestCode, resultCode)) {
              return true;
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/app/appmenu/AppMenuPropertiesDelegateImpl.java b/chrome/android/java/src/org/chromium/chrome/browser/app/appmenu/AppMenuPropertiesDelegateImpl.java
+index 95a2482a..5bc37ae8 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/app/appmenu/AppMenuPropertiesDelegateImpl.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/app/appmenu/AppMenuPropertiesDelegateImpl.java
+@@ -107,7 +107,6 @@ import android.util.Base64;
+ import android.util.Base64InputStream;
+ import androidx.appcompat.view.menu.MenuBuilder;
+ import org.chromium.chrome.browser.AppMenuBridge;
+-import org.chromium.chrome.browser.profiles.Profile;
+ import org.chromium.content_public.browser.WebContents;
+ 
+ import org.chromium.components.browser_ui.site_settings.SiteSettingsCategory;
+@@ -116,7 +115,6 @@ import org.chromium.components.browser_ui.site_settings.WebsitePreferenceBridgeJ
+ import org.chromium.components.content_settings.ContentSettingsType;
+ import org.chromium.components.content_settings.ContentSettingValues;
+ 
+-import org.chromium.chrome.browser.AppMenuBridge;
+ import org.chromium.base.Log;
+ 
+ import android.graphics.Color;
+@@ -489,58 +487,15 @@ public class AppMenuPropertiesDelegateImpl implements AppMenuPropertiesDelegate
+ 
+     private void prepareExtensionMenu(
+             Menu menu, @Nullable Tab currentTab, AppMenuHandler handler, boolean isIncognito) {
+-
+-        WebContents webContents = null;
+-        webContents = currentTab != null ? currentTab.getWebContents() : null;
+-
+-        boolean canShowExtensions = false;
+-        if (currentTab != null)
+-          canShowExtensions = true;
+-
+-        int numItems = menu.size();
+-
+-        if (canShowExtensions) {
+-          int itemIndex = numItems++;
+-          String extensions = "";
+-          if (isIncognito)
+-            extensions = AppMenuBridge.getRunningExtensions(Profile.fromWebContents(webContents).getPrimaryOTRProfile(true), webContents);
+-          else
+-            extensions = AppMenuBridge.getRunningExtensions(Profile.fromWebContents(webContents).getOriginalProfile(), webContents);
+-          if (!extensions.isEmpty()) {
+-            String[] extensionsArray = extensions.split("\u001f");
+-            for (String extension: extensionsArray) {
+-              String[] extensionsInfo = extension.split("\u001e");
+-              MenuItem newlyAdded = menu.add(999999, 999999 + itemIndex, Menu.NONE, extensionsInfo[0]);
+-              if (extensionsInfo.length > 1) {
+-                newlyAdded.setTitleCondensed("Extension: " + extensionsInfo[1]);
+-              }
+-
+-              if (extensionsInfo.length > 2 && !extensionsInfo[2].equals("")) {
+-                newlyAdded.setTitleCondensed("Extension: " + extensionsInfo[1] + ": " + extensionsInfo[2]);
+-              }
+-
+-              if (extensionsInfo.length > 3) {
+-                String cleanImage = extensionsInfo[3].replace("data:image/png;base64,", "").replace("data:image/jpeg;base64,","").replace("data:image/gif;base64,", "");
+-                byte[] decodedString = Base64.decode(cleanImage, Base64.DEFAULT);
+-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+-
+-                newlyAdded.setIcon(new BitmapDrawable(mContext.getResources(), decodedByte));
+-
+-                boolean isIncognitoEnabled = false;
+-                if (extensionsInfo[4].equals("active"))
+-                  isIncognitoEnabled = true;
+-                if (!isIncognitoEnabled && isIncognito) {
+-                  SpannableString spanString = new SpannableString(newlyAdded.getTitle().toString());
+-                  spanString.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanString.length(), 0);
+-                  newlyAdded.setTitle(spanString);
+-                  newlyAdded.setTitleCondensed("Extension (inactive): " + extensionsInfo[1] + ": " + extensionsInfo[2]);
+-                  newlyAdded.setIcon(ContentSettingsResources.getBlockedSquareIcon(mContext.getResources(), newlyAdded.getIcon()));
+-                }
+-              }
+-              itemIndex++;
+-           }
+-         }
+-       }
++        if (currentTab == null) return;
++        String entries = AppMenuBridge.getRunningExtensions(currentTab.getWebContents());
++        int itemId = 999999;
++        for (String entry : entries.split("\u001f")) {
++            String[] fields = entry.split("\u001e", -1);
++            if (fields.length != 2 || !fields[1].matches("[a-p]{32}")) continue;
++            MenuItem item = menu.add(999999, itemId++, Menu.NONE, fields[0]);
++            item.setTitleCondensed("Extension: " + fields[1]);
++        }
+     }
+ 
+     /**
+@@ -695,15 +650,11 @@ public class AppMenuPropertiesDelegateImpl implements AppMenuPropertiesDelegate
+                }
+         }
+ 
++        // The inherited Kiwi proxy/embedded DevTools bridge is not part of this source.
+         MenuItem disableProxyMenu = menu.findItem(R.id.disable_proxy_id);
+-        boolean isProxyEnabled = AppMenuBridge.isProxyEnabled(Profile.getLastUsedRegularProfile());
+-        if (isProxyEnabled) {
+-            if (disableProxyMenu != null)
+-                disableProxyMenu.setVisible(true);
+-        } else {
+-            if (disableProxyMenu != null)
+-                disableProxyMenu.setVisible(false);
+-        }
++        if (disableProxyMenu != null) disableProxyMenu.setVisible(false);
++        MenuItem devToolsMenu = menu.findItem(R.id.developer_tools_id);
++        if (devToolsMenu != null) devToolsMenu.setVisible(false);
+ 
+         // Only display reader mode settings menu option if the current page is in reader mode.
+         if (menu.findItem(R.id.reader_mode_prefs_id) != null)
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java b/chrome/android/java/src/org/chromium/chrome/browser/extensions/DevModeExtensionLoader.java
 new file mode 100644
 index 00000000..da9ac8ec
@@ -458,22 +719,89 @@ index d4f6fce5..0f6c3375 100644
  
          cachePreferences();
  
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/settings/NightModeSettings.java b/chrome/android/java/src/org/chromium/chrome/browser/settings/NightModeSettings.java
+new file mode 100644
+index 00000000..8c7319fd
+--- /dev/null
++++ b/chrome/android/java/src/org/chromium/chrome/browser/settings/NightModeSettings.java
+@@ -0,0 +1,17 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++package org.chromium.chrome.browser.settings;
++import android.os.Bundle;
++import androidx.preference.PreferenceFragmentCompat;
++import org.chromium.chrome.R;
++import org.chromium.components.browser_ui.settings.SettingsUtils;
++public class NightModeSettings extends PreferenceFragmentCompat {
++    @Override
++    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
++        getActivity().setTitle(R.string.preferences_nightmode);
++        SettingsUtils.addPreferencesFromResource(this, R.xml.nightmode_preferences);
++        RadioButtonGroupNightModePreference choices =
++                (RadioButtonGroupNightModePreference) findPreference("nightmode_radio_group");
++        choices.setActivity(getActivity());
++    }
++}
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/settings/ToolbarSettings.java b/chrome/android/java/src/org/chromium/chrome/browser/settings/ToolbarSettings.java
+new file mode 100644
+index 00000000..df8cf0bd
+--- /dev/null
++++ b/chrome/android/java/src/org/chromium/chrome/browser/settings/ToolbarSettings.java
+@@ -0,0 +1,15 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++package org.chromium.chrome.browser.settings;
++import android.app.Activity;
++import android.widget.Toast;
++import org.chromium.chrome.R;
++/** Shared notice for preferences that take effect when the browser restarts. */
++public final class ToolbarSettings {
++    private ToolbarSettings() {}
++    public static void AskForRelaunch(Activity activity) {
++        if (activity != null && !activity.isFinishing()) {
++            Toast.makeText(activity, R.string.sharingan_restart_notice, Toast.LENGTH_LONG).show();
++        }
++    }
++}
 diff --git a/chrome/browser/extensions/BUILD.gn b/chrome/browser/extensions/BUILD.gn
-index 5fd74f69..902e2b45 100644
+index 5fd74f69..68b4ca26 100644
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -958,6 +958,11 @@ static_library("extensions") {
+@@ -614,8 +614,6 @@ static_library("extensions") {
+     "forced_extensions/install_stage_tracker_factory.h",
+     "global_shortcut_listener.cc",
+     "global_shortcut_listener.h",
+-    "global_shortcut_listener_android.cc",
+-    "global_shortcut_listener_android.h",
+     "install_gate.h",
+     "install_observer.cc",
+     "install_observer.h",
+@@ -958,6 +956,16 @@ static_library("extensions") {
      "//url",
    ]
  
 +  if (is_android) {
-+    sources += [ "dev_mode_extension_loader.cc" ]
++    sources += [
++      "dev_mode_extension_loader.cc",
++      "global_shortcut_listener_android.cc",
++      "global_shortcut_listener_android.h",
++      "sharingan_app_menu_bridge.cc",
++    ]
 +    deps += [ "//chrome/android:chrome_jni_headers" ]
 +  }
 +
    if (is_linux || is_mac || is_win) {
      sources += [
        "api/system_indicator/system_indicator_api.cc",
+@@ -1265,7 +1273,7 @@ static_library("extensions") {
+     ]
+   }
+ 
+-  if (is_linux || true) {
++  if (is_linux || is_android) {
+     sources +=
+         [ "api/image_writer_private/removable_storage_provider_linux.cc" ]
+   }
 diff --git a/chrome/browser/extensions/dev_mode_extension_loader.cc b/chrome/browser/extensions/dev_mode_extension_loader.cc
 new file mode 100644
 index 00000000..67e76626
@@ -632,6 +960,224 @@ index 00000000..67e76626
 +      base::BindOnce(&DirectoryReady, service->AsWeakPtr(), std::move(callback), zip));
 +}
 +}  // namespace extensions
+diff --git a/chrome/browser/extensions/global_shortcut_listener.cc b/chrome/browser/extensions/global_shortcut_listener.cc
+index a9149da1..bc009606 100644
+--- a/chrome/browser/extensions/global_shortcut_listener.cc
++++ b/chrome/browser/extensions/global_shortcut_listener.cc
+@@ -26,7 +26,7 @@ GlobalShortcutListener::~GlobalShortcutListener() {
+ bool GlobalShortcutListener::RegisterAccelerator(
+     const ui::Accelerator& accelerator, Observer* observer) {
+   CHECK(BrowserThread::CurrentlyOn(BrowserThread::UI));
+-  if (true || IsShortcutHandlingSuspended())
++  if (IsShortcutHandlingSuspended())
+     return false;
+ 
+   AcceleratorMap::const_iterator it = accelerator_map_.find(accelerator);
+@@ -83,7 +83,6 @@ void GlobalShortcutListener::UnregisterAccelerators(Observer* observer) {
+ }
+ 
+ void GlobalShortcutListener::SetShortcutHandlingSuspended(bool suspended) {
+-  if (true) return;
+   CHECK(BrowserThread::CurrentlyOn(BrowserThread::UI));
+   if (shortcut_handling_suspended_ == suspended)
+     return;
+diff --git a/chrome/browser/extensions/global_shortcut_listener_android.cc b/chrome/browser/extensions/global_shortcut_listener_android.cc
+new file mode 100644
+index 00000000..63b3c47b
+--- /dev/null
++++ b/chrome/browser/extensions/global_shortcut_listener_android.cc
+@@ -0,0 +1,10 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++#include "chrome/browser/extensions/global_shortcut_listener_android.h"
++#include "base/no_destructor.h"
++namespace extensions {
++GlobalShortcutListener* GlobalShortcutListener::GetInstance() {
++  static base::NoDestructor<GlobalShortcutListenerAndroid> listener;
++  return listener.get();
++}
++}  // namespace extensions
+diff --git a/chrome/browser/extensions/global_shortcut_listener_android.h b/chrome/browser/extensions/global_shortcut_listener_android.h
+new file mode 100644
+index 00000000..71149992
+--- /dev/null
++++ b/chrome/browser/extensions/global_shortcut_listener_android.h
+@@ -0,0 +1,19 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++#ifndef CHROME_BROWSER_EXTENSIONS_GLOBAL_SHORTCUT_LISTENER_ANDROID_H_
++#define CHROME_BROWSER_EXTENSIONS_GLOBAL_SHORTCUT_LISTENER_ANDROID_H_
++#include "chrome/browser/extensions/global_shortcut_listener.h"
++namespace extensions {
++// Android applications cannot register system-wide extension shortcuts.
++class GlobalShortcutListenerAndroid final : public GlobalShortcutListener {
++ public:
++  GlobalShortcutListenerAndroid() = default;
++  ~GlobalShortcutListenerAndroid() override = default;
++ private:
++  void StartListening() override {}
++  void StopListening() override {}
++  bool RegisterAcceleratorImpl(const ui::Accelerator&) override { return false; }
++  void UnregisterAcceleratorImpl(const ui::Accelerator&) override {}
++};
++}  // namespace extensions
++#endif
+diff --git a/chrome/browser/extensions/sharingan_app_menu_bridge.cc b/chrome/browser/extensions/sharingan_app_menu_bridge.cc
+new file mode 100644
+index 00000000..c7ff60c8
+--- /dev/null
++++ b/chrome/browser/extensions/sharingan_app_menu_bridge.cc
+@@ -0,0 +1,78 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++#include <string>
++#include "base/android/jni_string.h"
++#include "chrome/browser/extensions/extension_action_runner.h"
++#include "chrome/browser/extensions/extension_tab_util.h"
++#include "content/public/browser/browser_thread.h"
++#include "content/public/browser/browser_context.h"
++#include "content/public/browser/web_contents.h"
++#include "extensions/browser/extension_action.h"
++#include "extensions/browser/extension_action_manager.h"
++#include "extensions/browser/extension_registry.h"
++#include "extensions/browser/extension_util.h"
++#include "extensions/common/extension.h"
++#include "chrome/android/chrome_jni_headers/AppMenuBridge_jni.h"
++
++namespace extensions {
++namespace {
++bool Allowed(content::WebContents* contents, const Extension& extension) {
++  auto* context = contents->GetBrowserContext();
++  return !context->IsOffTheRecord() || util::IsIncognitoEnabled(extension.id(), context);
++}
++std::string MenuName(const std::string& name) {
++  std::string result = name;
++  for (char& c : result) {
++    if (static_cast<unsigned char>(c) < 32) c = ' ';
++  }
++  return result;
++}
++}  // namespace
++
++static base::android::ScopedJavaLocalRef<jstring>
++JNI_AppMenuBridge_GetRunningExtensions(
++    JNIEnv* env, const base::android::JavaParamRef<jobject>& java_contents) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  auto* contents = content::WebContents::FromJavaWebContents(java_contents);
++  std::string entries;
++  if (contents) {
++    auto* context = contents->GetBrowserContext();
++    auto* registry = ExtensionRegistry::Get(context);
++    auto* manager = ExtensionActionManager::Get(context);
++    if (registry && manager) {
++      const int tab_id = ExtensionTabUtil::GetTabId(contents);
++      for (const auto& extension : registry->enabled_extensions()) {
++        if (!Allowed(contents, *extension)) continue;
++        auto* action = manager->GetExtensionAction(*extension);
++        if (!action || !action->GetIsVisible(tab_id)) continue;
++        if (!entries.empty()) entries += '\x1f';
++        entries += MenuName(extension->name()) + '\x1e' + extension->id();
++      }
++    }
++  }
++  return base::android::ConvertUTF8ToJavaString(env, entries);
++}
++
++static base::android::ScopedJavaLocalRef<jstring> JNI_AppMenuBridge_RunAction(
++    JNIEnv* env, const base::android::JavaParamRef<jobject>& java_contents,
++    const base::android::JavaParamRef<jstring>& java_id) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  std::string popup;
++  auto* contents = content::WebContents::FromJavaWebContents(java_contents);
++  if (contents) {
++    auto* context = contents->GetBrowserContext();
++    auto* registry = ExtensionRegistry::Get(context);
++    const std::string id = base::android::ConvertJavaStringToUTF8(env, java_id);
++    const auto* extension = registry ? registry->enabled_extensions().GetByID(id) : nullptr;
++    auto* runner = ExtensionActionRunner::GetForWebContents(contents);
++    auto* manager = ExtensionActionManager::Get(context);
++    if (extension && runner && manager && Allowed(contents, *extension)) {
++      auto* action = manager->GetExtensionAction(*extension);
++      if (action && runner->RunAction(extension, true) == ExtensionAction::ACTION_SHOW_POPUP) {
++        popup = action->GetPopupUrl(ExtensionTabUtil::GetTabId(contents)).spec();
++      }
++    }
++  }
++  return base::android::ConvertUTF8ToJavaString(env, popup);
++}
++}  // namespace extensions
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java
+new file mode 100644
+index 00000000..3b2b8f8c
+--- /dev/null
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java
+@@ -0,0 +1,10 @@
++// Copyright 2026 Sharingan Browser contributors.
++// Use of this source code is governed by a BSD-style license.
++package org.chromium.chrome.browser.toolbar.top;
++import android.content.Context;
++import android.util.AttributeSet;
++import org.chromium.ui.widget.ChromeImageButton;
++/** Toolbar overscroll button; actions and tint are handled by ToolbarPhone. */
++public class HandButton extends ChromeImageButton {
++    public HandButton(Context context, AttributeSet attrs) { super(context, attrs); }
++}
+diff --git a/chrome/chrome_paks.gni b/chrome/chrome_paks.gni
+index c2e1e39c..74b2fad1 100644
+--- a/chrome/chrome_paks.gni
++++ b/chrome/chrome_paks.gni
+@@ -74,6 +74,10 @@ template("chrome_repack_percent") {
+         "//ui/chromeos/resources",
+       ]
+     }
++    if (is_android && enable_extensions) {
++      sources += [ "$root_gen_dir/chrome/component_extension_resources.pak" ]
++      deps += [ "//chrome/browser/resources:component_extension_resources" ]
++    }
+     if (enable_extensions) {
+       sources += [ "$root_gen_dir/extensions/extensions_browser_resources_${percent}_percent.pak" ]
+       deps += [ "//extensions:extensions_browser_resources" ]
+@@ -136,7 +140,7 @@ template("chrome_extra_paks") {
+       sources += invoker.additional_paks
+     }
+ 
+-    if (true) {
++    if (!is_android) {
+       # New paks should be added here by default.
+       sources += [
+         "$root_gen_dir/chrome/access_code_cast_resources.pak",
+@@ -351,7 +355,7 @@ template("chrome_extra_paks") {
+       sources += [ "$root_gen_dir/chrome/webui_js_error_resources.pak" ]
+       deps += [ "//chrome/browser/resources/webui_js_error:resources" ]
+     }
+-    if (!is_android && !is_chromeos_ash || true) {
++    if (!is_android && !is_chromeos_ash) {
+       sources += [
+         "$root_gen_dir/chrome/profile_picker_resources.pak",
+         "$root_gen_dir/chrome/welcome_resources.pak",
+@@ -377,16 +381,20 @@ template("chrome_extra_paks") {
+       deps += [ "//chrome/browser/resources/connectors_internals:resources" ]
+     }
+ 
+-    if (is_win || is_mac || is_linux || is_chromeos_lacros || is_fuchsia || true) {
++    if (is_win || is_mac || is_linux || is_chromeos_lacros || is_fuchsia) {
+       sources += [ "$root_gen_dir/chrome/browser_switch_resources.pak" ]
+       deps += [ "//chrome/browser/resources/browser_switch:resources" ]
+     }
+ 
+-    if (is_win || is_mac || is_linux || is_chromeos || is_fuchsia || is_android) {
++    if (is_win || is_mac || is_linux || is_chromeos || is_fuchsia) {
+       sources += [ "$root_gen_dir/chrome/discards_resources.pak" ]
+       deps += [ "//chrome/browser/resources/discards:resources" ]
+     }
+ 
++    if (is_android && enable_extensions) {
++      sources += [ "$root_gen_dir/chrome/component_extension_resources.pak" ]
++      deps += [ "//chrome/browser/resources:component_extension_resources" ]
++    }
+     if (enable_extensions) {
+       sources += [
+         "$root_gen_dir/chrome/extensions_resources.pak",
 diff --git a/chrome/common/features.gni b/chrome/common/features.gni
 new file mode 100644
 index 00000000..9d1e7ef9
@@ -753,6 +1299,25 @@ index 00000000..9d1e7ef9
 +  "enable_feed_v2=$enable_feed_v2",
 +  "use_nss_certs=$use_nss_certs",
 +]
+diff --git a/components/browser_ui/widget/android/BUILD.gn b/components/browser_ui/widget/android/BUILD.gn
+index d8d1074b..ac1554ed 100644
+--- a/components/browser_ui/widget/android/BUILD.gn
++++ b/components/browser_ui/widget/android/BUILD.gn
+@@ -90,14 +90,6 @@ android_library("java") {
+     "java/src/org/chromium/components/browser_ui/widget/promo/PromoCardProperties.java",
+     "java/src/org/chromium/components/browser_ui/widget/promo/PromoCardView.java",
+     "java/src/org/chromium/components/browser_ui/widget/promo/PromoCardViewBinder.java",
+-    "java/src/org/chromium/components/browser_ui/widget/promo/AdCardCoordinator.java",
+-    "java/src/org/chromium/components/browser_ui/widget/promo/AdCardProperties.java",
+-    "java/src/org/chromium/components/browser_ui/widget/promo/AdCardView.java",
+-    "java/src/org/chromium/components/browser_ui/widget/promo/AdCardViewBinder.java",
+-    "java/src/org/chromium/components/browser_ui/widget/promo/FeedCardCoordinator.java",
+-    "java/src/org/chromium/components/browser_ui/widget/promo/FeedCardProperties.java",
+-    "java/src/org/chromium/components/browser_ui/widget/promo/FeedCardView.java",
+-    "java/src/org/chromium/components/browser_ui/widget/promo/FeedCardViewBinder.java",
+     "java/src/org/chromium/components/browser_ui/widget/scrim/ScrimCoordinator.java",
+     "java/src/org/chromium/components/browser_ui/widget/scrim/ScrimMediator.java",
+     "java/src/org/chromium/components/browser_ui/widget/scrim/ScrimProperties.java",
 diff --git a/components/guest_view/browser/BUILD.gn b/components/guest_view/browser/BUILD.gn
 new file mode 100644
 index 00000000..37ae6d5f
@@ -903,6 +1468,28 @@ index 00000000..ec5c09de
 +    "//testing/gtest",
 +  ]
 +}
+diff --git a/content/browser/BUILD.gn b/content/browser/BUILD.gn
+index 34902e9b..a3a39b18 100644
+--- a/content/browser/BUILD.gn
++++ b/content/browser/BUILD.gn
+@@ -2530,7 +2530,7 @@ source_set("browser") {
+     ]
+   }
+ 
+-  if (!is_android || true) {
++  if (!is_android) {
+     deps += [ "//content/browser/devtools:devtools_resources_extern" ]
+   }
+ 
+@@ -2977,7 +2977,7 @@ source_set("browser") {
+     }
+     libs += [ "jnigraphics" ]
+   }
+-  if (true) {
++  if (!is_android) {
+     # Not Android.
+     sources += [
+       # The WebAuthn devtools protocol API is not supported in Android yet.
 diff --git a/extensions/browser/zipfile_installer.cc b/extensions/browser/zipfile_installer.cc
 index 8bf2ef3f..2260fba8 100644
 --- a/extensions/browser/zipfile_installer.cc
@@ -1022,12 +1609,38 @@ index 00000000..5ef56cbe
 +    "//services/device/public/mojom",
 +  ]
 +}
+diff --git a/ui/webui/BUILD.gn b/ui/webui/BUILD.gn
+index c5e0370f..873d5ae5 100644
+--- a/ui/webui/BUILD.gn
++++ b/ui/webui/BUILD.gn
+@@ -32,7 +32,7 @@ static_library("webui") {
+     "//ui/webui/resources/js/metrics_reporter:mojo_bindings",
+   ]
+ 
+-  if (!is_android && !is_ios|| true) {
++  if (!is_android && !is_ios) {
+     public_deps += [
+       "//ui/webui/resources/cr_components/color_change_listener:mojom",
+       "//ui/webui/resources/cr_components/customize_themes:mojom",
 diff --git a/ui/webui/resources/BUILD.gn b/ui/webui/resources/BUILD.gn
-index 943c9d8f..d832d58d 100644
+index 943c9d8f..d1de5d9b 100644
 --- a/ui/webui/resources/BUILD.gn
 +++ b/ui/webui/resources/BUILD.gn
-@@ -52,25 +52,33 @@ generate_grd("build_grd") {
-   if (include_polymer || true) {
+@@ -10,7 +10,7 @@ import("//tools/typescript/ts_library.gni")
+ import("//ui/webui/resources/include_polymer.gni")
+ import("//ui/webui/resources/tools/generate_grd.gni")
+ 
+-include_polymer = true
++
+ 
+ generate_grd("build_grd") {
+   grd_prefix = "webui_generated"
+@@ -49,28 +49,36 @@ generate_grd("build_grd") {
+     ]
+   }
+ 
+-  if (include_polymer || true) {
++  if (include_polymer) {
      public_deps += [
        "cr_components:build_grdp",
 -      "cr_components/app_management:build_grdp",
@@ -1077,6 +1690,15 @@ index 943c9d8f..d832d58d 100644
      public_deps += [
        "cr_components/color_change_listener:build_grdp",
        "//third_party/lottie:build_grdp",
+@@ -149,7 +157,7 @@ group("closure_compile") {
+     "js:closure_compile_modules",
+   ]
+ 
+-  if (include_polymer || true) {
++  if (include_polymer) {
+     deps += [ "cr_elements:closure_compile" ]
+ 
+     if (is_chromeos_ash) {
 diff --git a/ui/webui/resources/cr_components/BUILD.gn b/ui/webui/resources/cr_components/BUILD.gn
 new file mode 100644
 index 00000000..b2ab05fb
@@ -1473,3 +2095,120 @@ index 00000000..b2ab05fb
 +    "managed_footnote/managed_footnote.html",
 +  ]
 +}
+diff --git a/ui/webui/resources/cr_elements/BUILD.gn b/ui/webui/resources/cr_elements/BUILD.gn
+index d7ee29b3..e260a958 100644
+--- a/ui/webui/resources/cr_elements/BUILD.gn
++++ b/ui/webui/resources/cr_elements/BUILD.gn
+@@ -13,7 +13,7 @@ import("//ui/webui/resources/tools/generate_grd.gni")
+ import("//ui/webui/resources/tools/js_modulizer.gni")
+ 
+ preprocess_folder = "$root_gen_dir/ui/webui/resources/preprocessed/cr_elements"
+-if (include_polymer || true) {
++if (include_polymer) {
+   preprocess_gen_manifest = "preprocessed_gen_manifest.json"
+ }
+ 
+@@ -22,7 +22,7 @@ if (is_chromeos_ash) {
+   preprocess_src_manifest = "preprocessed_src_manifest.json"
+ }
+ 
+-if (include_polymer || true) {
++if (include_polymer) {
+   generate_grd("build_grdp") {
+     grd_prefix = "cr_elements"
+     out_grd = "$target_gen_dir/${grd_prefix}_resources.grdp"
+@@ -46,7 +46,7 @@ group("preprocess") {
+     ":preprocess_src_ts",
+   ]
+ 
+-  if (include_polymer || true) {
++  if (include_polymer) {
+     public_deps += [ ":preprocess_generated" ]
+   }
+ 
+@@ -88,7 +88,7 @@ preprocess_if_expr("preprocess_src_ts") {
+     "cr_tree/cr_tree_item.ts",
+     "cr_tree/cr_tree.ts",
+   ]
+-  if (include_polymer || true) {
++  if (include_polymer) {
+     in_files += [
+       "cr_a11y_announcer/cr_a11y_announcer.ts",
+       "cr_action_menu/cr_action_menu.ts",
+@@ -183,7 +183,7 @@ if (is_chromeos_ash) {
+   }
+ }
+ 
+-if (include_polymer || true) {
++if (include_polymer) {
+   preprocess_if_expr("preprocess_generated") {
+     deps = [ ":custom_elements" ]
+     in_folder = target_gen_dir
+@@ -246,7 +246,7 @@ preprocess_if_expr("preprocess_generated_ts") {
+     "cr_tree/cr_tree.html.ts",
+     "cr_tree/cr_tree_item.html.ts",
+   ]
+-  if (include_polymer || true) {
++  if (include_polymer) {
+     deps += [
+       ":css_wrapper_files",
+       ":html_wrapper_files",
+@@ -283,7 +283,7 @@ preprocess_if_expr("preprocess_generated_ts") {
+   }
+ }
+ 
+-if (include_polymer || true) {
++if (include_polymer) {
+   group("closure_compile") {
+     deps = [
+       ":cr_elements_resources",
+@@ -342,7 +342,7 @@ if (include_polymer || true) {
+ }
+ 
+ # Targets for auto-generating Polymer 3 JS Modules.
+-if (include_polymer || true) {
++if (include_polymer) {
+   polymer_modulizer("action_link_css") {
+     js_file = "action_link_css.m.js"
+     html_file = "action_link_css.html"
+@@ -399,7 +399,7 @@ if (include_polymer || true) {
+   }
+ }
+ 
+-if (include_polymer || true) {
++if (include_polymer) {
+   group("custom_elements") {
+     public_deps = [
+       ":action_link_css_module",
+@@ -432,7 +432,7 @@ if (include_polymer || true) {
+   }
+ }
+ 
+-if (include_polymer || true) {
++if (include_polymer) {
+   js_type_check("cr_elements_module_resources") {
+     is_polymer3 = true
+     deps = [
+@@ -481,7 +481,7 @@ html_to_wrapper("html_wrapper_files_native") {
+   template = "native"
+ }
+ 
+-if (include_polymer || true) {
++if (include_polymer) {
+   html_to_wrapper("html_wrapper_files") {
+     in_files = [
+       "cr_a11y_announcer/cr_a11y_announcer.html",
+diff --git a/ui/webui/resources/include_polymer.gni b/ui/webui/resources/include_polymer.gni
+index 9367c66a..d62567d0 100644
+--- a/ui/webui/resources/include_polymer.gni
++++ b/ui/webui/resources/include_polymer.gni
+@@ -1,5 +1,4 @@
+-# Copyright 2022 The Chromium Authors. All rights reserved.
+-# Use of this source code is governed by a BSD-style license that can be
+-# found in the LICENSE file.
+-
+-include_polymer = !is_android && !is_ios
++# Copyright 2026 Sharingan Browser contributors.
++# Use of this source code is governed by a BSD-style license.
++import("//extensions/buildflags/buildflags.gni")
++include_polymer = !is_ios && (!is_android || enable_extensions)

@@ -128,4 +128,5 @@
     <string name="sharingan_zip_loading">Installing extension…</string>
     <string name="sharingan_zip_success">Extension installed. Manage it in Extensions.</string>
     <string name="sharingan_zip_failed">Extension installation failed</string>
+    <string name="sharingan_restart_notice">Changes saved. Close and reopen Sharingan Browser to apply them.</string>
 </resources>

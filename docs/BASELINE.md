@@ -51,3 +51,10 @@ Linux dependency sync, GN generation, Java/C++ compilation, actual APK signing/p
 - [Official Kiwi pinned source](https://github.com/kiwibrowser/src.next/tree/7be7edd1532148f22103cb4c5a1964d96297836f)
 - [Chromium pinned source](https://chromium.googlesource.com/chromium/src/+/64038a114b86434efcce9c36697be10e333f911a/)
 - [Kiwi build reference](https://github.com/kiwibrowser/src.next/blob/7be7edd1532148f22103cb4c5a1964d96297836f/.build/production_build_reference/args.gn)
+
+## Static blocker repair (2026-10-18, not built)
+
+The follow-up repair removes the audited desktop resource/Mojo edges from Android,
+resolves all 25 identified missing source entries, and adds a host-only regression
+gate. The current overlay has 8,303 files. See [AUDIT-REPAIR.md](AUDIT-REPAIR.md)
+for behavior changes and validation limits. `build_verified` remains false.

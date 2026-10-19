@@ -10,7 +10,7 @@ import("//tools/typescript/ts_library.gni")
 import("//ui/webui/resources/include_polymer.gni")
 import("//ui/webui/resources/tools/generate_grd.gni")
 
-include_polymer = true
+
 
 generate_grd("build_grd") {
   grd_prefix = "webui_generated"
@@ -49,7 +49,7 @@ generate_grd("build_grd") {
     ]
   }
 
-  if (include_polymer || true) {
+  if (include_polymer) {
     public_deps += [
       "cr_components:build_grdp",
       "cr_elements:build_grdp",
@@ -157,7 +157,7 @@ group("closure_compile") {
     "js:closure_compile_modules",
   ]
 
-  if (include_polymer || true) {
+  if (include_polymer) {
     deps += [ "cr_elements:closure_compile" ]
 
     if (is_chromeos_ash) {

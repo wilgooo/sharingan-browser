@@ -74,6 +74,10 @@ template("chrome_repack_percent") {
         "//ui/chromeos/resources",
       ]
     }
+    if (is_android && enable_extensions) {
+      sources += [ "$root_gen_dir/chrome/component_extension_resources.pak" ]
+      deps += [ "//chrome/browser/resources:component_extension_resources" ]
+    }
     if (enable_extensions) {
       sources += [ "$root_gen_dir/extensions/extensions_browser_resources_${percent}_percent.pak" ]
       deps += [ "//extensions:extensions_browser_resources" ]
@@ -136,7 +140,7 @@ template("chrome_extra_paks") {
       sources += invoker.additional_paks
     }
 
-    if (true) {
+    if (!is_android) {
       # New paks should be added here by default.
       sources += [
         "$root_gen_dir/chrome/access_code_cast_resources.pak",
@@ -351,7 +355,7 @@ template("chrome_extra_paks") {
       sources += [ "$root_gen_dir/chrome/webui_js_error_resources.pak" ]
       deps += [ "//chrome/browser/resources/webui_js_error:resources" ]
     }
-    if (!is_android && !is_chromeos_ash || true) {
+    if (!is_android && !is_chromeos_ash) {
       sources += [
         "$root_gen_dir/chrome/profile_picker_resources.pak",
         "$root_gen_dir/chrome/welcome_resources.pak",
@@ -377,16 +381,20 @@ template("chrome_extra_paks") {
       deps += [ "//chrome/browser/resources/connectors_internals:resources" ]
     }
 
-    if (is_win || is_mac || is_linux || is_chromeos_lacros || is_fuchsia || true) {
+    if (is_win || is_mac || is_linux || is_chromeos_lacros || is_fuchsia) {
       sources += [ "$root_gen_dir/chrome/browser_switch_resources.pak" ]
       deps += [ "//chrome/browser/resources/browser_switch:resources" ]
     }
 
-    if (is_win || is_mac || is_linux || is_chromeos || is_fuchsia || is_android) {
+    if (is_win || is_mac || is_linux || is_chromeos || is_fuchsia) {
       sources += [ "$root_gen_dir/chrome/discards_resources.pak" ]
       deps += [ "//chrome/browser/resources/discards:resources" ]
     }
 
+    if (is_android && enable_extensions) {
+      sources += [ "$root_gen_dir/chrome/component_extension_resources.pak" ]
+      deps += [ "//chrome/browser/resources:component_extension_resources" ]
+    }
     if (enable_extensions) {
       sources += [
         "$root_gen_dir/chrome/extensions_resources.pak",

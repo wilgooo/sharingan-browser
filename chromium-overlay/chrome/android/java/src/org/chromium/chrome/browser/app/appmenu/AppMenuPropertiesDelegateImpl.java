@@ -107,7 +107,6 @@ import android.util.Base64;
 import android.util.Base64InputStream;
 import androidx.appcompat.view.menu.MenuBuilder;
 import org.chromium.chrome.browser.AppMenuBridge;
-import org.chromium.chrome.browser.profiles.Profile;
 import org.chromium.content_public.browser.WebContents;
 
 import org.chromium.components.browser_ui.site_settings.SiteSettingsCategory;
@@ -116,7 +115,6 @@ import org.chromium.components.browser_ui.site_settings.WebsitePreferenceBridgeJ
 import org.chromium.components.content_settings.ContentSettingsType;
 import org.chromium.components.content_settings.ContentSettingValues;
 
-import org.chromium.chrome.browser.AppMenuBridge;
 import org.chromium.base.Log;
 
 import android.graphics.Color;
@@ -489,58 +487,15 @@ public class AppMenuPropertiesDelegateImpl implements AppMenuPropertiesDelegate 
 
     private void prepareExtensionMenu(
             Menu menu, @Nullable Tab currentTab, AppMenuHandler handler, boolean isIncognito) {
-
-        WebContents webContents = null;
-        webContents = currentTab != null ? currentTab.getWebContents() : null;
-
-        boolean canShowExtensions = false;
-        if (currentTab != null)
-          canShowExtensions = true;
-
-        int numItems = menu.size();
-
-        if (canShowExtensions) {
-          int itemIndex = numItems++;
-          String extensions = "";
-          if (isIncognito)
-            extensions = AppMenuBridge.getRunningExtensions(Profile.fromWebContents(webContents).getPrimaryOTRProfile(true), webContents);
-          else
-            extensions = AppMenuBridge.getRunningExtensions(Profile.fromWebContents(webContents).getOriginalProfile(), webContents);
-          if (!extensions.isEmpty()) {
-            String[] extensionsArray = extensions.split("\u001f");
-            for (String extension: extensionsArray) {
-              String[] extensionsInfo = extension.split("\u001e");
-              MenuItem newlyAdded = menu.add(999999, 999999 + itemIndex, Menu.NONE, extensionsInfo[0]);
-              if (extensionsInfo.length > 1) {
-                newlyAdded.setTitleCondensed("Extension: " + extensionsInfo[1]);
-              }
-
-              if (extensionsInfo.length > 2 && !extensionsInfo[2].equals("")) {
-                newlyAdded.setTitleCondensed("Extension: " + extensionsInfo[1] + ": " + extensionsInfo[2]);
-              }
-
-              if (extensionsInfo.length > 3) {
-                String cleanImage = extensionsInfo[3].replace("data:image/png;base64,", "").replace("data:image/jpeg;base64,","").replace("data:image/gif;base64,", "");
-                byte[] decodedString = Base64.decode(cleanImage, Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-                newlyAdded.setIcon(new BitmapDrawable(mContext.getResources(), decodedByte));
-
-                boolean isIncognitoEnabled = false;
-                if (extensionsInfo[4].equals("active"))
-                  isIncognitoEnabled = true;
-                if (!isIncognitoEnabled && isIncognito) {
-                  SpannableString spanString = new SpannableString(newlyAdded.getTitle().toString());
-                  spanString.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanString.length(), 0);
-                  newlyAdded.setTitle(spanString);
-                  newlyAdded.setTitleCondensed("Extension (inactive): " + extensionsInfo[1] + ": " + extensionsInfo[2]);
-                  newlyAdded.setIcon(ContentSettingsResources.getBlockedSquareIcon(mContext.getResources(), newlyAdded.getIcon()));
-                }
-              }
-              itemIndex++;
-           }
-         }
-       }
+        if (currentTab == null) return;
+        String entries = AppMenuBridge.getRunningExtensions(currentTab.getWebContents());
+        int itemId = 999999;
+        for (String entry : entries.split("\u001f")) {
+            String[] fields = entry.split("\u001e", -1);
+            if (fields.length != 2 || !fields[1].matches("[a-p]{32}")) continue;
+            MenuItem item = menu.add(999999, itemId++, Menu.NONE, fields[0]);
+            item.setTitleCondensed("Extension: " + fields[1]);
+        }
     }
 
     /**
@@ -695,15 +650,11 @@ public class AppMenuPropertiesDelegateImpl implements AppMenuPropertiesDelegate 
                }
         }
 
+        // The inherited Kiwi proxy/embedded DevTools bridge is not part of this source.
         MenuItem disableProxyMenu = menu.findItem(R.id.disable_proxy_id);
-        boolean isProxyEnabled = AppMenuBridge.isProxyEnabled(Profile.getLastUsedRegularProfile());
-        if (isProxyEnabled) {
-            if (disableProxyMenu != null)
-                disableProxyMenu.setVisible(true);
-        } else {
-            if (disableProxyMenu != null)
-                disableProxyMenu.setVisible(false);
-        }
+        if (disableProxyMenu != null) disableProxyMenu.setVisible(false);
+        MenuItem devToolsMenu = menu.findItem(R.id.developer_tools_id);
+        if (devToolsMenu != null) devToolsMenu.setVisible(false);
 
         // Only display reader mode settings menu option if the current page is in reader mode.
         if (menu.findItem(R.id.reader_mode_prefs_id) != null)

@@ -614,8 +614,6 @@ static_library("extensions") {
     "forced_extensions/install_stage_tracker_factory.h",
     "global_shortcut_listener.cc",
     "global_shortcut_listener.h",
-    "global_shortcut_listener_android.cc",
-    "global_shortcut_listener_android.h",
     "install_gate.h",
     "install_observer.cc",
     "install_observer.h",
@@ -959,7 +957,12 @@ static_library("extensions") {
   ]
 
   if (is_android) {
-    sources += [ "dev_mode_extension_loader.cc" ]
+    sources += [
+      "dev_mode_extension_loader.cc",
+      "global_shortcut_listener_android.cc",
+      "global_shortcut_listener_android.h",
+      "sharingan_app_menu_bridge.cc",
+    ]
     deps += [ "//chrome/android:chrome_jni_headers" ]
   }
 
@@ -1270,7 +1273,7 @@ static_library("extensions") {
     ]
   }
 
-  if (is_linux || true) {
+  if (is_linux || is_android) {
     sources +=
         [ "api/image_writer_private/removable_storage_provider_linux.cc" ]
   }

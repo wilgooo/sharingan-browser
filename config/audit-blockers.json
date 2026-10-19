@@ -1,0 +1,198 @@
+{
+  "missing_sources": [
+    {
+      "file": "components/browser_ui/widget/android/BUILD.gn",
+      "line": 93,
+      "missing": "components/browser_ui/widget/android/java/src/org/chromium/components/browser_ui/widget/promo/AdCardCoordinator.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "components/browser_ui/widget/android/BUILD.gn",
+      "line": 94,
+      "missing": "components/browser_ui/widget/android/java/src/org/chromium/components/browser_ui/widget/promo/AdCardProperties.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "components/browser_ui/widget/android/BUILD.gn",
+      "line": 95,
+      "missing": "components/browser_ui/widget/android/java/src/org/chromium/components/browser_ui/widget/promo/AdCardView.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "components/browser_ui/widget/android/BUILD.gn",
+      "line": 96,
+      "missing": "components/browser_ui/widget/android/java/src/org/chromium/components/browser_ui/widget/promo/AdCardViewBinder.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "components/browser_ui/widget/android/BUILD.gn",
+      "line": 97,
+      "missing": "components/browser_ui/widget/android/java/src/org/chromium/components/browser_ui/widget/promo/FeedCardCoordinator.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "components/browser_ui/widget/android/BUILD.gn",
+      "line": 98,
+      "missing": "components/browser_ui/widget/android/java/src/org/chromium/components/browser_ui/widget/promo/FeedCardProperties.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "components/browser_ui/widget/android/BUILD.gn",
+      "line": 99,
+      "missing": "components/browser_ui/widget/android/java/src/org/chromium/components/browser_ui/widget/promo/FeedCardView.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "components/browser_ui/widget/android/BUILD.gn",
+      "line": 100,
+      "missing": "components/browser_ui/widget/android/java/src/org/chromium/components/browser_ui/widget/promo/FeedCardViewBinder.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/browser/ui/android/toolbar/BUILD.gn",
+      "line": 93,
+      "missing": "chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java",
+      "resolution": "implemented"
+    },
+    {
+      "file": "chrome/browser/extensions/BUILD.gn",
+      "line": 617,
+      "missing": "chrome/browser/extensions/global_shortcut_listener_android.cc",
+      "resolution": "implemented"
+    },
+    {
+      "file": "chrome/browser/extensions/BUILD.gn",
+      "line": 618,
+      "missing": "chrome/browser/extensions/global_shortcut_listener_android.h",
+      "resolution": "implemented"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 6,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/AppMenuBridge.java",
+      "resolution": "implemented"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 8,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/FixDevToolsWindow.java",
+      "resolution": "removed_with_consumer"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 9,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/accessibility/settings/NightScalePreference.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 10,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/compositor/layouts/phone/StackLayout.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 11,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/compositor/layouts/phone/StackLayoutBase.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 12,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/NonOverlappingStack.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 13,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/OverlappingStack.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 14,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/Stack.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 15,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/StackAnimation.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 16,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/StackTab.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 17,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/compositor/layouts/phone/stack/StackViewAnimation.java",
+      "resolution": "removed_unused_legacy"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 22,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/settings/ToolbarSettings.java",
+      "resolution": "implemented"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 23,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/settings/NightModeSettings.java",
+      "resolution": "implemented"
+    },
+    {
+      "file": "chrome/android/chrome_java_sources.gni",
+      "line": 25,
+      "missing": "chrome/android/java/src/org/chromium/chrome/browser/init/ChromeBrowserReferrer.java",
+      "resolution": "removed_unused_legacy"
+    }
+  ],
+  "android_forbidden": {
+    "chrome/chrome_paks.gni": [
+      "//chrome/browser/resources/access_code_cast:resources",
+      "//chrome/browser/resources/downloads:resources",
+      "//chrome/browser/resources/feed:resources",
+      "//chrome/browser/resources/feedback_webui:resources",
+      "//chrome/browser/resources/identity_internals:resources",
+      "//chrome/browser/resources/management:resources",
+      "//chrome/browser/resources/new_tab_page_instant:resources",
+      "//chrome/browser/resources/profile_internals:resources",
+      "//chrome/browser/resources/settings:resources",
+      "//chrome/browser/resources/side_panel/customize_chrome:resources",
+      "//chrome/browser/resources/signin:resources",
+      "//chrome/browser/resources/support_tool:resources",
+      "//chrome/browser/resources/tab_search:resources",
+      "//chrome/browser/resources/webui_gallery:resources",
+      "//chrome/browser/resources/welcome:resources",
+      "//chrome/browser/resources/browser_switch:resources",
+      "//chrome/browser/resources/discards:resources",
+      "$root_gen_dir/chrome/access_code_cast_resources.pak",
+      "$root_gen_dir/chrome/downloads_resources.pak",
+      "$root_gen_dir/chrome/feed_resources.pak",
+      "$root_gen_dir/chrome/feedback_webui_resources.pak",
+      "$root_gen_dir/chrome/identity_internals_resources.pak",
+      "$root_gen_dir/chrome/management_resources.pak",
+      "$root_gen_dir/chrome/new_tab_page_instant_resources.pak",
+      "$root_gen_dir/chrome/profile_internals_resources.pak",
+      "$root_gen_dir/chrome/settings_resources.pak",
+      "$root_gen_dir/chrome/side_panel_customize_chrome_resources.pak",
+      "$root_gen_dir/chrome/signin_resources.pak",
+      "$root_gen_dir/chrome/support_tool_resources.pak",
+      "$root_gen_dir/chrome/tab_search_resources.pak",
+      "$root_gen_dir/chrome/webui_gallery_resources.pak",
+      "$root_gen_dir/chrome/welcome_resources.pak",
+      "$root_gen_dir/chrome/browser_switch_resources.pak",
+      "$root_gen_dir/chrome/discards_resources.pak"
+    ],
+    "ui/webui/BUILD.gn": [
+      "//ui/webui/resources/cr_components/color_change_listener:mojom",
+      "//ui/webui/resources/cr_components/customize_themes:mojom",
+      "//ui/webui/resources/cr_components/history_clusters:mojo_bindings",
+      "//ui/webui/resources/cr_components/most_visited:mojom"
+    ]
+  }
+}
