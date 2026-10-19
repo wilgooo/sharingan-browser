@@ -203,7 +203,6 @@ repack("shell_and_test_pak") {
   testonly = true
 
   sources = [
-    "$root_gen_dir/content/browser/devtools/devtools_resources.pak",
     "$root_gen_dir/content/content_resources.pak",
     "$root_gen_dir/content/dev_ui_content_resources.pak",
     "$root_gen_dir/content/shell/shell_resources.pak",
@@ -229,7 +228,6 @@ repack("shell_and_test_pak") {
     ":extensions_resources",
     "//content:content_resources",
     "//content:dev_ui_content_resources",
-    "//content/browser/devtools:devtools_resources",
     "//content/shell:resources",
     "//device/bluetooth/strings",
     "//extensions/shell:resources",
@@ -241,6 +239,11 @@ repack("shell_and_test_pak") {
     "//ui/resources",
     "//ui/strings",
   ]
+  if (!is_android) {
+    sources += [ "$root_gen_dir/content/browser/devtools/devtools_resources.pak" ]
+    deps += [ "//content/browser/devtools:devtools_resources" ]
+  }
+
 }
 
 test("extensions_browsertests") {

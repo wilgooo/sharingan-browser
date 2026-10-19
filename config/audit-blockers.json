@@ -229,6 +229,19 @@
       "views/extensions/settings_overridden_dialog_view.cc",
       "views/extensions/settings_overridden_dialog_view.h",
       "views/javascript_app_modal_event_blocker.h"
+    ],
+    "BUILD.gn": [
+      "//extensions:extensions_unittests"
+    ],
+    "extensions/BUILD.gn": [
+      "//content/browser/devtools:devtools_resources",
+      "$root_gen_dir/content/browser/devtools/devtools_resources.pak"
+    ],
+    "chrome/browser/ui/web_applications/BUILD.gn": [
+      "//chrome/test:test_support_ui"
+    ],
+    "chrome/browser/web_applications/BUILD.gn": [
+      "//chrome/test:test_support_ui"
     ]
   }
 }

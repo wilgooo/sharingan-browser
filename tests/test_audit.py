@@ -80,6 +80,20 @@ class AuditGateTest(unittest.TestCase):
         self.assertIn('//apps/ui/views', desktop)
         self.assertIn('views/extensions/extension_popup.cc', desktop)
 
+    def test_missing_target_repairs_preserve_android_resources(self):
+        resources = audit.reachable_strings((ROOT / 'chromium-overlay/chrome/browser/resources/BUILD.gn').read_text())
+        self.assertIn('component_extension_resources', resources)
+        self.assertNotIn('webid_resources', resources)
+        for path in ['chrome/browser/ui/web_applications/BUILD.gn', 'chrome/browser/web_applications/BUILD.gn']:
+            text = (ROOT / 'chromium-overlay' / path).read_text()
+            self.assertNotIn('//chrome/test:test_support_ui', audit.reachable_strings(text))
+            self.assertIn('//chrome/test:test_support_ui', audit.reachable_strings(text, dict(audit.ANDROID, is_android=False)))
+        root = audit.reachable_strings((ROOT / 'chromium-overlay/BUILD.gn').read_text())
+        self.assertNotIn('//extensions:extensions_unittests', root)
+        ext = audit.reachable_strings((ROOT / 'chromium-overlay/extensions/BUILD.gn').read_text())
+        self.assertNotIn('//content/browser/devtools:devtools_resources', ext)
+        self.assertNotIn('$root_gen_dir/content/browser/devtools/devtools_resources.pak', ext)
+
     def test_known_blockers_are_closed(self):
         self.assertEqual(audit.check(), [])
 
