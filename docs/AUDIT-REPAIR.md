@@ -56,3 +56,11 @@ GN reached desktop Read Anything Mojo through a tautological Android renderer
 guard. Separate Read Anything sources and bindings behind `!is_android`; keep
 SearchBox and crx_file because Kiwi's Android renderer client instantiates and
 queries SearchBox. A regression test exercises the former tautology.
+
+## Build 16 follow-up (19 October 2026)
+
+Media Router discovery was an unconditional extension dependency although its
+mDNS consumer was already guarded by enable_service_discovery. Pinned feature
+defaults disable service discovery on Android. Move the dependency into the
+same feature block, preserving desktop consumers and the upstream assertion.
+Regression coverage checks that both source and dependency follow the flag.

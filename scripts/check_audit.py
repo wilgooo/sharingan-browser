@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ANDROID = dict(is_android=True, is_ios=False, is_win=False, is_mac=False,
                is_linux=False, is_fuchsia=False, is_chromeos=False,
                is_chromeos_ash=False, is_chromeos_lacros=False,
-               enable_extensions=True, include_polymer=True)
+               enable_extensions=True, include_polymer=True, enable_service_discovery=False)
 
 
 def condition(expr, values):

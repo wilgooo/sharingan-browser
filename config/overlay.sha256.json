@@ -1824,7 +1824,7 @@
   "chrome/browser/exo_parts.cc": "2f72275e25f266a330f202048149d7b5d7d3b8422a5575a51c93a521ef8cc8df",
   "chrome/browser/exo_parts.h": "6d37d937783f109996d0e418e7100bf2e2035084ad1c14de6d14132931035878",
   "chrome/browser/expired_flags_list.h": "32754af956ac0c04e5a21d1ae40e2e60c157aa37f4935de87621de2e32f11610",
-  "chrome/browser/extensions/BUILD.gn": "48187c66dfcf230ef5602b7c29a39936d08e0e18c358985da805efdc9797e74e",
+  "chrome/browser/extensions/BUILD.gn": "d9e69dda9afc0e573b604d3a3ad4c7a04f36d06d374aba5d1b278b694d6de607",
   "chrome/browser/extensions/DEPS": "cb234e2741261db209e0a5ad6459f68a4d5865df29f90a46f9078983bb8a295a",
   "chrome/browser/extensions/DIR_METADATA": "8fe641b0455ea2df68f384ac8b922659427c309e15ad15e0c9ad7302677a28a3",
   "chrome/browser/extensions/OWNERS": "05fc967eeff9c723acf21e5fb34025fb84cdff2185932c7537f1f9820426e53d",

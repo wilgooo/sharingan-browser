@@ -55,6 +55,14 @@ class AuditGateTest(unittest.TestCase):
         self.assertIn('//chrome/common/accessibility:mojo_bindings',
                       audit.reachable_strings(regressed))
 
+    def test_service_discovery_dependency_tracks_its_consumer(self):
+        text = (ROOT / 'chromium-overlay/chrome/browser/extensions/BUILD.gn').read_text()
+        for enabled in (False, True):
+            reachable = audit.reachable_strings(
+                text, dict(audit.ANDROID, enable_service_discovery=enabled))
+            self.assertEqual('api/mdns/mdns_api.cc' in reachable, enabled)
+            self.assertEqual('//chrome/browser/media/router/discovery' in reachable, enabled)
+
     def test_known_blockers_are_closed(self):
         self.assertEqual(audit.check(), [])
 

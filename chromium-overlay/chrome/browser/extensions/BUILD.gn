@@ -788,7 +788,6 @@ static_library("extensions") {
     "//chrome/browser/image_decoder",
     "//chrome/browser/media/router",
     "//chrome/browser/media/router:media_router_feature",
-    "//chrome/browser/media/router/discovery",
     "//chrome/browser/profiles",
     "//chrome/browser/profiles:profile",
     "//chrome/browser/resource_coordinator:intervention_policy_database_proto",
@@ -1337,6 +1336,7 @@ static_library("extensions") {
   }
 
   if (enable_service_discovery) {
+    deps += [ "//chrome/browser/media/router/discovery" ]
     sources += [
       "api/mdns/mdns_api.cc",
       "api/mdns/mdns_api.h",
