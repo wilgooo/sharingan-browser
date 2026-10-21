@@ -157,3 +157,11 @@ preprocessing and declaration generation excluded Android. Move only that shared
 module to unconditional preprocessing and definition inputs; retain desktop guards
 for other modules. The modulize target already produces it. GN/TS checks remain
 enabled. Host regression checks both producer and declaration reachability.
+
+## Build 30: desktop inline-login GRIT input
+
+The prior TypeScript failure passed. GRIT failed trying to package generated
+inline_login_app.js on Android. Its components producer is only a resource dep
+on desktop platforms; inline_login_ui is gated by DICE/ChromeOS/Fuchsia. Restore
+not-is-Android on the guest-page/inline-login GRIT block instead of the inherited
+tautology. Shared extension resource blocks remain enabled. Add guard regression.

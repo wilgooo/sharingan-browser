@@ -25,6 +25,13 @@ class AuditGateTest(unittest.TestCase):
         producer = (root / 'js/cr/ui/BUILD.gn').read_text().split('preprocess_if_expr("preprocess_generated")', 1)[1].split('\ngenerate_grd(', 1)[0]
         self.assertIn('focus_without_ink.m.js', audit.reachable_strings(producer))
 
+    def test_inline_login_resources_match_desktop_producer(self):
+        import xml.etree.ElementTree as ET
+        tree = ET.parse(ROOT / 'chromium-overlay/chrome/browser/browser_resources.grd')
+        guards = [node for node in tree.iter('if') if any(child.get('name') == 'IDR_INLINE_LOGIN_APP_JS' for child in node)]
+        self.assertEqual(len(guards), 1)
+        self.assertEqual(guards[0].get('expr'), 'not is_android')
+
     def test_shortcut_consumers_use_generated_module(self):
         for name in ['BUILD.gn', 'cr_elements/find_shortcut_behavior.js',
                      'cr_elements/find_shortcut_mixin.ts']:

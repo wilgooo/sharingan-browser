@@ -2844,6 +2844,19 @@ index 00000000..8e49a898
 +
 +  allow_circular_includes_from = [ "//chrome/browser/extensions" ]
 +}
+diff --git a/chrome/browser/browser_resources.grd b/chrome/browser/browser_resources.grd
+index ceb9b3a3..bf15a15d 100644
+--- a/chrome/browser/browser_resources.grd
++++ b/chrome/browser/browser_resources.grd
+@@ -80,7 +80,7 @@
+         <include name="IDR_CONTACT_CENTER_INSIGHTS_MANIFEST" file="resources\chromeos\contact_center_insights\manifest.json" type="BINDATA" />
+       </if>
+ 
+-      <if expr="not is_android or is_android">
++      <if expr="not is_android">
+         <!-- Page not available for guest. -->
+         <include name="IDR_PAGE_NOT_AVAILABLE_FOR_GUEST_APP_HTML" file="resources\page_not_available_for_guest\app.html" type="BINDATA" />
+         <!-- In-session login flow -->
 diff --git a/chrome/browser/extensions/BUILD.gn b/chrome/browser/extensions/BUILD.gn
 index 5fd74f69..2286ecb9 100644
 --- a/chrome/browser/extensions/BUILD.gn
