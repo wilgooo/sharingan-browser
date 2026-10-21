@@ -192,3 +192,18 @@ Reverse inventory of the entire app res overlay found 35 undeclared files: 33
 translations and two preference XMLs. Declare all and add full app-resource
 reverse inventory regression, complementing missing-input and base-icon checks.
 Keep strict resource discovery. AAPT/runtime correctness remains unverified.
+
+## Build 33: preference API mismatch
+
+GN and chrome_app_java_resources passed (26992/68689). Compilation stopped at
+34069 on absent writeStringUnchecked. Audit of all overlay Java singleton and
+typed-variable SharedPreferencesManager calls found five incompatible calls:
+two String, two Int, one Boolean writes across WebContentsDarkModeController,
+ChromeApplicationImpl and ChromeActivity. Use ContextUtils app preferences Editor
+putString/putInt/putBoolean with apply, preserving keys, types and async storage
+used by existing readers. These are legacy Kiwi keys, outside Chromium's key
+registry; do not disable the registry checker or add unchecked manager methods.
+Pinned public-method inventory and regression scan cover all detected manager
+receivers. This is a method-name audit of this API, not a Java typechecker or
+a guarantee about unrelated APIs, overloads, inherited or inferred receivers.
+Full Java/C++ compilation remains the authoritative compatibility check.

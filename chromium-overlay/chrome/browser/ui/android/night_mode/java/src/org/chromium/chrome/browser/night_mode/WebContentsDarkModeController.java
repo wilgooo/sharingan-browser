@@ -175,7 +175,7 @@ public class WebContentsDarkModeController {
         else
           nightModeSettings += "isDarkUi=0";
 
-        SharedPreferencesManager.getInstance().writeStringUnchecked("night_mode_settings", nightModeSettings);
+        ContextUtils.getAppSharedPreferences().edit().putString("night_mode_settings", nightModeSettings).apply();
         Log.i("Kiwi", "SetContentCommandLineFlags - Setting new dark mode settings to [" + nightModeSettings + "]");
     }
 }

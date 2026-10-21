@@ -753,7 +753,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             // of our control, so we have to disable StrictMode to work. See
             // https://crbug.com/639352.
             try (StrictModeContext ignored = StrictModeContext.allowDiskWrites()) {
-                SharedPreferencesManager.getInstance().writeBooleanUnchecked("is_tablet", DeviceFormFactor.isTablet());
+                ContextUtils.getAppSharedPreferences().edit().putBoolean("is_tablet", DeviceFormFactor.isTablet()).apply();
                 TraceEvent.begin("setContentView(R.layout.main)");
                 if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
                     setContentView(R.layout.main_bottombar);
@@ -2787,7 +2787,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
                           R.color.media_viewer_bg)));
               int currentTheme = ContextUtils.getAppSharedPreferences().getInt("ui_theme_setting", 0);
               SharedPreferencesManager.getInstance().writeBooleanSync("darken_websites_enabled", true);
-              SharedPreferencesManager.getInstance().writeIntUnchecked("previous_ui_theme_setting", currentTheme);
+              ContextUtils.getAppSharedPreferences().edit().putInt("previous_ui_theme_setting", currentTheme).apply();
               SharedPreferencesManager.getInstance().writeInt("ui_theme_setting", ThemeType.DARK);
             } else {
               getWindow().setBackgroundDrawable(new ColorDrawable(

@@ -2242,8 +2242,24 @@ index 00000000..1a3f0f8a
 +        String runAction(WebContents contents, String extensionId);
 +    }
 +}
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ChromeApplicationImpl.java b/chrome/android/java/src/org/chromium/chrome/browser/ChromeApplicationImpl.java
+index 5a0f5224..a8bea7fc 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ChromeApplicationImpl.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ChromeApplicationImpl.java
+@@ -60,9 +60,9 @@ public class ChromeApplicationImpl extends SplitCompatApplication.Impl {
+ 
+         boolean migrateToDarkTheme = ContextUtils.getAppSharedPreferences().getString("active_theme", "").equals("Diamond Black");
+         if (migrateToDarkTheme) {
+-            SharedPreferencesManager.getInstance().writeIntUnchecked("previous_ui_theme_setting", ThemeType.DARK);
++            ContextUtils.getAppSharedPreferences().edit().putInt("previous_ui_theme_setting", ThemeType.DARK).apply();
+             SharedPreferencesManager.getInstance().writeInt("ui_theme_setting", ThemeType.DARK);
+-            SharedPreferencesManager.getInstance().writeStringUnchecked("active_theme", "");
++            ContextUtils.getAppSharedPreferences().edit().putString("active_theme", "").apply();
+         }
+ 
+         if (SplitCompatApplication.isBrowserProcess()) {
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
-index 0a53b0c5..f1dd0c13 100644
+index 0a53b0c5..74174ebb 100644
 --- a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
 @@ -100,7 +100,6 @@ import org.chromium.chrome.browser.dependency_injection.ChromeActivityComponent;
@@ -2285,6 +2301,15 @@ index 0a53b0c5..f1dd0c13 100644
  
  /**
   * A {@link AsyncInitializationActivity} that builds and manages a {@link CompositorViewHolder}
+@@ -759,7 +753,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+             // of our control, so we have to disable StrictMode to work. See
+             // https://crbug.com/639352.
+             try (StrictModeContext ignored = StrictModeContext.allowDiskWrites()) {
+-                SharedPreferencesManager.getInstance().writeBooleanUnchecked("is_tablet", DeviceFormFactor.isTablet());
++                ContextUtils.getAppSharedPreferences().edit().putBoolean("is_tablet", DeviceFormFactor.isTablet()).apply();
+                 TraceEvent.begin("setContentView(R.layout.main)");
+                 if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
+                     setContentView(R.layout.main_bottombar);
 @@ -871,7 +865,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
  
              @Override
@@ -2342,6 +2367,15 @@ index 0a53b0c5..f1dd0c13 100644
  
          if (id == R.id.auto_dark_web_contents_id || id == R.id.auto_dark_web_contents_check_id) {
              // Get values needed to check/enable auto dark for the current site.
+@@ -2809,7 +2787,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+                           R.color.media_viewer_bg)));
+               int currentTheme = ContextUtils.getAppSharedPreferences().getInt("ui_theme_setting", 0);
+               SharedPreferencesManager.getInstance().writeBooleanSync("darken_websites_enabled", true);
+-              SharedPreferencesManager.getInstance().writeIntUnchecked("previous_ui_theme_setting", currentTheme);
++              ContextUtils.getAppSharedPreferences().edit().putInt("previous_ui_theme_setting", currentTheme).apply();
+               SharedPreferencesManager.getInstance().writeInt("ui_theme_setting", ThemeType.DARK);
+             } else {
+               getWindow().setBackgroundDrawable(new ColorDrawable(
 @@ -2824,6 +2802,12 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
              currentTab.getWebContents().notifyRendererPreferenceUpdate();
          }
@@ -3456,6 +3490,19 @@ index 3f4929cc..62c6a349 100644
      if (use_aura) {
        sources += [
          "views/javascript_app_modal_event_blocker_aura.cc",
+diff --git a/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/WebContentsDarkModeController.java b/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/WebContentsDarkModeController.java
+index 8ea94009..fe2d1ecc 100644
+--- a/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/WebContentsDarkModeController.java
++++ b/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/WebContentsDarkModeController.java
+@@ -175,7 +175,7 @@ public class WebContentsDarkModeController {
+         else
+           nightModeSettings += "isDarkUi=0";
+ 
+-        SharedPreferencesManager.getInstance().writeStringUnchecked("night_mode_settings", nightModeSettings);
++        ContextUtils.getAppSharedPreferences().edit().putString("night_mode_settings", nightModeSettings).apply();
+         Log.i("Kiwi", "SetContentCommandLineFlags - Setting new dark mode settings to [" + nightModeSettings + "]");
+     }
+ }
 diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java
 new file mode 100644
 index 00000000..3b2b8f8c
