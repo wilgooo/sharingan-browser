@@ -1533,7 +1533,7 @@
   "chrome/browser/browser_process_platform_part_mac.mm": "f4e0d4e241d59a5ace93252bfc8854b47b018f3aebfb07e36ba416829e39379f",
   "chrome/browser/browser_process_platform_part_win.cc": "2e377ad4b4c0f9651ba92324ff7c3d0a5f82f240a1140cc2b2ca55d3aaba292a",
   "chrome/browser/browser_process_platform_part_win.h": "91bea78c2852f1dc8fdcb284ea35047cb5763358b62f553ff8d95e01d8eff8bc",
-  "chrome/browser/browser_resources.grd": "8caaac2293ba51a6f3bffc96da4a7c41ef1af260f5d6dd94406345f0f37573ec",
+  "chrome/browser/browser_resources.grd": "1ea48f516f1b3238d75174cd17aa84ca7c4ad5de9c0285ae234c07cad60555ce",
   "chrome/browser/buildflags.gni": "5df2eaa552c83e7ca00fc2a6445df430a222ef9871d328ad9900b86dacd7f493",
   "chrome/browser/cache_stats_recorder.cc": "df18cbecacd81e285462b86b0dff307e37aef59267de544cc5f16ffac739e87b",
   "chrome/browser/cache_stats_recorder.h": "76489f0c53b95c61ac1b0793f59f77c37942913aef6d68540ee7dbee636f88ee",

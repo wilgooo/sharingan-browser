@@ -32,6 +32,30 @@ class AuditGateTest(unittest.TestCase):
         self.assertEqual(len(guards), 1)
         self.assertEqual(guards[0].get('expr'), 'not is_android')
 
+    def test_desktop_webui_resource_blocks_remain_desktop(self):
+        import xml.etree.ElementTree as ET
+        tree = ET.parse(ROOT / 'chromium-overlay/chrome/browser/browser_resources.grd')
+        expected = {'IDR_MEDIA_ROUTER_INTERNALS_JS', 'IDR_DESKTOP_SHARING_HUB_PB',
+                    'IDR_ABOUT_SYS_HTML', 'IDR_INCOGNITO_TAB_HTML',
+                    'IDR_TAB_RANKER_EXAMPLE_PREPROCESSOR_CONFIG_PB'}
+        found = set()
+        cart = False
+        for node in tree.iter('if'):
+            for child in node:
+                if child.get('name') in expected:
+                    self.assertEqual(node.get('expr'), 'not is_android')
+                    found.add(child.get('name'))
+                if child.get('file') == 'cart/resources/cart_resources.grdp':
+                    self.assertEqual(node.get('expr'), 'not is_android')
+                    cart = True
+        self.assertEqual(found, expected)
+        self.assertTrue(cart)
+        for filename in ['chrome/browser/BUILD.gn', 'chrome/browser/ui/BUILD.gn']:
+            active = audit.reachable_strings((ROOT / 'chromium-overlay' / filename).read_text())
+            for consumer in ['webui/media_router/media_router_internals_ui.cc',
+                             'webui/ntp/ntp_resource_cache.cc', 'cart/cart_service.cc']:
+                self.assertNotIn(consumer, active)
+
     def test_shortcut_consumers_use_generated_module(self):
         for name in ['BUILD.gn', 'cr_elements/find_shortcut_behavior.js',
                      'cr_elements/find_shortcut_mixin.ts']:

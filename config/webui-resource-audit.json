@@ -1,0 +1,4026 @@
+[
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INCOGNITO_TAB_HTML",
+    "file": "resources\\ntp4\\incognito_tab.html",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_REVAMPED_INCOGNITO_TAB_HTML",
+    "file": "resources\\ntp4\\revamped_incognito_tab.html",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INCOGNITO_TAB_THEME_CSS",
+    "file": "resources\\ntp4\\incognito_tab_theme.css",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_GUEST_TAB_HTML",
+    "file": "resources\\ntp4\\guest_tab.html",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_NEW_TAB_4_THEME_CSS",
+    "file": "resources\\ntp4\\new_tab_theme.css",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_KEYBOARD_UTILS_JS",
+    "file": "resources\\chromeos\\keyboard\\keyboard_utils.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_CONFLICTS_HTML",
+    "file": "resources\\conflicts\\about_conflicts.html",
+    "guards": [
+      "is_win"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_CONFLICTS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\conflicts\\tsc\\about_conflicts.js",
+    "guards": [
+      "is_win"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_CONFLICTS_WARNING_SVG",
+    "file": "resources\\conflicts\\warning.svg",
+    "guards": [
+      "is_win"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_NACL_HTML",
+    "file": "resources\\about_nacl\\about_nacl.html",
+    "guards": [
+      "enable_nacl or is_macosx"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_NACL_CSS",
+    "file": "resources\\about_nacl\\about_nacl.css",
+    "guards": [
+      "enable_nacl or is_macosx"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_NACL_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\about_nacl\\tsc\\about_nacl.js",
+    "guards": [
+      "enable_nacl or is_macosx"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_SYS_HTML",
+    "file": "resources\\about_sys\\about_sys.html",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_SYS_CSS",
+    "file": "resources\\about_sys\\about_sys.css",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_SYS_JS",
+    "file": "resources\\about_sys\\about_sys.js",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_AD_NETWORK_HASHES",
+    "file": "resources\\ad_networks.dat",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CERTIFICATE_VIEWER_HTML",
+    "file": "resources\\certificate_viewer\\certificate_viewer.html",
+    "guards": [
+      "enable_webui_certificate_viewer"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CERTIFICATE_VIEWER_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\certificate_viewer\\tsc\\certificate_viewer.js",
+    "guards": [
+      "enable_webui_certificate_viewer"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CERTIFICATE_VIEWER_CSS",
+    "file": "resources\\certificate_viewer\\certificate_viewer.css",
+    "guards": [
+      "enable_webui_certificate_viewer"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CHROME_APP_MANIFEST",
+    "file": "resources\\chrome_app\\manifest.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEV_UI_LOADER_ERROR_HTML",
+    "file": "resources/dev_ui/dev_ui_loader_error.html",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EXPLORE_SITES_INTERNALS_HTML",
+    "file": "resources\\explore_sites_internals\\explore_sites_internals.html",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EXPLORE_SITES_INTERNALS_CSS",
+    "file": "resources\\explore_sites_internals\\explore_sites_internals.css",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EXPLORE_SITES_INTERNALS_JS",
+    "file": "resources\\explore_sites_internals\\explore_sites_internals.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EXPLORE_SITES_INTERNALS_MOJO_JS",
+    "file": "${root_gen_dir}\\mojom-webui\\chrome\\browser\\ui\\webui\\explore_sites_internals\\explore_sites_internals.mojom-webui.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_OFFLINE_INTERNALS_HTML",
+    "file": "resources\\offline_pages\\offline_internals.html",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_OFFLINE_INTERNALS_CSS",
+    "file": "resources\\offline_pages\\offline_internals.css",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_OFFLINE_INTERNALS_JS",
+    "file": "resources\\offline_pages\\offline_internals.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_OFFLINE_INTERNALS_BROWSER_PROXY_JS",
+    "file": "resources\\offline_pages\\offline_internals_browser_proxy.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_VIDEO_PLAYER_HTML",
+    "file": "resources\\video_tutorials\\video_player.html",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_VIDEO_PLAYER_CSS",
+    "file": "resources\\video_tutorials\\video_player.css",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_VIDEO_PLAYER_JS",
+    "file": "resources\\video_tutorials\\video_player.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "",
+    "file": "resources/supervised_user_error_page_resources.grdp",
+    "guards": [
+      "enable_supervised_users"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "",
+    "file": "resources/web_time_limit_error_page_resources.grdp",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_HANGOUT_SERVICES_MANIFEST",
+    "file": "resources\\hangout_services\\manifest.json",
+    "guards": [
+      "enable_hangout_services_extension"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CONTACT_CENTER_INSIGHTS_MANIFEST",
+    "file": "resources\\chromeos\\contact_center_insights\\manifest.json",
+    "guards": [
+      "chromeos_ash or chromeos_lacros"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PAGE_NOT_AVAILABLE_FOR_GUEST_APP_HTML",
+    "file": "resources\\page_not_available_for_guest\\app.html",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INLINE_LOGIN_HTML",
+    "file": "resources\\inline_login\\inline_login.html",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INLINE_LOGIN_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\inline_login\\inline_login_app.js",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INLINE_LOGIN_BROWSER_PROXY_JS",
+    "file": "resources\\inline_login\\inline_login_browser_proxy.js",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_GAIA_AUTH_WEBVIEW_SAML_INJECTED_JS",
+    "file": "resources\\gaia_auth_host\\webview_saml_injected.js",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CHROME_URLS_DISABLED_PAGE_HTML",
+    "file": "resources\\chromeos\\chrome_urls_disabled_page\\app.html",
+    "guards": [
+      "chromeos_ash or chromeos_lacros"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INLINE_LOGIN_WELCOME_PAGE_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\inline_login\\welcome_page_app.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INLINE_LOGIN_SIGNIN_BLOCKED_BY_POLICY_PAGE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\inline_login\\signin_blocked_by_policy_page.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INLINE_LOGIN_SIGNIN_ERROR_PAGE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\inline_login\\signin_error_page.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_IDENTITY_API_SCOPE_APPROVAL_MANIFEST",
+    "file": "resources\\identity_scope_approval_dialog\\manifest.json",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INSPECT_CSS",
+    "file": "resources\\inspect\\inspect.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INSPECT_HTML",
+    "file": "resources\\inspect\\inspect.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_INSPECT_JS",
+    "file": "resources\\inspect\\inspect.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_NETWORK_SPEECH_SYNTHESIS_MANIFEST",
+    "file": "resources\\network_speech_synthesis\\manifest.json",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ORIGIN_MOJO_JS",
+    "file": "${root_gen_dir}\\url\\mojom\\origin.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PDF_MANIFEST",
+    "file": "resources\\pdf\\manifest.json",
+    "guards": [
+      "enable_pdf"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PLUGIN_DB_JSON",
+    "file": "resources\\plugin_metadata\\plugins_win.json",
+    "guards": [
+      "is_win"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PLUGIN_DB_JSON",
+    "file": "resources\\plugin_metadata\\plugins_mac.json",
+    "guards": [
+      "is_macosx"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PLUGIN_DB_JSON",
+    "file": "resources\\plugin_metadata\\plugins_chromeos.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PLUGIN_DB_JSON",
+    "file": "resources\\plugin_metadata\\plugins_linux.json",
+    "guards": [
+      "is_linux or chromeos_lacros or is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_URL_MOJOM_LITE_JS",
+    "file": "${root_gen_dir}\\url\\mojom\\url.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_USB_ENUMERATION_OPTIONS_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}\\mojom-webui\\services\\device\\public\\mojom\\usb_enumeration_options.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_USB_DEVICE_MANAGER_CLIENT_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}\\mojom-webui\\services\\device\\public\\mojom\\usb_manager_client.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_WEBSTORE_MANIFEST",
+    "file": "resources\\webstore_app\\manifest.json",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_MANIFEST",
+    "file": "resources\\cryptotoken\\manifest.json",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ECHO_MANIFEST",
+    "file": "resources\\chromeos\\echo\\manifest.json",
+    "guards": [
+      "chromeos_ash or chromeos_lacros"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CHROME_OS_AN_ERROR_OCCURRED_SVG",
+    "file": "resources\\chromeos\\images\\an_error_occurred.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CHROME_OS_NO_NETWORK_SVG",
+    "file": "resources\\chromeos\\images\\no_network.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_HTML",
+    "file": "resources\\chromeos\\edu_coexistence\\edu_coexistence.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\edu_coexistence\\edu_coexistence_app.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_UI_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\edu_coexistence\\edu_coexistence_ui.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_CONTROLLER_JS",
+    "file": "resources\\chromeos\\edu_coexistence\\edu_coexistence_controller.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_BROWSER_PROXY_JS",
+    "file": "resources\\chromeos\\edu_coexistence\\edu_coexistence_browser_proxy.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_BUTTON_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\edu_coexistence\\edu_coexistence_button.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_OFFLINE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\edu_coexistence\\edu_coexistence_offline.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_ERROR_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\edu_coexistence\\edu_coexistence_error.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_TEMPLATE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\edu_coexistence\\edu_coexistence_template.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_EDU_COEXISTENCE_EDU_COEXISTENCE_CSS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\edu_coexistence\\edu_coexistence_css.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MANAGER_COMPONENTS_ERROR_SCREEN_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\account_manager\\components\\error_screen.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MANAGER_SHARED_CSS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\account_manager\\account_manager_shared_css.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MIGRATION_WELCOME_HTML",
+    "file": "resources\\chromeos\\account_manager\\account_migration_welcome.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MIGRATION_WELCOME_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\account_manager\\account_migration_welcome_app.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MANAGER_BROWSER_PROXY_JS",
+    "file": "resources\\chromeos\\account_manager\\account_manager_browser_proxy.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MANAGER_ERROR_HTML",
+    "file": "resources\\chromeos\\account_manager\\account_manager_error.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MANAGER_ERROR_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\account_manager\\account_manager_error_app.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDS_ACCOUNT_MANAGER_SIGNIN_BLOCKED_BY_POLICY_SVG",
+    "file": "resources\\chromeos\\login\\images\\error.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MANAGER_WELCOME_1X_PNG",
+    "file": "resources\\chromeos\\account_manager\\account_manager_welcome_1x.png",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MANAGER_WELCOME_2X_PNG",
+    "file": "resources\\chromeos\\account_manager\\account_manager_welcome_2x.png",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ACCOUNT_MANAGER_WELCOME_GOOGLE_LOGO_SVG",
+    "file": "resources\\chromeos\\googleg.svg",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PASSWORD_CHANGE_HTML",
+    "file": "resources\\chromeos\\password_change\\password_change.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PASSWORD_CHANGE_JS",
+    "file": "resources\\chromeos\\password_change\\password_change.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PASSWORD_CHANGE_AUTHENTICATOR_JS",
+    "file": "resources\\gaia_auth_host\\password_change_authenticator.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CONFIRM_PASSWORD_CHANGE_HTML",
+    "file": "resources\\chromeos\\password_change\\confirm_password_change.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CONFIRM_PASSWORD_CHANGE_JS",
+    "file": "resources\\chromeos\\password_change\\confirm_password_change.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_URGENT_PASSWORD_EXPIRY_NOTIFICATION_HTML",
+    "file": "resources\\chromeos\\password_change\\urgent_password_expiry_notification.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_URGENT_PASSWORD_EXPIRY_NOTIFICATION_JS",
+    "file": "resources\\chromeos\\password_change\\urgent_password_expiry_notification.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_GAIA_AUTH_AUTHENTICATOR_JS",
+    "file": "resources\\gaia_auth_host\\authenticator.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_LOCK_SCREEN_REAUTH_HTML",
+    "file": "resources\\chromeos\\password_change\\lock_screen_reauth.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_LOCK_SCREEN_REAUTH_JS",
+    "file": "resources\\chromeos\\password_change\\lock_screen_reauth.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_LOCK_SCREEN_NETWORK_HTML",
+    "file": "resources\\chromeos\\password_change\\lock_screen_network.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_LOCK_SCREEN_NETWORK_JS",
+    "file": "resources\\chromeos\\password_change\\lock_screen_network.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_INSTALLER_INDEX_HTML",
+    "file": "resources\\chromeos\\crostini_installer\\index.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_INSTALLER_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\crostini_installer\\app.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_INSTALLER_BROWSER_PROXY_JS",
+    "file": "resources\\chromeos\\crostini_installer\\browser_proxy.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_INSTALLER_MOJO_LITE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\ui\\webui\\chromeos\\crostini_installer\\crostini_installer.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_INSTALLER_TYPES_MOJO_LITE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\ash\\crostini\\crostini_types.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_UPGRADER_INDEX_HTML",
+    "file": "resources\\chromeos\\crostini_upgrader\\index.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_UPGRADER_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\crostini_upgrader\\app.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_UPGRADER_BROWSER_PROXY_JS",
+    "file": "resources\\chromeos\\crostini_upgrader\\browser_proxy.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CROSTINI_UPGRADER_MOJO_LITE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\ui\\webui\\chromeos\\crostini_upgrader\\crostini_upgrader.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CRYPTOHOME_HTML",
+    "file": "resources\\chromeos\\cryptohome.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CRYPTOHOME_JS",
+    "file": "resources\\chromeos\\cryptohome.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DRIVE_INTERNALS_CSS",
+    "file": "resources\\chromeos\\drive_internals.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DRIVE_INTERNALS_HTML",
+    "file": "resources\\chromeos\\drive_internals.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DRIVE_INTERNALS_JS",
+    "file": "resources\\chromeos\\drive_internals.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_GUEST_SESSION_TAB_HTML",
+    "file": "resources\\chromeos\\guest_session_tab.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_MOBILE_SETUP_PORTAL_PAGE_HTML",
+    "file": "resources\\chromeos\\mobile_setup_portal.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_OS_CREDITS_HTML",
+    "file": "resources\\chromeos\\about_os_credits.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CERT_MANAGER_DIALOG_HTML",
+    "file": "resources\\chromeos\\certificate_manager_dialog.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SLOW_CSS",
+    "file": "resources\\chromeos\\slow.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SLOW_HTML",
+    "file": "resources\\chromeos\\slow.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SLOW_JS",
+    "file": "resources\\chromeos\\slow.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_SUPPORT_MANIFEST",
+    "file": "resources\\chromeos\\arc_support\\manifest.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_FINGERPRINT_LAPTOP_BOTTOM_LEFT_ANIMATION_DARK",
+    "file": "resources\\chromeos\\quick_unlock\\fingerprint_laptop_bottom_left_dark.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_FINGERPRINT_LAPTOP_BOTTOM_LEFT_ANIMATION_LIGHT",
+    "file": "resources\\chromeos\\quick_unlock\\fingerprint_laptop_bottom_left_light.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_FINGERPRINT_LAPTOP_BOTTOM_RIGHT_ANIMATION_DARK",
+    "file": "resources\\chromeos\\quick_unlock\\fingerprint_laptop_bottom_right_dark.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_FINGERPRINT_LAPTOP_BOTTOM_RIGHT_ANIMATION_LIGHT",
+    "file": "resources\\chromeos\\quick_unlock\\fingerprint_laptop_bottom_right_light.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_FINGERPRINT_TABLET_ANIMATION_DARK",
+    "file": "resources\\chromeos\\quick_unlock\\fingerprint_tablet_dark.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_FINGERPRINT_TABLET_ANIMATION_LIGHT",
+    "file": "resources\\chromeos\\quick_unlock\\fingerprint_tablet_light.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_FINGERPRINT_DEFAULT_ANIMATION_DARK",
+    "file": "resources\\chromeos\\quick_unlock\\fingerprint_default_dark.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_FINGERPRINT_DEFAULT_ANIMATION_LIGHT",
+    "file": "resources\\chromeos\\quick_unlock\\fingerprint_default_light.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_VM_INDEX_HTML",
+    "file": "resources\\chromeos\\vm\\index.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_VM_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\vm\\app.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_VM_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}\\mojom-webui\\chrome\\browser\\ui\\webui\\chromeos\\vm\\vm.mojom-webui.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_GUEST_OS_DIAGNOSTICS_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}\\mojom-webui\\chrome\\browser\\ash\\guest_os\\guest_os_diagnostics.mojom-webui.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_HELP_MANIFEST",
+    "file": "resources\\help_app\\manifest.json",
+    "guards": [
+      "chromeos_ash and _google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PRODUCT_CHROMEOS_SYNC_CONSENT_SCREEN_ICONS",
+    "file": "internal\\resources\\chromeos-sync-consent-icons.html",
+    "guards": [
+      "chromeos_ash and _google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PRODUCT_CHROMEOS_SYNC_CONSENT_SCREEN_ICONS_M_JS",
+    "file": "internal\\resources\\chromeos-sync-consent-icons.m.js",
+    "guards": [
+      "chromeos_ash and _google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_QUICKOFFICE_MANIFEST",
+    "file": "resources\\chromeos\\quickoffice\\manifest.json",
+    "guards": [
+      "chromeos_ash or chromeos_lacros",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PREF_HASH_SEED_BIN",
+    "file": "resources\\settings_internal\\pref_hash_seed.bin",
+    "guards": [
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ADDITIONAL_MODULE_IDS",
+    "file": "${additional_modules_list_file}",
+    "guards": [
+      "_google_chrome"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_STARTUP_WAV",
+    "file": "internal\\resources\\chromeos\\sounds\\startup.wav",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_STARTUP_WAV",
+    "file": "resources\\chromeos\\sounds\\startup.wav",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_LOCK_WAV",
+    "file": "resources\\chromeos\\sounds\\lock.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_UNLOCK_WAV",
+    "file": "resources\\chromeos\\sounds\\unlock.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_SHUTDOWN_WAV",
+    "file": "resources\\chromeos\\sounds\\shutdown.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_SPOKEN_FEEDBACK_ENABLED_WAV",
+    "file": "resources\\chromeos\\sounds\\spoken_feedback_enabled.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_SPOKEN_FEEDBACK_DISABLED_WAV",
+    "file": "resources\\chromeos\\sounds\\spoken_feedback_disabled.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_VOLUME_ADJUST_WAV",
+    "file": "resources\\chromeos\\sounds\\volume_adjust.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_CAMERA_SNAP_WAV",
+    "file": "resources\\chromeos\\sounds\\camera_snap.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_OBJECT_DELETE_WAV",
+    "file": "resources\\chromeos\\sounds\\object_delete.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_PASSTHROUGH_WAV",
+    "file": "resources\\chromeos\\sounds\\earcons\\passthrough.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_EXIT_SCREEN_WAV",
+    "file": "resources\\chromeos\\sounds\\earcons\\exit_screen.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_ENTER_SCREEN_WAV",
+    "file": "resources\\chromeos\\sounds\\earcons\\enter_screen.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_SPOKEN_FEEDBACK_TOGGLE_COUNTDOWN_HIGH_WAV",
+    "file": "resources\\chromeos\\sounds\\spoken_feedback_toggle_countdown_high.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_SPOKEN_FEEDBACK_TOGGLE_COUNTDOWN_LOW_WAV",
+    "file": "resources\\chromeos\\sounds\\spoken_feedback_toggle_countdown_low.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_TOUCH_TYPE_WAV",
+    "file": "resources\\chromeos\\sounds\\touch_type.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_DICTATION_END_WAV",
+    "file": "resources\\chromeos\\sounds\\earcons\\audio_end.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_DICTATION_START_WAV",
+    "file": "resources\\chromeos\\sounds\\earcons\\audio_initiate.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SOUND_DICTATION_CANCEL_WAV",
+    "file": "resources\\chromeos\\sounds\\earcons\\null_selection.wav",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_POWER_HTML",
+    "file": "resources\\chromeos\\power.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_POWER_JS",
+    "file": "resources\\chromeos\\power.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ABOUT_POWER_CSS",
+    "file": "resources\\chromeos\\power.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_HTML",
+    "file": "resources\\chromeos\\emulator\\device_emulator.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_CSS",
+    "file": "resources\\chromeos\\emulator\\device_emulator.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_AUDIO_SETTINGS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\emulator\\audio_settings.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_BATTERY_SETTINGS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\emulator\\battery_settings.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_BLUETOOTH_SETTINGS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\emulator\\bluetooth_settings.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_ICONS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\emulator\\icons.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_INPUT_DEVICE_SETTINGS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\emulator\\input_device_settings.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_PAGES_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\emulator\\device_emulator_pages.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DEVICE_EMULATOR_SHARED_STYLES_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\emulator\\shared_styles.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SET_TIME_HTML",
+    "file": "resources\\chromeos\\set_time_dialog\\set_time.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SET_TIME_DIALOG_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\set_time_dialog\\set_time_dialog.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SET_TIME_BROWSER_PROXY_JS",
+    "file": "resources\\chromeos\\set_time_dialog\\set_time_browser_proxy.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_GOOGLE_XKB_MANIFEST",
+    "file": "resources\\chromeos\\input_method\\google_xkb_manifest.json",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_XKB_MANIFEST",
+    "file": "resources\\chromeos\\input_method\\xkb_manifest.json",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_M17N_MANIFEST",
+    "file": "resources\\chromeos\\input_method\\m17n_manifest.json",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PINYIN_MANIFEST",
+    "file": "resources\\chromeos\\input_method\\pinyin_manifest.json",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ZHUYIN_MANIFEST",
+    "file": "resources\\chromeos\\input_method\\zhuyin_manifest.json",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_CANGJIE_MANIFEST",
+    "file": "resources\\chromeos\\input_method\\cangjie_manifest.json",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_MOZC_MANIFEST",
+    "file": "resources\\chromeos\\input_method\\mozc_manifest.json",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_HANGUL_MANIFEST",
+    "file": "resources\\chromeos\\input_method\\hangul_manifest.json",
+    "guards": [
+      "chromeos_ash",
+      "_google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_BRAILLE_MANIFEST",
+    "file": "resources\\chromeos\\accessibility\\braille_ime\\manifest.json",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_MEDIA_ROUTER_INTERNALS_HTML",
+    "file": "resources\\media_router\\internals\\media_router_internals.html",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_MEDIA_ROUTER_INTERNALS_CSS",
+    "file": "resources\\media_router\\internals\\media_router_internals.css",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_MEDIA_ROUTER_INTERNALS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\media_router\\internals\\tsc\\media_router_internals.js",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_IME_WINDOW_CLOSE",
+    "file": "resources\\input_ime\\ime_window_close.png",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_IME_WINDOW_CLOSE_C",
+    "file": "resources\\input_ime\\ime_window_close_click.png",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_IME_WINDOW_CLOSE_H",
+    "file": "resources\\input_ime\\ime_window_close_hover.png",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SMB_SHARES_DIALOG_CONTAINER_HTML",
+    "file": "resources\\chromeos\\smb_shares\\smb_share_dialog_container.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SMB_SHARES_DIALOG_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\smb_shares\\smb_share_dialog.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SMB_CREDENTIALS_DIALOG_CONTAINER_HTML",
+    "file": "resources\\chromeos\\smb_shares\\smb_credentials_dialog_container.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SMB_CREDENTIALS_DIALOG_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\smb_shares\\smb_credentials_dialog.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_HTML",
+    "file": "resources\\chromeos\\sys_internals\\index.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_CSS",
+    "file": "resources\\chromeos\\sys_internals\\index.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_JS",
+    "file": "resources\\chromeos\\sys_internals\\index.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_MAIN_JS",
+    "file": "resources\\chromeos\\sys_internals\\main.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_CONSTANT_JS",
+    "file": "resources\\chromeos\\sys_internals\\constants.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_TYPES_JS",
+    "file": "resources\\chromeos\\sys_internals\\types.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_LINE_CHART_CONSTANTS_JS",
+    "file": "resources\\chromeos\\sys_internals\\line_chart\\constants.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_LINE_CHART_CSS",
+    "file": "resources\\chromeos\\sys_internals\\line_chart\\line_chart.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_LINE_CHART_DATA_SERIES_JS",
+    "file": "resources\\chromeos\\sys_internals\\line_chart\\data_series.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_LINE_CHART_LINE_CHART_JS",
+    "file": "resources\\chromeos\\sys_internals\\line_chart\\line_chart.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_LINE_CHART_MENU_JS",
+    "file": "resources\\chromeos\\sys_internals\\line_chart\\menu.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_LINE_CHART_SCROLLBAR_JS",
+    "file": "resources\\chromeos\\sys_internals\\line_chart\\scrollbar.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_LINE_CHART_SUB_CHART_JS",
+    "file": "resources\\chromeos\\sys_internals\\line_chart\\sub_chart.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_LINE_CHART_UNIT_LABEL_JS",
+    "file": "resources\\chromeos\\sys_internals\\line_chart\\unit_label.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_IMAGE_MENU_SVG",
+    "file": "resources\\chromeos\\sys_internals\\img\\menu.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_IMAGE_INFO_SVG",
+    "file": "resources\\chromeos\\sys_internals\\img\\info.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_IMAGE_CPU_SVG",
+    "file": "resources\\chromeos\\sys_internals\\img\\cpu.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_IMAGE_MEMORY_SVG",
+    "file": "resources\\chromeos\\sys_internals\\img\\memory.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SYS_INTERNALS_IMAGE_ZRAM_SVG",
+    "file": "resources\\chromeos\\sys_internals\\img\\zram.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ADD_SUPERVISION_HTML",
+    "file": "resources\\chromeos\\add_supervision\\add_supervision.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ADD_SUPERVISION_NETWORK_UNAVAILABLE_SVG",
+    "file": "resources\\chromeos\\add_supervision\\images\\network_unavailable.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ADD_SUPERVISION_UI_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\add_supervision\\add_supervision_ui.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ADD_SUPERVISION_API_SERVER_JS",
+    "file": "resources\\chromeos\\add_supervision\\add_supervision_api_server.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ADD_SUPERVISION_MOJOM_LITE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\ui\\webui\\chromeos\\add_supervision\\add_supervision.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PARENT_ACCESS_HTML",
+    "file": "resources\\chromeos\\parent_access\\parent_access.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PARENT_ACCESS_APP_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\parent_access\\parent_access_app.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PARENT_ACCESS_UI_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\parent_access\\parent_access_ui.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PARENT_ACCESS_AFTER_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\parent_access\\parent_access_after.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_LOCAL_WEB_APPROVALS_AFTER_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\chromeos\\parent_access\\flows\\local_web_approvals_after.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PARENT_ACCESS_CONTROLLER_JS",
+    "file": "resources\\chromeos\\parent_access\\parent_access_controller.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PARENT_ACCESS_UI_MOJOM_LITE_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\ui\\webui\\chromeos\\parent_access\\parent_access_ui.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PARENT_ACCESS_ILLUSTRATION_LIGHT_THEME_SVG",
+    "file": "resources\\chromeos\\parent_access\\images\\parent_access_illustration_light_theme.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_PARENT_ACCESS_ILLUSTRATION_DARK_THEME_SVG",
+    "file": "resources\\chromeos\\parent_access\\images\\parent_access_illustration_dark_theme.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_RESET_PASSWORD_HTML",
+    "file": "resources\\reset_password\\reset_password.html",
+    "guards": [
+      "safe_browsing_mode == 1"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_RESET_PASSWORD_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\reset_password\\tsc\\reset_password.js",
+    "guards": [
+      "safe_browsing_mode == 1"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_RESET_PASSWORD_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\reset_password\\tsc\\reset_password.mojom-webui.js",
+    "guards": [
+      "safe_browsing_mode == 1"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_TAB_RANKER_EXAMPLE_PREPROCESSOR_CONFIG_PB",
+    "file": "resource_coordinator\\tab_ranker\\example_preprocessor_config.pb",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_TAB_RANKER_PAIRWISE_EXAMPLE_PREPROCESSOR_CONFIG_PB",
+    "file": "resource_coordinator\\tab_ranker\\pairwise_preprocessor_config.pb",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SMART_DIM_20190521_EXAMPLE_PREPROCESSOR_CONFIG_PB",
+    "file": "ash\\power\\ml\\smart_dim\\20190521_example_preprocessor_config.pb",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_SEARCH_RANKER_20190923_EXAMPLE_PREPROCESSOR_CONFIG_PB",
+    "file": "ui\\app_list\\search\\search_result_ranker\\search_ranker_assets\\20190923_example_preprocessor_config.pb",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_GRAPHICS_TRACING_HTML",
+    "file": "resources\\chromeos\\arc_graphics_tracing\\arc_graphics_tracing.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_GRAPHICS_TRACING_JS",
+    "file": "resources\\chromeos\\arc_graphics_tracing\\arc_graphics_tracing.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_GRAPHICS_TRACING_UI_JS",
+    "file": "resources\\chromeos\\arc_graphics_tracing\\arc_graphics_tracing_ui.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_OVERVIEW_TRACING_HTML",
+    "file": "resources\\chromeos\\arc_graphics_tracing\\arc_overview_tracing.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_OVERVIEW_TRACING_JS",
+    "file": "resources\\chromeos\\arc_graphics_tracing\\arc_overview_tracing.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_OVERVIEW_TRACING_UI_JS",
+    "file": "resources\\chromeos\\arc_graphics_tracing\\arc_overview_tracing_ui.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_TRACING_UI_JS",
+    "file": "resources\\chromeos\\arc_graphics_tracing\\arc_tracing_ui.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_TRACING_CSS",
+    "file": "resources\\chromeos\\arc_graphics_tracing\\arc_tracing.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_POWER_CONTROL_HTML",
+    "file": "resources\\chromeos\\arc_power_control\\arc_power_control.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_POWER_CONTROL_JS",
+    "file": "resources\\chromeos\\arc_power_control\\arc_power_control.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_ARC_POWER_CONTROL_CSS",
+    "file": "resources\\chromeos\\arc_power_control\\arc_power_control.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "",
+    "file": "cart/resources/cart_resources.grdp",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/browser_resources.grd",
+    "name": "IDR_DESKTOP_SHARING_HUB_PB",
+    "file": "${root_gen_dir}\\chrome\\browser\\share\\core\\resources\\desktop_sharing_hub.pb",
+    "guards": [
+      "not is_android"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_ACCESSIBILITY_HTML",
+    "file": "resources\\accessibility\\accessibility.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_ACCESSIBILITY_CSS",
+    "file": "resources\\accessibility\\accessibility.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_ACCESSIBILITY_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\accessibility\\tsc\\accessibility.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_APC_INTERNALS_HTML",
+    "file": "resources\\apc_internals\\apc_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_APC_INTERNALS_JS",
+    "file": "resources\\apc_internals\\apc_internals.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_APC_INTERNALS_CSS",
+    "file": "resources\\apc_internals\\apc_internals.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_COMPONENTS_COMPONENTS_HTML",
+    "file": "resources\\components\\components.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_COMPONENTS_COMPONENTS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\components\\tsc\\components.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_DEVICE_LOG_UI_HTML",
+    "file": "resources\\device_log_ui\\device_log_ui.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_DEVICE_LOG_UI_JS",
+    "file": "resources\\device_log_ui\\device_log_ui.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_DEVICE_LOG_UI_CSS",
+    "file": "resources\\device_log_ui\\device_log_ui.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_MEMORY_INTERNALS_HTML",
+    "file": "resources\\memory_internals\\memory_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_MEMORY_INTERNALS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\memory_internals\\tsc\\memory_internals.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_PREDICTORS_AUTOCOMPLETE_ACTION_PREDICTOR_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\predictors\\autocomplete_action_predictor.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_PREDICTORS_HTML",
+    "file": "resources\\predictors\\predictors.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_PREDICTORS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\predictors\\predictors.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_PREDICTORS_RESOURCE_PREFETCH_PREDICTOR_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\predictors\\resource_prefetch_predictor.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_SANDBOX_INTERNALS_HTML",
+    "file": "resources\\sandbox_internals\\sandbox_internals.html",
+    "guards": [
+      "is_android or is_linux or chromeos_ash or chromeos_lacros"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_SANDBOX_INTERNALS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\sandbox_internals\\tsc\\sandbox_internals.js",
+    "guards": [
+      "is_android or is_linux or chromeos_ash or chromeos_lacros"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_SANDBOX_INTERNALS_HTML",
+    "file": "resources\\sandbox_internals\\sandbox_internals.html",
+    "guards": [
+      "is_win"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_SANDBOX_INTERNALS_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\sandbox_internals\\tsc\\sandbox_internals_win.js",
+    "guards": [
+      "is_win"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_SITE_ENGAGEMENT_HTML",
+    "file": "resources\\engagement\\site_engagement.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_SITE_ENGAGEMENT_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\engagement\\tsc\\site_engagement.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_SITE_ENGAGEMENT_DETAILS_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}\\chrome\\browser\\resources\\engagement\\tsc\\site_engagement_details.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_FEED_INTERNALS_HTML",
+    "file": "resources\\feed_internals\\feed_internals.html",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_FEED_INTERNALS_CSS",
+    "file": "resources\\feed_internals\\feed_internals.css",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_FEED_INTERNALS_JS",
+    "file": "resources\\feed_internals\\feed_internals.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_FEED_INTERNALS_MOJO_JS",
+    "file": "${root_gen_dir}\\mojom-webui\\chrome\\browser\\ui\\webui\\feed_internals\\feed_internals.mojom-webui.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_QUERY_TILES_INTERNALS_HTML",
+    "file": "resources\\internals\\query_tiles\\query_tiles_internals.html",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_QUERY_TILES_INTERNALS_JS",
+    "file": "resources\\internals\\query_tiles\\query_tiles_internals.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_QUERY_TILES_INTERNALS_BROWSER_PROXY_JS",
+    "file": "resources\\internals\\query_tiles\\query_tiles_internals_browser_proxy.js",
+    "guards": [
+      "is_android"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_FAMILY_LINK_USER_INTERNALS_HTML",
+    "file": "resources\\family_link_user_internals\\family_link_user_internals.html",
+    "guards": [
+      "enable_supervised_users"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_FAMILY_LINK_USER_INTERNALS_CSS",
+    "file": "resources\\family_link_user_internals\\family_link_user_internals.css",
+    "guards": [
+      "enable_supervised_users"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_FAMILY_LINK_USER_INTERNALS_JS",
+    "file": "resources\\family_link_user_internals\\family_link_user_internals.js",
+    "guards": [
+      "enable_supervised_users"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_TRANSLATE_INTERNALS_CSS",
+    "file": "../../components/translate/translate_internals/translate_internals.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_TRANSLATE_INTERNALS_HTML",
+    "file": "../../components/translate/translate_internals/translate_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_TRANSLATE_INTERNALS_JS",
+    "file": "../../components/translate/translate_internals/translate_internals.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/dev_ui_browser_resources.grd",
+    "name": "IDR_WEB_APP_INTERNALS_HTML",
+    "file": "resources/web_app_internals/index.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_NETWORK_SPEECH_SYNTHESIS_JS",
+    "file": "network_speech_synthesis/tts_extension.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_BRAILLE_IME_JS",
+    "file": "chromeos/accessibility/braille_ime/braille_ime.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_BRAILLE_IME_MAIN_JS",
+    "file": "chromeos/accessibility/braille_ime/main.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_HANGOUT_SERVICES_BACKGROUND_HTML",
+    "file": "hangout_services/background.html",
+    "guards": [
+      "_google_chrome or enable_hangout_services_extension"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_HANGOUT_SERVICES_THUNK_JS",
+    "file": "hangout_services/thunk.js",
+    "guards": [
+      "_google_chrome or enable_hangout_services_extension"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CONTACT_CENTER_INSIGHTS_BACKGROUND_JS",
+    "file": "chromeos/contact_center_insights/background.js",
+    "guards": [
+      "chromeos_ash or chromeos_lacros"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CONTACT_CENTER_INSIGHTS_BACKGROUND_WRAPPER_JS",
+    "file": "chromeos/contact_center_insights/background_wrapper.js",
+    "guards": [
+      "chromeos_ash or chromeos_lacros"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CONTACT_CENTER_INSIGHTS_CCAAS_DEPS_JS",
+    "file": "${root_gen_dir}/chrome/browser/resources/chromeos/contact_center_insights/ccaas_deps.js",
+    "guards": [
+      "chromeos_ash or chromeos_lacros"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_IDENTITY_API_SCOPE_APPROVAL_BACKGROUND_JS",
+    "file": "identity_scope_approval_dialog/background.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_IDENTITY_API_SCOPE_APPROVAL_DIALOG_CSS",
+    "file": "identity_scope_approval_dialog/scope_approval_dialog.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_IDENTITY_API_SCOPE_APPROVAL_DIALOG",
+    "file": "identity_scope_approval_dialog/scope_approval_dialog.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_IDENTITY_API_SCOPE_APPROVAL_DIALOG_JS",
+    "file": "identity_scope_approval_dialog/scope_approval_dialog.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_IDENTITY_API_SCOPE_APPROVAL_INJECT_JS",
+    "file": "identity_scope_approval_dialog/inject.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_BACKGROUND_JS",
+    "file": "chromeos/arc_support/background.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_BUBBLE_CSS",
+    "file": "chromeos/arc_support/bubble.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_BUBBLE_JS",
+    "file": "chromeos/arc_support/bubble.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_BUBBLE_BUTTON_JS",
+    "file": "chromeos/arc_support/bubble_button.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_BUBBLE_BUTTON_CSS",
+    "file": "chromeos/arc_support/bubble_button.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_CONTROLLED_INDICATOR_JS",
+    "file": "chromeos/arc_support/controlled_indicator.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_CONTROLLED_INDICATOR_CSS",
+    "file": "chromeos/arc_support/controlled_indicator.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_MAIN_CSS",
+    "file": "chromeos/arc_support/main.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_MAIN_JS",
+    "file": "chromeos/arc_support/main.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_OVERLAY_CSS",
+    "file": "chromeos/arc_support/overlay.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_OVERLAY_JS",
+    "file": "chromeos/arc_support/overlay.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_PLAYSTORE_CSS",
+    "file": "chromeos/arc_support/playstore.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_PLAYSTORE_JS",
+    "file": "chromeos/arc_support/playstore.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_PLAYSTORE_LOGO",
+    "file": "chromeos/arc_support/icon/playstore.svg",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_PROGRESSBAR_CSS",
+    "file": "chromeos/arc_support/progressbar.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_PROGRESSBAR_JS",
+    "file": "chromeos/arc_support/progressbar.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_FOCUS_MANAGER_JS",
+    "file": "chromeos/arc_support/arc_optin_focus_manager.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_LAYOUT_STYLE",
+    "file": "chromeos/arc_support/layout_style.css",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_MAIN",
+    "file": "chromeos/arc_support/main.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_ICON_32",
+    "file": "chromeos/arc_support/icon/32.png",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_ICON_192",
+    "file": "chromeos/arc_support/icon/192.png",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_ICON_ERROER_IMAGE",
+    "file": "chromeos/arc_support/images/error_image.png",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_ICON_HEADER",
+    "file": "chromeos/arc_support/images/header.png",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_RECOMMEND_APP_LIST_VIEW_JS",
+    "file": "chromeos/arc_support/recommend_app_list_view.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_ARC_SUPPORT_RECOMMEND_APP_LIST_VIEW_HTML",
+    "file": "chromeos/arc_support/recommend_app_list_view.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDS_ARC_INPUT_OVERLAY_ONBOARDING_ILLUSTRATION",
+    "file": "chromeos/arc_input_overlay/onboarding_illustration.png",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDS_ARC_INPUT_OVERLAY_ONBOARDING_ILLUSTRATION_DARK",
+    "file": "chromeos/arc_input_overlay/onboarding_illustration_dark.png",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_UTIL_JS",
+    "file": "cryptotoken/util.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_B64_JS",
+    "file": "cryptotoken/b64.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_COUNTDOWN_JS",
+    "file": "cryptotoken/countdown.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_COUNTDOWNTIMER_JS",
+    "file": "cryptotoken/countdowntimer.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_SHA256_JS",
+    "file": "cryptotoken/sha256.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_TIMER_JS",
+    "file": "cryptotoken/timer.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_DEVICESTATUSCODES_JS",
+    "file": "cryptotoken/devicestatuscodes.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_ASN1_JS",
+    "file": "cryptotoken/asn1.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_CBOR_JS",
+    "file": "cryptotoken/cbor.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_ENROLLER_JS",
+    "file": "cryptotoken/enroller.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_REQUESTQUEUE_JS",
+    "file": "cryptotoken/requestqueue.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_SIGNER_JS",
+    "file": "cryptotoken/signer.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_WEBREQUEST_JS",
+    "file": "cryptotoken/webrequest.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_APPID_JS",
+    "file": "cryptotoken/appid.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_TEXTFETCHER_JS",
+    "file": "cryptotoken/textfetcher.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_REQUESTHELPER_JS",
+    "file": "cryptotoken/requesthelper.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_MESSAGETYPES_JS",
+    "file": "cryptotoken/messagetypes.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_INHERITS_JS",
+    "file": "cryptotoken/inherits.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_FACTORYREGISTRY_JS",
+    "file": "cryptotoken/factoryregistry.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_ERRORCODES_JS",
+    "file": "cryptotoken/errorcodes.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_ORIGINCHECK_JS",
+    "file": "cryptotoken/origincheck.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_INDIVIDUALATTEST_JS",
+    "file": "cryptotoken/individualattest.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_GOOGLECORPINDIVIDUALATTEST_JS",
+    "file": "cryptotoken/googlecorpindividualattest.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_APPROVEDORIGINS_JS",
+    "file": "cryptotoken/approvedorigins.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_WEBREQUESTSENDER_JS",
+    "file": "cryptotoken/webrequestsender.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_WINDOW_TIMER_JS",
+    "file": "cryptotoken/window-timer.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_WATCHDOG_JS",
+    "file": "cryptotoken/watchdog.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_LOGGING_JS",
+    "file": "cryptotoken/logging.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_CRYPTOTOKENAPPROVEDORIGIN_JS",
+    "file": "cryptotoken/cryptotokenapprovedorigins.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_CRYPTOTOKENORIGINCHECK_JS",
+    "file": "cryptotoken/cryptotokenorigincheck.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/component_extension_resources.grd",
+    "name": "IDR_CRYPTOTOKEN_CRYPTOTOKENBACKGROUND_JS",
+    "file": "cryptotoken/cryptotokenbackground.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/supervised_user_error_page_resources.grdp",
+    "name": "IDR_SUPERVISED_USER_BLOCK_INTERSTITIAL_HTML",
+    "file": "supervised_user/supervised_user_error_page/resources/supervised_user_block_interstitial.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "chrome/browser/resources/web_time_limit_error_page_resources.grdp",
+    "name": "IDR_WEB_TIME_LIMIT_ERROR_PAGE_HTML",
+    "file": "ash/child_accounts/time_limits/web_time_limit_error_page/resources/web_time_limit_error_page.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_am.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'am' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_ar.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'ar' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_bg.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'bg' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_bn.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'bn' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_ca.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'ca' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_cs.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'cs' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_da.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'da' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_de.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'de' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_el.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'el' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_en-GB.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'en-GB' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_en.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'en' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_es.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'es' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_es-419.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'es-419' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_et.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'et' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_fa.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'fa' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_fi.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'fi' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_fil.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'fil' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_fr.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'fr' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_gu.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'gu' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_he.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'he' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_hi.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'hi' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_hr.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'hr' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_hu.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'hu' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_id.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'id' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_it.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'it' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_ja.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'ja' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_kn.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'kn' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_ko.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'ko' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_lt.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'lt' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_lv.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'lv' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_ml.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'ml' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_mr.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'mr' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_nl.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'nl' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_nb.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'no' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_pl.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'pl' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_pt-BR.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'pt-BR' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_pt-PT.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'pt-PT' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_ro.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'ro' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_ru.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'ru' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_sk.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'sk' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_sl.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'sl' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_sr.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'sr' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_sv.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'sv' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_sw.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'sw' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_ta.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'ta' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_te.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'te' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_th.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'th' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_tr.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'tr' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_uk.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'uk' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_vi.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'vi' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_zh-CN.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'zh-CN' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_zh-TW.html",
+    "guards": [
+      "not is_android and not is_ios and _google_chrome",
+      "'zh-TW' == lang"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "components/components_locale_settings.grd",
+    "name": "IDS_TERMS_HTML",
+    "file": "resources/terms/terms_chromium.html",
+    "guards": [
+      "not is_android and not is_ios and not _google_chrome"
+    ],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_DEVTOOLS_PINCH_CURSOR_ICON",
+    "file": "browser/resources/devtools/devtools_pinch_cursor.png",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_DEVTOOLS_PINCH_CURSOR_ICON_2X",
+    "file": "browser/resources/devtools/devtools_pinch_cursor_2x.png",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_DEVTOOLS_TOUCH_CURSOR_ICON",
+    "file": "browser/resources/devtools/devtools_touch_cursor.png",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_DEVTOOLS_TOUCH_CURSOR_ICON_2X",
+    "file": "browser/resources/devtools/devtools_touch_cursor_2x.png",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_GEOMETRY_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}/mojom-webui/ui/gfx/geometry/mojom/geometry.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_IMAGE_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}/mojom-webui/ui/gfx/image/mojom/image.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_HISTOGRAMS_INTERNALS_HTML",
+    "file": "browser/resources/histograms/histograms_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_HISTOGRAMS_INTERNALS_JS",
+    "file": "${root_gen_dir}/content/browser/resources/histograms/tsc/histograms_internals.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_HISTOGRAMS_INTERNALS_CSS",
+    "file": "browser/resources/histograms/histograms_internals.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_ORIGIN_MOJO_HTML",
+    "file": "${root_gen_dir}/url/mojom/origin.mojom.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_ORIGIN_MOJO_JS",
+    "file": "${root_gen_dir}/url/mojom/origin.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_ORIGIN_MOJO_WEBUI_JS",
+    "file": "${root_gen_dir}/mojom-webui/url/mojom/origin.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_RANGE_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}/mojom-webui/ui/gfx/range/mojom/range.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_TOKEN_MOJO_WEBUI_JS",
+    "file": "${root_gen_dir}/mojom-webui/mojo/public/mojom/base/token.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_UI_WINDOW_OPEN_DISPOSITION_MOJO_JS",
+    "file": "${root_gen_dir}/ui/base/mojom/window_open_disposition.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_UI_WINDOW_OPEN_DISPOSITION_MOJO_WEBUI_JS",
+    "file": "${root_gen_dir}/mojom-webui/ui/base/mojom/window_open_disposition.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_UKM_INTERNALS_HTML",
+    "file": "../components/ukm/debug/ukm_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_UKM_INTERNALS_JS",
+    "file": "${root_gen_dir}/components/ukm/debug/tsc/ukm_internals.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_UKM_INTERNALS_CSS",
+    "file": "../components/ukm/debug/ukm_internals.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_UNGUESSABLE_TOKEN_MOJO_HTML",
+    "file": "${root_gen_dir}/mojo/public/mojom/base/unguessable_token.mojom.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_UNGUESSABLE_TOKEN_MOJO_JS",
+    "file": "${root_gen_dir}/mojo/public/mojom/base/unguessable_token.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_URL_MOJO_HTML",
+    "file": "${root_gen_dir}/url/mojom/url.mojom.html",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_URL_MOJO_JS",
+    "file": "${root_gen_dir}/url/mojom/url.mojom-lite.js",
+    "guards": [
+      "chromeos_ash"
+    ],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_URL_MOJOM_WEBUI_JS",
+    "file": "${root_gen_dir}/mojom-webui/url/mojom/url.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_VULKAN_INFO_MOJO_JS",
+    "file": "${root_gen_dir}/mojom-webui/gpu/ipc/common/vulkan_info.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/content_resources.grd",
+    "name": "IDR_VULKAN_TYPES_MOJO_JS",
+    "file": "${root_gen_dir}/mojom-webui/gpu/ipc/common/vulkan_types.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_ATTRIBUTION_INTERNALS_HTML",
+    "file": "browser/resources/attribution_reporting/attribution_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_ATTRIBUTION_INTERNALS_JS",
+    "file": "${root_gen_dir}/content/browser/resources/attribution_reporting/tsc/attribution_internals.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_ATTRIBUTION_INTERNALS_TABLE_MODEL_JS",
+    "file": "${root_gen_dir}/content/browser/resources/attribution_reporting/tsc/table_model.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_ATTRIBUTION_INTERNALS_TABLE_JS",
+    "file": "${root_gen_dir}/content/browser/resources/attribution_reporting/tsc/attribution_internals_table.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_ATTRIBUTION_INTERNALS_TABLE_HTML_JS",
+    "file": "${root_gen_dir}/content/browser/resources/attribution_reporting/tsc/attribution_internals_table.html.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_ATTRIBUTION_INTERNALS_CSS",
+    "file": "browser/resources/attribution_reporting/attribution_internals.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_ATTRIBUTION_INTERNALS_MOJOM_JS",
+    "file": "${root_gen_dir}/mojom-webui/content/browser/attribution_reporting/attribution_internals.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_BROWSER_BRIDGE_JS",
+    "file": "browser/resources/gpu/browser_bridge.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_INTERNALS_HTML",
+    "file": "browser/resources/gpu/gpu_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_INTERNALS_JS",
+    "file": "browser/resources/gpu/gpu_internals.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_INTERNALS_INFO_VIEW_HTML_JS",
+    "file": "${root_gen_dir}/content/browser/resources/gpu/info_view.html.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_INTERNALS_INFO_VIEW_JS",
+    "file": "browser/resources/gpu/info_view.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_INTERNALS_INFO_VIEW_TABLE_HTML_JS",
+    "file": "${root_gen_dir}/content/browser/resources/gpu/info_view_table.html.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_INTERNALS_INFO_VIEW_TABLE_JS",
+    "file": "browser/resources/gpu/info_view_table.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_INTERNALS_INFO_VIEW_TABLE_ROW_HTML_JS",
+    "file": "${root_gen_dir}/content/browser/resources/gpu/info_view_table_row.html.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_INTERNALS_INFO_VIEW_TABLE_ROW_JS",
+    "file": "browser/resources/gpu/info_view_table_row.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_GPU_VULKAN_INFO_JS",
+    "file": "browser/resources/gpu/vulkan_info.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_INDEXED_DB_INTERNALS_HTML",
+    "file": "browser/resources/indexed_db/indexeddb_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_INDEXED_DB_INTERNALS_JS",
+    "file": "browser/resources/indexed_db/indexeddb_internals.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_INDEXED_DB_INTERNALS_CSS",
+    "file": "browser/resources/indexed_db/indexeddb_internals.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_NETWORK_ERROR_LISTING_HTML",
+    "file": "browser/resources/net/network_errors_listing.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_NETWORK_ERROR_LISTING_JS",
+    "file": "browser/resources/net/network_errors_listing.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_NETWORK_ERROR_LISTING_CSS",
+    "file": "browser/resources/net/network_errors_listing.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_PRERENDER_INTERNALS_HTML",
+    "file": "browser/resources/prerender/prerender_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_PRERENDER_INTERNALS_MOJO_JS",
+    "file": "${root_gen_dir}/mojom-webui/content/browser/preloading/prerender/prerender_internals.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_PRERENDER_INTERNALS_JS",
+    "file": "browser/resources/prerender/prerender_internals.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_PROCESS_INTERNALS_HTML",
+    "file": "browser/resources/process/process_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_PROCESS_INTERNALS_MOJO_JS",
+    "file": "${root_gen_dir}/content/browser/resources/process/tsc/process_internals.mojom-webui.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_PROCESS_INTERNALS_CSS",
+    "file": "browser/resources/process/process_internals.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_PROCESS_INTERNALS_JS",
+    "file": "${root_gen_dir}/content/browser/resources/process/tsc/process_internals.js",
+    "guards": [],
+    "generated": true
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_SERVICE_WORKER_INTERNALS_HTML",
+    "file": "browser/resources/service_worker/serviceworker_internals.html",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_SERVICE_WORKER_INTERNALS_JS",
+    "file": "browser/resources/service_worker/serviceworker_internals.js",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "content/dev_ui_content_resources.grd",
+    "name": "IDR_SERVICE_WORKER_INTERNALS_CSS",
+    "file": "browser/resources/service_worker/serviceworker_internals.css",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "extensions/extensions_resources.grd",
+    "name": "IDR_EXTENSION_API_FEATURES",
+    "file": "common\\api\\_api_features.json",
+    "guards": [],
+    "generated": false
+  },
+  {
+    "manifest": "net/base/net_resources.grd",
+    "name": "IDR_DIR_HEADER_HTML",
+    "file": "dir_header.html",
+    "guards": [],
+    "generated": false
+  }
+]

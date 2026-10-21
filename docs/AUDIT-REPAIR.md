@@ -165,3 +165,22 @@ inline_login_app.js on Android. Its components producer is only a resource dep
 on desktop platforms; inline_login_ui is gated by DICE/ChromeOS/Fuchsia. Restore
 not-is-Android on the guest-page/inline-login GRIT block instead of the inherited
 tautology. Shared extension resource blocks remain enabled. Add guard regression.
+
+## Build 31 / retry 32: desktop WebUI resource audit
+
+GRIT passed inline login then failed on generated Media Router internals JS.
+Audited file-bearing non-string overlay GRD/GRDP entries and recorded guards
+and generated/static paths in config/webui-resource-audit.json. In the browser
+manifest six inherited tautologies exposed desktop-only groups: Media Router,
+Desktop Sharing Hub, Chrome Cart, tab-ranker models, desktop NTP and About System.
+Restore all six to not is_android. Browser resources GN puts Media Router build_ts
+and sharing protobuf generation behind !is_android. Android reachability checks
+exclude Media Router UI, NTP resource cache and Cart service consumers. Other
+generated groups retain feature/platform guards matching their GN producers
+(certificate viewer, NaCl, conflicts, reset-password, ChromeOS and Android
+explore-sites); shared USB/Mojo and content/dev-ui resources remain enabled.
+String-only GRDP platform widenings remain because Android extension UI can use
+those strings; this audit does not remove extension assets or disable GN/GRIT.
+Regression tests cover all six groups and representative absent consumers.
+Inventory is a review aid, not proof of all generated output names, recursive
+imports or runtime behavior. Build 32 must still validate GRIT and compilation.
