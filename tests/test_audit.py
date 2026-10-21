@@ -19,6 +19,12 @@ class AuditGateTest(unittest.TestCase):
             rel = item[2:] if item.startswith('//') else 'chrome/android/' + item
             self.assertTrue((overlay / rel).is_file() or rel in inherited, rel)
 
+    def test_android_focus_module_has_producer_and_definition(self):
+        root = ROOT / 'chromium-overlay/ui/webui/resources'
+        self.assertIn('js/cr/ui/focus_without_ink.m.js', audit.reachable_strings((root / 'BUILD.gn').read_text()))
+        producer = (root / 'js/cr/ui/BUILD.gn').read_text().split('preprocess_if_expr("preprocess_generated")', 1)[1].split('\ngenerate_grd(', 1)[0]
+        self.assertIn('focus_without_ink.m.js', audit.reachable_strings(producer))
+
     def test_shortcut_consumers_use_generated_module(self):
         for name in ['BUILD.gn', 'cr_elements/find_shortcut_behavior.js',
                      'cr_elements/find_shortcut_mixin.ts']:

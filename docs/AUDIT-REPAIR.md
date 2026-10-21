@@ -148,3 +148,12 @@ linker). Ninja reached 4230/68689 before prepare_resources rejected ten present
 ic_foreground/ic_background PNGs in res_chromium_base not listed in its target.
 Declare all ten across five densities and add reverse inventory coverage for
 all overlay PNG/XML files in that target. Keep prepare_resources validation.
+
+## Build 29: Android Polymer focus module
+
+C++ compilation progressed to 15120/68689 Ninja steps; resource icon packaging
+passed. TypeScript cr_action_menu imports focus_without_ink.m.js, but Chromium
+preprocessing and declaration generation excluded Android. Move only that shared
+module to unconditional preprocessing and definition inputs; retain desktop guards
+for other modules. The modulize target already produces it. GN/TS checks remain
+enabled. Host regression checks both producer and declaration reachability.
