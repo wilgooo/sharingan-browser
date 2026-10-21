@@ -119,9 +119,9 @@ class AuditGateTest(unittest.TestCase):
         for label in ['//components/crx_file', '//extensions/common:test_support',
                       '//chrome/browser/extensions:test_support', '//components/ukm:test_support',
                       '//chrome/browser/supervised_user:test_support',
-                      '//chrome/browser/resources:component_extension_resources']:
+                      '//chrome/browser/resources:component_extension_resources_grit']:
             self.assertIn(label, tests)
-        self.assertNotIn('//chrome/browser/resources:component_extension_resources_grit', tests)
+        self.assertNotIn('//chrome/browser/resources:component_extension_resources', tests)
         weblayer = audit.reachable_strings((ROOT / 'chromium-overlay/weblayer/test/BUILD.gn').read_text())
         self.assertIn('//components/keep_alive_registry', weblayer)
 

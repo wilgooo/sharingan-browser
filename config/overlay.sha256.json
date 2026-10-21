@@ -3611,7 +3611,7 @@
   "chrome/renderer/websocket_handshake_throttle_provider_impl.h": "ad8a770d624d4c2f80ed7b91f3cb187c08e3620636f30161b935f69fb4c10c70",
   "chrome/renderer/worker_content_settings_client.cc": "8b470b6baf2474c89f31133078627300c30091c864edf617b5d50b349ffb6cc4",
   "chrome/renderer/worker_content_settings_client.h": "f86bcb149148143e92c8a45c1c6d5b8fa830b1949b2111e1a45f54fda279a6e0",
-  "chrome/test/BUILD.gn": "d2bb5b813785f993f544c5112b7624a7258244e6a13a9b5343f3e1f60c6863e6",
+  "chrome/test/BUILD.gn": "08ca2f8a5549bf0e32445be8561fa2550033b0f2647b68b49d560a5a9f70dee0",
   "components/.eslintrc.js": "3553116a6648931de09299a0ceddb49828cde90c3ffacc3abdb72716371c3a0a",
   "components/BUILD.gn": "86508cc99f34562f16767853338f82aade4da86cfc2adb6e425ff35fb02ae381",
   "components/DEPS": "2f1cd97a618ea245e143c7b8df4bc017b22f82b9b0f52e22ecc9417a72f374ec",
@@ -3623,6 +3623,7 @@
   "components/autofill_assistant_strings.grdp": "5cd9bed1e9aa92d60820c317c0f6b6b3700401511759a3f2ae41ba18bcafd6d5",
   "components/autofill_payments_strings.grdp": "a2c4c9463eea48d1d1f28d38967b1a0e4e18df943f347d25f96acdff32383de3",
   "components/autofill_strings.grdp": "cd184a850ec95d27486b8ef054526c3d858510f18a072b0a304501a3876b65ca",
+  "components/background_sync/BUILD.gn": "1804d872e97d1ef07c2b1cefa0b0f1fad719d2e7b10362ac854b880dee02ae07",
   "components/blocked_content_strings.grdp": "30e567ef3c0b184f6ef61973f7897886a849b033c182d393e5c0b279a8a65914",
   "components/bookmark_bar_strings.grdp": "ce2af068f88eafb04a8b93c4b290df85dae23dd676ebd94ff2f3ae6fde77ba03",
   "components/bookmark_component_strings.grdp": "53e30753bee52fefa32c434757f90dbae6fdf82e61ea742949f7f988a8bfa3c4",
@@ -8308,6 +8309,5 @@
   "ui/webui/webui_allowlist_provider.cc": "bbce0d7b1e6f9b60656000cb00b4556de1c976cd30485df2092cef36e2abe297",
   "ui/webui/webui_allowlist_provider.h": "b71bd8a22cc1258c0ece5525aca93af6908e71bdc2ae355112c61215fc2b3d4b",
   "ui/webui/webui_features.gni": "3dc2db2838ea71e2f348eeb9290c2a984c058a731189ffa24fff579dbd91dbe0",
-  "components/background_sync/BUILD.gn": "1804d872e97d1ef07c2b1cefa0b0f1fad719d2e7b10362ac854b880dee02ae07",
   "weblayer/test/BUILD.gn": "2d6d3b01bcf6cd36d350aa03cb6699991205d9d8bd5469e0d08c83733660c382"
 }

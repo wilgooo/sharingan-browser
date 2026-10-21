@@ -6361,10 +6361,11 @@ test("unit_tests") {
     ]
 
     # Sharingan: owners of extension/web-app unit test headers on Android.
-    # The GRIT source_set public-deps the _grit action desktop lists directly.
+    # Use the native GRIT action: the _resources suffix is classified as Java
+    # by Android test templates and would request a nonexistent build_config.
     if (enable_extensions) {
       deps += [
-        "//chrome/browser/resources:component_extension_resources",
+        "//chrome/browser/resources:component_extension_resources_grit",
         "//chrome/browser/supervised_user:test_support",
         "//chrome/browser/ui/tabs:tab_enums",
         "//chrome/browser/web_applications:web_applications_test_support",
