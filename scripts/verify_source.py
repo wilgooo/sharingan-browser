@@ -7,6 +7,7 @@ import re
 import xml.etree.ElementTree as ET
 import zipfile
 from check_audit import check as check_audit
+from check_android_resources import check as check_android_resources
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -48,7 +49,7 @@ def main():
             assert script in archive.namelist()
     workflows = {p.relative_to(ROOT).as_posix() for p in (ROOT / '.github/workflows').glob('*')}
     assert workflows == {'.github/workflows/android-free.yml'}, 'Unexpected inherited workflow.'
-    audit_errors = check_audit(ROOT)
+    audit_errors = check_audit(ROOT) + check_android_resources(ROOT)
     assert not audit_errors, '\n'.join(audit_errors)
     print(f'PASS: {len(manifest)} file hashes; JNI/GN source references; Android XML/resources; MV3 fixture packaging.')
     print('NOT TESTED: compilation, APK installation, extension execution, Web Store compatibility.')

@@ -3732,7 +3732,7 @@
   "components/browser_ui/styles/android/java/res/drawable-xxxhdpi/settings_cog.png": "271aca946b7667e352ade301b12af7ff71d2fd139fe7614ee2ca7682dae70987",
   "components/browser_ui/styles/android/java/res/drawable-xxxhdpi/top_round_foreground.9.png": "73d8413f7e62b52b5206d3dccd08f051943017e181e269d49fc5f7102c0fc0f1",
   "components/browser_ui/styles/android/java/res/drawable-xxxhdpi/top_round_shadow.9.png": "c2ba2275506aaa280ecb3209f8a92fa8b8f53d55485fe005c8fe12d68bef8e8a",
-  "components/browser_ui/widget/android/BUILD.gn": "595e1c08166606c9fe298f6cdf6da61bbe4895b5b2c56b9d7ca759c0ca126207",
+  "components/browser_ui/widget/android/BUILD.gn": "bf3028a2ac25ccbcc9eec5524372b1769f177227955f75b97c9ad4b1144efde2",
   "components/browser_ui/widget/android/DEPS": "c507b0470d116804efc8de4a8ff1f6204cecc25bc6c0ca8550d5827e48fce6ca",
   "components/browser_ui/widget/android/DIR_METADATA": "8e42f48a5d1b369f41613830473b19fb30d089964ed49617e997aece8d114e7d",
   "components/browser_ui/widget/android/OWNERS": "31e8d7d618289ee83476f4536816840a3a69633de2c6cf241e365a0879047cca",

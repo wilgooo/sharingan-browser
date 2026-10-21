@@ -15332,7 +15332,7 @@ index 00000000..ead4740e
 +  ]
 +}
 diff --git a/components/browser_ui/widget/android/BUILD.gn b/components/browser_ui/widget/android/BUILD.gn
-index d8d1074b..ffc5753c 100644
+index d8d1074b..3e5cb782 100644
 --- a/components/browser_ui/widget/android/BUILD.gn
 +++ b/components/browser_ui/widget/android/BUILD.gn
 @@ -90,14 +90,6 @@ android_library("java") {
@@ -15361,6 +15361,27 @@ index d8d1074b..ffc5753c 100644
      "//third_party/androidx:androidx_constraintlayout_constraintlayout_java",
      "//ui/android:ui_java",
      "//url:gurl_java",
+@@ -250,8 +239,6 @@ android_resources("java_resources") {
+     "java/res/drawable/tile_view_highlight.xml",
+     "java/res/drawable/tile_view_highlight_mask.xml",
+     "java/res/drawable/tile_view_highlight_plain.xml",
+-    "java/res/drawable/gnt_rounded_corners_shape.xml",
+-    "java/res/drawable/gnt_outline_shape.xml",
+     "java/res/layout/app_menu_divider.xml",
+     "java/res/layout/app_menu_layout.xml",
+     "java/res/layout/date_divided_adapter_header_view_holder.xml",
+@@ -265,11 +252,6 @@ android_resources("java_resources") {
+     "java/res/layout/modern_list_item_view_v2.xml",
+     "java/res/layout/more_progress_button.xml",
+     "java/res/layout/number_roll_view.xml",
+-    "java/res/layout/feed_card_view_medium.xml",
+-    "java/res/layout/feed_card_view_medium_placeholder.xml",
+-    "java/res/layout/ad_card_view_large.xml",
+-    "java/res/layout/ad_card_view_compact.xml",
+-    "java/res/layout/ad_card_view_slim.xml",
+     "java/res/layout/promo_card_view_compact.xml",
+     "java/res/layout/promo_card_view_large.xml",
+     "java/res/layout/promo_card_view_slim.xml",
 diff --git a/components/guest_view/browser/BUILD.gn b/components/guest_view/browser/BUILD.gn
 new file mode 100644
 index 00000000..37ae6d5f

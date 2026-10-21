@@ -127,3 +127,16 @@ resource names with platform drawable aliases instead of absent bitmap assets.
 Icons may look different and require device review. Add a resource-list existence
 regression using a pinned Chromium path inventory. This does not prove AAPT,
 compilation, or Android runtime passes.
+
+## Build 27: complete literal Android resource audit
+
+GN passed again. Ninja found gnt_rounded_corners_shape.xml before compiling.
+Compared literal /res/ file inputs in every overlay .gn/.gni against the entire
+pinned Chromium tree plus overlay, not only chrome/android. Found seven missing
+widget entries: two GNT shapes and five feed/ad card layouts. All seven occur
+only in the build list in the overlay; removed with the already removed legacy
+ad-card code. Add this complete literal resource-input check and parsing of every
+overlay res XML to verify_source.py, with missing-input/XML regression tests.
+Variable/generated paths, transitive resource identifiers, GRIT/WebUI assets and
+AAPT/link/compile semantics still require build validation; zero static missing
+inputs is not a guarantee of a successful APK.
