@@ -481,7 +481,7 @@
   "chrome/android/aapt2.config": "4ec9283400e24deb9b0dd2a18becc15465263e3db7127492b778719a1d74329b",
   "chrome/android/channel.gni": "c8d8c86c866cae1d7b76ebd1d0c3ddfddc28d03bfc0ce4a22f662ba011303221",
   "chrome/android/chrome_common_shared_library.gni": "566b8918053452953c6271fff672d1d1d0066b31175b0f49849dd6689f489966",
-  "chrome/android/chrome_java_resources.gni": "e92a85eb4dd07ade08bd15499a50a994ea0f3febc94d33aa98d74015d47775a2",
+  "chrome/android/chrome_java_resources.gni": "5483c6f96d295681d7701d4bce91d176524cfc2f071c04a1e02d2531f50bb142",
   "chrome/android/chrome_java_sources.gni": "030723377200dab6d7ce9996dc4f7118d7a7c0c3427a6f6a25cdd65157300ee9",
   "chrome/android/chrome_junit_test_java_sources.gni": "985931bae7655a5cf8369a09fd460a8c63d61711a103c45deaa8d88d038a1aa5",
   "chrome/android/chrome_public_apk_tmpl.gni": "179f80be9010581b1d3ce419f5b05553ad3c2b3c747d3976ae8c13ddfd2687b6",

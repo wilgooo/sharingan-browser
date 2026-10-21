@@ -32,3 +32,12 @@ class ResourceInputsTest(unittest.TestCase):
         for path in (android / 'java/res_chromium_base').rglob('*'):
             if path.suffix in ('.png', '.xml'):
                 self.assertIn('"' + path.relative_to(android).as_posix() + '"', target)
+
+    def test_app_overlay_resources_are_declared(self):
+        import re
+        android = ROOT / 'chromium-overlay/chrome/android'
+        text = (android / 'chrome_java_resources.gni').read_text()
+        declared = {v.removeprefix('//chrome/android/') for v in re.findall('"([^"\n]+)"', text)}
+        for path in (android / 'java/res').rglob('*'):
+            if path.is_file() and path.suffix in ('.xml', '.png', '.webp', '.jpg'):
+                self.assertIn(path.relative_to(android).as_posix(), declared)

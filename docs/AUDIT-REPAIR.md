@@ -184,3 +184,11 @@ those strings; this audit does not remove extension assets or disable GN/GRIT.
 Regression tests cover all six groups and representative absent consumers.
 Inventory is a review aid, not proof of all generated output names, recursive
 imports or runtime behavior. Build 32 must still validate GRIT and compilation.
+
+## Build 32: undeclared app resources
+
+prepare_resources rejected present locale XMLs absent from chrome_java_resources.
+Reverse inventory of the entire app res overlay found 35 undeclared files: 33
+translations and two preference XMLs. Declare all and add full app-resource
+reverse inventory regression, complementing missing-input and base-icon checks.
+Keep strict resource discovery. AAPT/runtime correctness remains unverified.
