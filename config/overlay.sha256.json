@@ -473,7 +473,7 @@
   "chrome/PRESUBMIT_test.py": "f1c993d67ec1529ba506f667b046f23a012ffd7ce468ca6d5b509638f9e171b8",
   "chrome/README.md": "0a3a53767ed905ee5c23307809163c187d3e1a41b03751039289bfa6d7d67d9e",
   "chrome/VERSION": "2347e8aa0cc90840e0dda64801e28f686b2e4c8ceab3498c93c633d399d94c7c",
-  "chrome/android/BUILD.gn": "f663af4c6501ba91aca33466871f7907920438e2ffba44ebaf76d57bf78c6499",
+  "chrome/android/BUILD.gn": "34912b9fce5f5e94a4c813123864cd1ad9d02b8db9453107cf9255841e3c21fa",
   "chrome/android/COMMON_METADATA": "400313eac3e8f87e24ae21bb8f9148fac4256c7d6ece77dd4b6772d9adce4023",
   "chrome/android/DEPS": "c94cbf4b072cf85beb6b85dff7b31a421efeeb99ca6f5cba7467e769c392d1c0",
   "chrome/android/DIR_METADATA": "8e42f48a5d1b369f41613830473b19fb30d089964ed49617e997aece8d114e7d",

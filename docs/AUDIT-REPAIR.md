@@ -140,3 +140,11 @@ overlay res XML to verify_source.py, with missing-input/XML regression tests.
 Variable/generated paths, transitive resource identifiers, GRIT/WebUI assets and
 AAPT/link/compile semantics still require build validation; zero static missing
 inputs is not a guarantee of a successful APK.
+
+## Build 28: undeclared base-module icons
+
+GN passed and C++ compilation began (including installer constants and Android
+linker). Ninja reached 4230/68689 before prepare_resources rejected ten present
+ic_foreground/ic_background PNGs in res_chromium_base not listed in its target.
+Declare all ten across five densities and add reverse inventory coverage for
+all overlay PNG/XML files in that target. Keep prepare_resources validation.

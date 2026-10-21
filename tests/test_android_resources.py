@@ -25,3 +25,10 @@ class ResourceInputsTest(unittest.TestCase):
             self.assertEqual(len(errors), 2)
             self.assertTrue(any('missing.xml' in error for error in errors))
             self.assertTrue(any('invalid XML' in error for error in errors))
+
+    def test_base_module_overlay_icons_are_declared(self):
+        android = ROOT / 'chromium-overlay/chrome/android'
+        target = (android / 'BUILD.gn').read_text().split('android_resources("chrome_base_module_resources")', 1)[1].split('\n}', 1)[0]
+        for path in (android / 'java/res_chromium_base').rglob('*'):
+            if path.suffix in ('.png', '.xml'):
+                self.assertIn('"' + path.relative_to(android).as_posix() + '"', target)
