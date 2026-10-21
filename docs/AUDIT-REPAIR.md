@@ -115,3 +115,15 @@ Pinned Chromium's js/cr/ui preprocessing produces keyboard_shortcut_list.m.js;
 the non-module input is not preprocessed on Android. Restore the module name
 in generate_definitions and both find-shortcut imports so runtime/TypeScript
 consumers agree with the producer. GN --check remains enabled.
+
+## Build 26: Android resource inputs
+
+GN --check succeeded; Ninja stopped before compilation on missing
+values-xxhdpi/dimens.xml. Auditing the complete chrome_java_resources list
+against the pinned Chromium tree and overlay also found 90 missing Kiwi
+settings PNGs (18 names across five densities) and unused toolbar_preferences.xml.
+Remove stale XML entries; density-independent dimens remain. Preserve settings
+resource names with platform drawable aliases instead of absent bitmap assets.
+Icons may look different and require device review. Add a resource-list existence
+regression using a pinned Chromium path inventory. This does not prove AAPT,
+compilation, or Android runtime passes.

@@ -9,6 +9,16 @@ spec.loader.exec_module(audit)
 
 
 class AuditGateTest(unittest.TestCase):
+    def test_android_resource_list_has_all_inputs(self):
+        import json
+        import re
+        inherited = set(json.loads((ROOT / 'config/chromium_android_resource_paths.json').read_text()))
+        overlay = ROOT / 'chromium-overlay'
+        text = (overlay / 'chrome/android/chrome_java_resources.gni').read_text()
+        for item in re.findall(r'"((?://chrome/android/)?java/res/[^"$]+)"', text):
+            rel = item[2:] if item.startswith('//') else 'chrome/android/' + item
+            self.assertTrue((overlay / rel).is_file() or rel in inherited, rel)
+
     def test_shortcut_consumers_use_generated_module(self):
         for name in ['BUILD.gn', 'cr_elements/find_shortcut_behavior.js',
                      'cr_elements/find_shortcut_mixin.ts']:

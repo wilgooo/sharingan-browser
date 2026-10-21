@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Platform icon fallbacks for missing Kiwi bitmap assets. -->
+<resources>
+    <item type="drawable" name="ics_accessibility">@android:drawable/ic_menu_view</item>
+    <item type="drawable" name="ics_addresses">@android:drawable/ic_menu_mylocation</item>
+    <item type="drawable" name="ics_clear_data">@android:drawable/ic_menu_delete</item>
+    <item type="drawable" name="ics_dev_options">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_edit_homepage">@android:drawable/ic_menu_myplaces</item>
+    <item type="drawable" name="ics_languages">@android:drawable/ic_menu_sort_alphabetically</item>
+    <item type="drawable" name="ics_lite_mode">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_night_mode">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_notifications">@android:drawable/ic_dialog_info</item>
+    <item type="drawable" name="ics_passwords">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_payments">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_privacy_security">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_search_engine">@android:drawable/ic_menu_search</item>
+    <item type="drawable" name="ics_services">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_tab_switcher">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_theme">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_toolbar_shortcut">@android:drawable/ic_menu_preferences</item>
+    <item type="drawable" name="ics_website_settings">@android:drawable/ic_menu_manage</item>
+</resources>

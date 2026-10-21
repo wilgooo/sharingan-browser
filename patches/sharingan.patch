@@ -1861,17 +1861,126 @@ index 7c56c68a..cf1adc7e 100644
      # files, so include these files in chrome_jni_headers.
      "java/src/org/chromium/chrome/browser/AppHooks.java",
 diff --git a/chrome/android/chrome_java_resources.gni b/chrome/android/chrome_java_resources.gni
-index 7a9ba86c..01969031 100644
+index 7a9ba86c..d67e2ec3 100644
 --- a/chrome/android/chrome_java_resources.gni
 +++ b/chrome/android/chrome_java_resources.gni
-@@ -196,6 +196,7 @@ kiwi_java_resources = [
+@@ -96,106 +96,16 @@ kiwi_java_resources = [
+     "//chrome/android/java/res/layout/radio_button_group_translate_preference.xml",
+     "//chrome/android/java/res/layout/radio_button_group_tabswitcher_preference.xml",
+     "//chrome/android/java/res/layout/radio_button_group_nightmode_preference.xml",
+-    "//chrome/android/java/res/values-xxhdpi/dimens.xml",
+     "//chrome/android/java/res/xml/translate_preferences.xml",
+-    "//chrome/android/java/res/xml/toolbar_preferences.xml",
+     "//chrome/android/java/res/xml/tabswitcher_preferences.xml",
+     "//chrome/android/java/res/xml/nightmode_preferences.xml",
+ 
+ # Settings icons
+-    "//chrome/android/java/res/drawable-hdpi/ics_edit_homepage.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_edit_homepage.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_edit_homepage.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_edit_homepage.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_edit_homepage.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_languages.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_languages.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_languages.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_languages.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_languages.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_dev_options.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_dev_options.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_dev_options.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_dev_options.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_dev_options.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_lite_mode.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_lite_mode.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_lite_mode.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_lite_mode.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_lite_mode.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_notifications.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_notifications.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_notifications.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_notifications.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_notifications.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_accessibility.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_accessibility.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_accessibility.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_accessibility.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_accessibility.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_toolbar_shortcut.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_toolbar_shortcut.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_toolbar_shortcut.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_toolbar_shortcut.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_toolbar_shortcut.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_services.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_services.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_services.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_services.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_services.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_clear_data.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_clear_data.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_clear_data.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_clear_data.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_clear_data.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_website_settings.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_website_settings.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_website_settings.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_website_settings.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_website_settings.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_privacy_security.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_privacy_security.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_privacy_security.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_privacy_security.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_privacy_security.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_tab_switcher.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_tab_switcher.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_tab_switcher.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_tab_switcher.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_tab_switcher.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_night_mode.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_night_mode.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_night_mode.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_night_mode.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_night_mode.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_theme.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_theme.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_theme.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_theme.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_theme.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_addresses.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_addresses.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_addresses.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_addresses.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_addresses.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_payments.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_payments.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_payments.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_payments.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_payments.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_passwords.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_passwords.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_passwords.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_passwords.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_passwords.png",
+-    "//chrome/android/java/res/drawable-hdpi/ics_search_engine.png",
+-    "//chrome/android/java/res/drawable-mdpi/ics_search_engine.png",
+-    "//chrome/android/java/res/drawable-xhdpi/ics_search_engine.png",
+-    "//chrome/android/java/res/drawable-xxhdpi/ics_search_engine.png",
+-    "//chrome/android/java/res/drawable-xxxhdpi/ics_search_engine.png",
  ]
  
  chrome_java_resources = [
++  "java/res/values/sharingan_settings_icons.xml",
 +  "java/res/drawable/sharingan_launcher.xml",
    "java/res/anim/accelerate_quart.xml",
    "java/res/anim/activity_close_exit.xml",
    "java/res/anim/activity_open_enter.xml",
+@@ -831,7 +741,6 @@ chrome_java_resources = [
+   "java/res/values-v28/styles.xml",
+   "java/res/values-xhdpi/dimens.xml",
+   "java/res/values-xlarge/dimens.xml",
+-  "java/res/values-xxhdpi/dimens.xml",
+   "java/res/values/attrs.xml",
+   "java/res/values/colors.xml",
+   "java/res/values/dimens.xml",
 diff --git a/chrome/android/chrome_java_sources.gni b/chrome/android/chrome_java_sources.gni
 index f9b13033..8764ce47 100644
 --- a/chrome/android/chrome_java_sources.gni
@@ -1951,6 +2060,34 @@ index cea0c489..d7dddd0b 100644
          <item android:id="@+id/extensions_id"
              android:title="@string/main_menu_extensions"
              android:icon="@drawable/ic_extensions" />
+diff --git a/chrome/android/java/res/values/sharingan_settings_icons.xml b/chrome/android/java/res/values/sharingan_settings_icons.xml
+new file mode 100644
+index 00000000..a20efebd
+--- /dev/null
++++ b/chrome/android/java/res/values/sharingan_settings_icons.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Platform icon fallbacks for missing Kiwi bitmap assets. -->
++<resources>
++    <item type="drawable" name="ics_accessibility">@android:drawable/ic_menu_view</item>
++    <item type="drawable" name="ics_addresses">@android:drawable/ic_menu_mylocation</item>
++    <item type="drawable" name="ics_clear_data">@android:drawable/ic_menu_delete</item>
++    <item type="drawable" name="ics_dev_options">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_edit_homepage">@android:drawable/ic_menu_myplaces</item>
++    <item type="drawable" name="ics_languages">@android:drawable/ic_menu_sort_alphabetically</item>
++    <item type="drawable" name="ics_lite_mode">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_night_mode">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_notifications">@android:drawable/ic_dialog_info</item>
++    <item type="drawable" name="ics_passwords">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_payments">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_privacy_security">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_search_engine">@android:drawable/ic_menu_search</item>
++    <item type="drawable" name="ics_services">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_tab_switcher">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_theme">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_toolbar_shortcut">@android:drawable/ic_menu_preferences</item>
++    <item type="drawable" name="ics_website_settings">@android:drawable/ic_menu_manage</item>
++</resources>
 diff --git a/chrome/android/java/res/values/strings.xml b/chrome/android/java/res/values/strings.xml
 index 7a51cf80..87820b46 100644
 --- a/chrome/android/java/res/values/strings.xml
