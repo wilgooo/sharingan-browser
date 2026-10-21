@@ -9,6 +9,13 @@ spec.loader.exec_module(audit)
 
 
 class AuditGateTest(unittest.TestCase):
+    def test_shortcut_consumers_use_generated_module(self):
+        for name in ['BUILD.gn', 'cr_elements/find_shortcut_behavior.js',
+                     'cr_elements/find_shortcut_mixin.ts']:
+            text = (ROOT / 'chromium-overlay/ui/webui/resources' / name).read_text()
+            self.assertIn('js/cr/ui/keyboard_shortcut_list.m.js', text)
+            self.assertNotIn('js/cr/ui/keyboard_shortcut_list.js', text)
+
     def test_android_excludes_desktop_but_keeps_extension_resources(self):
         text = (ROOT / 'chromium-overlay/chrome/chrome_paks.gni').read_text()
         reachable = audit.reachable_strings(text)

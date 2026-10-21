@@ -106,3 +106,12 @@ the desktop unit test dependency and owning the generated header. Keep GN --chec
 The regression gate now rejects the misleading resource target in Android test
 deps. APT cache hit and successful restore are confirmed in this run's log.
 Host checks do not establish GN or compilation success.
+
+## Build 24: shortcut module generated input
+
+Run 39549165827 passed the prior native-resource target error, then reported
+three generated-input errors for keyboard_shortcut_list.js across toolchains.
+Pinned Chromium's js/cr/ui preprocessing produces keyboard_shortcut_list.m.js;
+the non-module input is not preprocessed on Android. Restore the module name
+in generate_definitions and both find-shortcut imports so runtime/TypeScript
+consumers agree with the producer. GN --check remains enabled.

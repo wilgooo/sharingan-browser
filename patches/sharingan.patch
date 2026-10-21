@@ -15684,7 +15684,7 @@ index c5e0370f..873d5ae5 100644
        "//ui/webui/resources/cr_components/color_change_listener:mojom",
        "//ui/webui/resources/cr_components/customize_themes:mojom",
 diff --git a/ui/webui/resources/BUILD.gn b/ui/webui/resources/BUILD.gn
-index 943c9d8f..d1de5d9b 100644
+index 943c9d8f..eae9cdae 100644
 --- a/ui/webui/resources/BUILD.gn
 +++ b/ui/webui/resources/BUILD.gn
 @@ -10,7 +10,7 @@ import("//tools/typescript/ts_library.gni")
@@ -15760,6 +15760,15 @@ index 943c9d8f..d1de5d9b 100644
      deps += [ "cr_elements:closure_compile" ]
  
      if (is_chromeos_ash) {
+@@ -244,7 +252,7 @@ generate_definitions_js_files = [
+   "js/cr/ui.m.js",
+   "js/cr/ui/focus_outline_manager.m.js",
+   "js/cr/ui/focus_row.m.js",
+-  "js/cr/ui/keyboard_shortcut_list.js",
++  "js/cr/ui/keyboard_shortcut_list.m.js",
+   "js/cr/ui/store.js",
+   "js/event_tracker.m.js",
+   "js/load_time_data.m.js",
 diff --git a/ui/webui/resources/cr_components/BUILD.gn b/ui/webui/resources/cr_components/BUILD.gn
 new file mode 100644
 index 00000000..b2ab05fb
@@ -16259,6 +16268,32 @@ index d7ee29b3..e260a958 100644
    html_to_wrapper("html_wrapper_files") {
      in_files = [
        "cr_a11y_announcer/cr_a11y_announcer.html",
+diff --git a/ui/webui/resources/cr_elements/find_shortcut_behavior.js b/ui/webui/resources/cr_elements/find_shortcut_behavior.js
+index fee963c9..393a7e97 100644
+--- a/ui/webui/resources/cr_elements/find_shortcut_behavior.js
++++ b/ui/webui/resources/cr_elements/find_shortcut_behavior.js
+@@ -4,7 +4,7 @@
+ 
+ import {assert, assertNotReached} from '../js/assert.m.js';
+ import {isMac} from '../js/cr.m.js';
+-import {KeyboardShortcutList} from '../js/cr/ui/keyboard_shortcut_list.js';
++import {KeyboardShortcutList} from '../js/cr/ui/keyboard_shortcut_list.m.js';
+ import {isTextInputElement} from '../js/util.m.js';
+ 
+ /**
+diff --git a/ui/webui/resources/cr_elements/find_shortcut_mixin.ts b/ui/webui/resources/cr_elements/find_shortcut_mixin.ts
+index d6e435bc..1a488879 100644
+--- a/ui/webui/resources/cr_elements/find_shortcut_mixin.ts
++++ b/ui/webui/resources/cr_elements/find_shortcut_mixin.ts
+@@ -6,7 +6,7 @@ import {dedupingMixin, PolymerElement} from 'chrome://resources/polymer/v3_0/pol
+ 
+ import {assert, assertNotReached} from '../js/assert.m.js';
+ import {isMac} from '../js/cr.m.js';
+-import {KeyboardShortcutList} from '../js/cr/ui/keyboard_shortcut_list.js';
++import {KeyboardShortcutList} from '../js/cr/ui/keyboard_shortcut_list.m.js';
+ import {isTextInputElement} from '../js/util.m.js';
+ 
+ /**
 diff --git a/ui/webui/resources/include_polymer.gni b/ui/webui/resources/include_polymer.gni
 index 9367c66a..d62567d0 100644
 --- a/ui/webui/resources/include_polymer.gni
