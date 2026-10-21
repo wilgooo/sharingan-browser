@@ -734,10 +734,10 @@ class AutocompleteMediator implements OnSuggestionsReceivedListener,
     void loadTypedOmniboxText(long eventTime) {
         String urlText = mUrlBarEditingTextProvider.getTextWithAutocomplete();
         if (urlText.startsWith("chrome://")) {
-          urlText = UrlBarData.replaceOnce(urlText, "chrome://", "kiwi://");
+          urlText = "kiwi://" + urlText.substring("chrome://".length());
         }
         if (urlText.startsWith("chrome-extension://")) {
-          urlText = UrlBarData.replaceOnce(urlText, "chrome-extension://", "kiwi-extension://");
+          urlText = "kiwi-extension://" + urlText.substring("chrome-extension://".length());
         }
         final String urlTextToLoad = urlText;
         cancelAutocompleteRequests();

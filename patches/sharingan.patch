@@ -3503,6 +3503,40 @@ index 8ea94009..fe2d1ecc 100644
          Log.i("Kiwi", "SetContentCommandLineFlags - Setting new dark mode settings to [" + nightModeSettings + "]");
      }
  }
+diff --git a/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/LocationBarMediator.java b/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/LocationBarMediator.java
+index a7042ec7..66f4512b 100644
+--- a/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/LocationBarMediator.java
++++ b/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/LocationBarMediator.java
+@@ -1326,10 +1326,10 @@ class LocationBarMediator
+     @Override
+     public void loadUrlFromVoice(String url) {
+         if (url.startsWith("kiwi://")) {
+-          url = UrlBarData.replaceOnce(url, "kiwi://", "chrome://");
++          url = "chrome://" + url.substring("kiwi://".length());
+         }
+         if (url.startsWith("kiwi-extension://")) {
+-          url = UrlBarData.replaceOnce(url, "kiwi-extension://", "chrome-extension://");
++          url = "chrome-extension://" + url.substring("kiwi-extension://".length());
+         }
+         loadUrl(url, PageTransition.TYPED, 0);
+     }
+diff --git a/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java b/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java
+index 0ee0aeba..3e3793ca 100644
+--- a/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java
++++ b/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java
+@@ -734,10 +734,10 @@ class AutocompleteMediator implements OnSuggestionsReceivedListener,
+     void loadTypedOmniboxText(long eventTime) {
+         String urlText = mUrlBarEditingTextProvider.getTextWithAutocomplete();
+         if (urlText.startsWith("chrome://")) {
+-          urlText = UrlBarData.replaceOnce(urlText, "chrome://", "kiwi://");
++          urlText = "kiwi://" + urlText.substring("chrome://".length());
+         }
+         if (urlText.startsWith("chrome-extension://")) {
+-          urlText = UrlBarData.replaceOnce(urlText, "chrome-extension://", "kiwi-extension://");
++          urlText = "kiwi-extension://" + urlText.substring("chrome-extension://".length());
+         }
+         final String urlTextToLoad = urlText;
+         cancelAutocompleteRequests();
 diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/HandButton.java
 new file mode 100644
 index 00000000..3b2b8f8c

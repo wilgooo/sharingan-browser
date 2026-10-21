@@ -207,3 +207,10 @@ Pinned public-method inventory and regression scan cover all detected manager
 receivers. This is a method-name audit of this API, not a Java typechecker or
 a guarantee about unrelated APIs, overloads, inherited or inferred receivers.
 Full Java/C++ compilation remains the authoritative compatibility check.
+
+## Build 34: missing UrlBarData helper
+
+Four replaceOnce calls in AutocompleteMediator and LocationBarMediator refer to
+an absent helper. All are under matching startsWith checks; replace only that
+prefix using String.substring, preserving the remainder including repeated
+scheme text. No GN or compiler checks disabled.
