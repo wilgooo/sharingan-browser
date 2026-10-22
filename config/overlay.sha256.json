@@ -2919,7 +2919,7 @@
   "chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuCoordinatorFactory.java": "3d30cc76f30c285f308889180ef6113a4bf3d14906503f0172c414cdd319454e",
   "chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuCoordinatorImpl.java": "42120151c7f4c81513f51389b16eae82c3c725a962ab3966bcb65ff686b7ddb8",
   "chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuDragHelper.java": "518aa7821993bacca6cda1155b47d0c7e4569305a38e700a6c5d755bdcd3e6a3",
-  "chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuHandlerImpl.java": "fd256b940c87d96098a05dcfdd399e3e2f52565aa38f04a835c901f3d903ebb8",
+  "chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuHandlerImpl.java": "5b47d6b9a3a7888375a144d18994f22ec324960186062948b660f717a9640b71",
   "chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuItemIcon.java": "2fe36d250abcbdf385e40988ed4e70ed95431a2a44ac8df86c29f177a197bef6",
   "chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuItemViewBinder.java": "3fdbb3d3871eadc3cb898082d1bf9a14e71e8357b34b65fa642aaa4e389c7a82",
   "chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuItemViewBinderRenderTest.java": "c6b58a4efd442ed3f8b05ce2be14f16ef95b4f2a87261850ca5f7e0d5252ef19",

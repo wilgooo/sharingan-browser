@@ -1,5 +1,6 @@
 from pathlib import Path
 import unittest
+import re
 ROOT = Path(__file__).resolve().parents[1] / 'chromium-overlay'
 TOP = 'chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/'
 class UiContractsTest(unittest.TestCase):
@@ -28,3 +29,11 @@ class UiContractsTest(unittest.TestCase):
         source = (ROOT / 'chrome/android/features/tab_ui/java/src/org/chromium/chrome/browser/tasks/tab_management/TabSwitcherLayout.java').read_text()
         self.assertNotIn('TitleCache', source)
         self.assertNotIn('layerTitleCache', source)
+
+    def test_all_menu_delegate_calls_are_declared(self):
+        base = ROOT / 'chrome/browser/ui/android/appmenu'
+        delegate = (base / 'java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuDelegate.java').read_text()
+        handler = (base / 'internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuHandlerImpl.java').read_text()
+        for method in re.findall(r'mAppMenuDelegate\.(\w+)\(', handler):
+            self.assertRegex(delegate, r'\b' + method + r'\s*\(')
+        self.assertIn('mAppMenuDelegate.setLastItemTitle(lastItemTitle)', handler)

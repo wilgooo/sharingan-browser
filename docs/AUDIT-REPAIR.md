@@ -237,3 +237,13 @@ Restore ContextUtils import, use platform color lookup, declare missing menu IDs
 and resizing color. Main layout falls back to baseline top toolbar because the
 old bottom-toolbar layout is absent; no extension loading/action code removed.
 This is host/static validation, not full Android compilation or device testing.
+
+## Build 37: unused visible-title callback
+
+chrome_java compilation and Error Prone passed at 34392 and 34412, clearing
+the prior 31 errors. Appmenu internal compilation failed at 34444/34445 on
+setLastVisibleItemTitle. No overlay implementation or reader exists for this
+visible-label callback. Remove the orphan call and its unused TITLE extraction;
+retain TITLE_CONDENSED, setLastItemTitle and extension-ID dispatch unchanged.
+Regression audit checks every mAppMenuDelegate method call against the interface.
+Android compilation remains required; this is a method-name contract check.

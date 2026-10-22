@@ -3604,6 +3604,31 @@ index 3f4929cc..62c6a349 100644
      if (use_aura) {
        sources += [
          "views/javascript_app_modal_event_blocker_aura.cc",
+diff --git a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuHandlerImpl.java b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuHandlerImpl.java
+index 1ce6fad5..ea6b840e 100644
+--- a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuHandlerImpl.java
++++ b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuHandlerImpl.java
+@@ -301,20 +301,16 @@ class AppMenuHandlerImpl
+             return;
+         }
+         String lastItemTitle = "";
+-        String lastVisibleItemTitle = "";
+         int menuSize = mModelList.size();
+         for (int i = 0; i < menuSize; i++) {
+             if (mModelList.get(i).model.get(AppMenuItemProperties.MENU_ITEM_ID) == itemId) {
+                 Log.d("Kiwi", "Comparing Menu Size of Size: " + menuSize + " and ID: " + mModelList.get(i).model.get(AppMenuItemProperties.MENU_ITEM_ID) + " and itemId: " + itemId);
+                 CharSequence titleCondensed = mModelList.get(i).model.get(AppMenuItemProperties.TITLE_CONDENSED);
+                 lastItemTitle = titleCondensed.toString();
+-                CharSequence title = mModelList.get(i).model.get(AppMenuItemProperties.TITLE);
+-                lastVisibleItemTitle = title.toString();
+                 break;
+             }
+         }
+         mAppMenuDelegate.setLastItemTitle(lastItemTitle);
+-        mAppMenuDelegate.setLastVisibleItemTitle(lastVisibleItemTitle);
+         mAppMenuDelegate.onOptionsItemSelected(itemId, mDelegate.getBundleForMenuItem(itemId));
+         if (highlighted) mDelegate.recordHighlightedMenuItemClicked(itemId);
+     }
 diff --git a/chrome/browser/ui/android/appmenu/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuDelegate.java b/chrome/browser/ui/android/appmenu/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuDelegate.java
 new file mode 100644
 index 00000000..ec24486a
