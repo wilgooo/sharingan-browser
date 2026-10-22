@@ -258,3 +258,13 @@ AnnotateAndMoveUserBlockedCookies and BuildCookieLine, remove only the site
 specific synthetic-consent branch. Existing stored cookies and exclusion
 checks remain intact. No extension code is removed. Compared against official
 Chromium source at 64038a114b86434efcce9c36697be10e333f911a.
+
+## Build 39: desktop tab strip header on Android
+
+Cookie fix passed; native build stopped at 47875/68689 in
+platform_apps/install_chrome_app.cc. Kiwi deliberately includes
+tab_strip_model.h from browser_navigator_params.h on Android (`|| true`) and
+disables the desktop-only #error in browser.h with `#if 0`, but the pinned
+tab_strip_model.h kept its active #error. Overlay the pristine header with the
+same `#if 0` wrapper; no other line changes. Its chrome/ includes carry no
+desktop-only guards. Compilation of later platform_apps sources is untested.

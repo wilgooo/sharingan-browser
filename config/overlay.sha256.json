@@ -8312,5 +8312,6 @@
   "ui/webui/webui_allowlist_provider.cc": "bbce0d7b1e6f9b60656000cb00b4556de1c976cd30485df2092cef36e2abe297",
   "ui/webui/webui_allowlist_provider.h": "b71bd8a22cc1258c0ece5525aca93af6908e71bdc2ae355112c61215fc2b3d4b",
   "ui/webui/webui_features.gni": "3dc2db2838ea71e2f348eeb9290c2a984c058a731189ffa24fff579dbd91dbe0",
-  "weblayer/test/BUILD.gn": "2d6d3b01bcf6cd36d350aa03cb6699991205d9d8bd5469e0d08c83733660c382"
+  "weblayer/test/BUILD.gn": "2d6d3b01bcf6cd36d350aa03cb6699991205d9d8bd5469e0d08c83733660c382",
+  "chrome/browser/ui/tabs/tab_strip_model.h": "099841e98bc064a9ec9a8966d6df88500e985c15573433fa815a8c3996943fe8"
 }
