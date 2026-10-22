@@ -2092,6 +2092,40 @@ index f9b13033..900181b0 100644
    "java/src/org/chromium/chrome/browser/contacts_picker/ChromePickerAdapter.java",
    "java/src/org/chromium/chrome/browser/content/ContentUtils.java",
    "java/src/org/chromium/chrome/browser/content_capture/ContentCaptureHistoryDeletionObserver.java",
+diff --git a/chrome/android/features/tab_ui/java/src/org/chromium/chrome/browser/tasks/tab_management/TabSwitcherLayout.java b/chrome/android/features/tab_ui/java/src/org/chromium/chrome/browser/tasks/tab_management/TabSwitcherLayout.java
+index d017a6f9..4d828c01 100644
+--- a/chrome/android/features/tab_ui/java/src/org/chromium/chrome/browser/tasks/tab_management/TabSwitcherLayout.java
++++ b/chrome/android/features/tab_ui/java/src/org/chromium/chrome/browser/tasks/tab_management/TabSwitcherLayout.java
+@@ -59,8 +59,6 @@ import java.util.LinkedList;
+ import java.util.List;
+ import java.util.Locale;
+ 
+-import org.chromium.chrome.browser.compositor.LayerTitleCache;
+-import org.chromium.chrome.browser.compositor.TitleCache;
+ 
+ /**
+  * A {@link Layout} that shows all tabs in one grid or list view.
+@@ -641,17 +639,17 @@ public class TabSwitcherLayout extends Layout {
+     @Override
+     protected void updateSceneLayer(RectF viewport, RectF contentViewport,
+             TabContentManager tabContentManager, ResourceManager resourceManager,
+-            BrowserControlsStateProvider browserControls, LayerTitleCache layerTitleCache) {
++            BrowserControlsStateProvider browserControls) {
+         ensureSceneLayerCreated();
+         super.updateSceneLayer(
+-                viewport, contentViewport, tabContentManager, resourceManager, browserControls, layerTitleCache);
++                viewport, contentViewport, tabContentManager, resourceManager, browserControls);
+         assert mSceneLayer != null;
+ 
+         // The content viewport is intentionally sent as both params below.
+         mSceneLayer.pushLayers(getContext(), contentViewport, contentViewport, this,
+                 tabContentManager, resourceManager, browserControls,
+                 isTabGtsAnimationEnabled() ? mGridTabListDelegate.getResourceId() : 0,
+-                mBackgroundAlpha, mGridTabListDelegate.getTabListTopOffset(), layerTitleCache);
++                mBackgroundAlpha, mGridTabListDelegate.getTabListTopOffset());
+         mFrameCount++;
+         if (mLastFrameTime != 0) {
+             long elapsed = SystemClock.elapsedRealtime() - mLastFrameTime;
 diff --git a/chrome/android/java/AndroidManifest.xml b/chrome/android/java/AndroidManifest.xml
 index 15c4f76e..721ac3a0 100644
 --- a/chrome/android/java/AndroidManifest.xml
@@ -2140,10 +2174,10 @@ index cea0c489..d7dddd0b 100644
              android:icon="@drawable/ic_extensions" />
 diff --git a/chrome/android/java/res/values/sharingan_settings_icons.xml b/chrome/android/java/res/values/sharingan_settings_icons.xml
 new file mode 100644
-index 00000000..a20efebd
+index 00000000..7c011d78
 --- /dev/null
 +++ b/chrome/android/java/res/values/sharingan_settings_icons.xml
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,26 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- Platform icon fallbacks for missing Kiwi bitmap assets. -->
 +<resources>
@@ -2165,6 +2199,10 @@ index 00000000..a20efebd
 +    <item type="drawable" name="ics_theme">@android:drawable/ic_menu_preferences</item>
 +    <item type="drawable" name="ics_toolbar_shortcut">@android:drawable/ic_menu_preferences</item>
 +    <item type="drawable" name="ics_website_settings">@android:drawable/ic_menu_manage</item>
++    <item type="id" name="clear_data_menu_id" />
++    <item type="id" name="exit_id" />
++    <item type="id" name="disable_proxy_id" />
++    <color name="resizing_background_color">#FFFFFF</color>
 +</resources>
 diff --git a/chrome/android/java/res/values/strings.xml b/chrome/android/java/res/values/strings.xml
 index 7a51cf80..87820b46 100644
@@ -2266,8 +2304,21 @@ index 5a0f5224..a8bea7fc 100644
          }
  
          if (SplitCompatApplication.isBrowserProcess()) {
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
+index 039a47a8..4df01028 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
+@@ -4,6 +4,8 @@
+ 
+ package org.chromium.chrome.browser;
+ 
++import org.chromium.base.ContextUtils;
++
+ import static org.chromium.chrome.browser.ui.IncognitoRestoreAppLaunchDrawBlocker.IS_INCOGNITO_SELECTED;
+ 
+ import android.app.ActivityManager;
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
-index 0a53b0c5..74174ebb 100644
+index 0a53b0c5..1372fa80 100644
 --- a/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/app/ChromeActivity.java
 @@ -100,7 +100,6 @@ import org.chromium.chrome.browser.dependency_injection.ChromeActivityComponent;
@@ -2309,16 +2360,23 @@ index 0a53b0c5..74174ebb 100644
  
  /**
   * A {@link AsyncInitializationActivity} that builds and manages a {@link CompositorViewHolder}
-@@ -759,7 +753,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+@@ -759,13 +753,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
              // of our control, so we have to disable StrictMode to work. See
              // https://crbug.com/639352.
              try (StrictModeContext ignored = StrictModeContext.allowDiskWrites()) {
 -                SharedPreferencesManager.getInstance().writeBooleanUnchecked("is_tablet", DeviceFormFactor.isTablet());
 +                ContextUtils.getAppSharedPreferences().edit().putBoolean("is_tablet", DeviceFormFactor.isTablet()).apply();
                  TraceEvent.begin("setContentView(R.layout.main)");
-                 if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
-                     setContentView(R.layout.main_bottombar);
-@@ -871,7 +865,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+-                if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
+-                    setContentView(R.layout.main_bottombar);
+-                } else {
+-                    setContentView(R.layout.main);
+-                }
++                setContentView(R.layout.main);
+                 TraceEvent.end("setContentView(R.layout.main)");
+                 if (getControlContainerLayoutId() != ActivityUtils.NO_RESOURCE_ID) {
+                     ViewStub toolbarContainerStub =
+@@ -871,7 +861,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
  
              @Override
              public void onUrlUpdated(Tab tab){
@@ -2326,7 +2384,7 @@ index 0a53b0c5..74174ebb 100644
                PersonalizeResults.Execute(tab);
                mRootUiCoordinator.getStatusBarColorController().updateStatusBarColor();
              }
-@@ -2419,25 +2412,14 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+@@ -2419,25 +2408,14 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
          @BrowserProfileType
          int type = Profile.getBrowserProfileTypeFromProfile(getCurrentTabModel().getProfile());
  
@@ -2359,7 +2417,7 @@ index 0a53b0c5..74174ebb 100644
          }
  
          if (id == R.id.preferences_id) {
-@@ -2756,13 +2738,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+@@ -2756,13 +2734,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
              RecordUserAction.record("MobileMenuSwitchAdblock");
          }
  
@@ -2375,7 +2433,12 @@ index 0a53b0c5..74174ebb 100644
  
          if (id == R.id.auto_dark_web_contents_id || id == R.id.auto_dark_web_contents_check_id) {
              // Get values needed to check/enable auto dark for the current site.
-@@ -2809,7 +2787,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+@@ -2805,15 +2779,15 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+             boolean isDarkModeEnabled = ContextUtils.getAppSharedPreferences().getBoolean("darken_websites_enabled", false);
+             if (!isDarkModeEnabled) {
+               getWindow().setBackgroundDrawable(new ColorDrawable(
+-                          ApiCompatibilityUtils.getColor(getResources(),
++                          getResources().getColor(
                            R.color.media_viewer_bg)));
                int currentTheme = ContextUtils.getAppSharedPreferences().getInt("ui_theme_setting", 0);
                SharedPreferencesManager.getInstance().writeBooleanSync("darken_websites_enabled", true);
@@ -2384,7 +2447,12 @@ index 0a53b0c5..74174ebb 100644
                SharedPreferencesManager.getInstance().writeInt("ui_theme_setting", ThemeType.DARK);
              } else {
                getWindow().setBackgroundDrawable(new ColorDrawable(
-@@ -2824,6 +2802,12 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+-                          ApiCompatibilityUtils.getColor(getResources(),
++                          getResources().getColor(
+                           R.color.resizing_background_color)));
+               int previousTheme = ContextUtils.getAppSharedPreferences().getInt("previous_ui_theme_setting", 0);
+               SharedPreferencesManager.getInstance().writeBooleanSync("darken_websites_enabled", false);
+@@ -2824,6 +2798,12 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
              currentTab.getWebContents().notifyRendererPreferenceUpdate();
          }
  
@@ -2397,7 +2465,7 @@ index 0a53b0c5..74174ebb 100644
          if (id == R.id.extensions_id) {
              RecordUserAction.record("MobileMenuExtensions");
              TabCreator tabCreator = getTabCreator(currentTab.isIncognito());
-@@ -2960,6 +2944,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
+@@ -2960,6 +2940,9 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
  
      @Override
      public boolean onActivityResultWithNative(int requestCode, int resultCode, Intent intent) {
@@ -3380,6 +3448,44 @@ index abaa1bef..7b59a272 100644
    grit("webid_resources") {
      source = "webid/webid_resources.grd"
      defines = chrome_grit_defines
+diff --git a/chrome/browser/tabmodel/android/java/src/org/chromium/chrome/browser/tabmodel/TabList.java b/chrome/browser/tabmodel/android/java/src/org/chromium/chrome/browser/tabmodel/TabList.java
+index c40f8aff..a5d64953 100644
+--- a/chrome/browser/tabmodel/android/java/src/org/chromium/chrome/browser/tabmodel/TabList.java
++++ b/chrome/browser/tabmodel/android/java/src/org/chromium/chrome/browser/tabmodel/TabList.java
+@@ -6,6 +6,7 @@ package org.chromium.chrome.browser.tabmodel;
+ 
+ import org.chromium.base.annotations.MockedInTests;
+ import org.chromium.chrome.browser.tab.Tab;
++import org.chromium.chrome.browser.tab.state.CriticalPersistedTabData;
+ 
+ /**
+  * A read only list of {@link Tab}s. This list understands the concept of an incognito list as
+@@ -26,7 +27,24 @@ public interface TabList {
+      */
+     int index();
+ 
+-    int getLastNonExtensionActiveIndex();
++    /** Returns the most recently active non-extension tab, or INVALID_TAB_INDEX. */
++    default int getLastNonExtensionActiveIndex() {
++        int result = INVALID_TAB_INDEX;
++        long lastActive = Long.MIN_VALUE;
++        for (int i = 0; i < getCount(); i++) {
++            Tab tab = getTabAt(i);
++            if (tab == null) continue;
++            String url = tab.getUrl().getSpec();
++            if (url.startsWith("chrome-extension://") || url.startsWith("kiwi-extension://")) continue;
++            if (i == index()) return i;
++            long timestamp = CriticalPersistedTabData.from(tab).getTimestampMillis();
++            if (result == INVALID_TAB_INDEX || timestamp > lastActive) {
++                result = i;
++                lastActive = timestamp;
++            }
++        }
++        return result;
++    }
+ 
+     /**
+      * @return the number of open tabs in this model
 diff --git a/chrome/browser/ui/BUILD.gn b/chrome/browser/ui/BUILD.gn
 index 3f4929cc..62c6a349 100644
 --- a/chrome/browser/ui/BUILD.gn
@@ -3498,6 +3604,43 @@ index 3f4929cc..62c6a349 100644
      if (use_aura) {
        sources += [
          "views/javascript_app_modal_event_blocker_aura.cc",
+diff --git a/chrome/browser/ui/android/appmenu/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuDelegate.java b/chrome/browser/ui/android/appmenu/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuDelegate.java
+new file mode 100644
+index 00000000..ec24486a
+--- /dev/null
++++ b/chrome/browser/ui/android/appmenu/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenuDelegate.java
+@@ -0,0 +1,30 @@
++// Copyright 2019 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++package org.chromium.chrome.browser.ui.appmenu;
++
++import android.os.Bundle;
++import android.view.MenuItem;
++
++import androidx.annotation.Nullable;
++
++/** A delegate to handle menu item selection. */
++public interface AppMenuDelegate {
++    /** Supplies the selected extension action before dispatching its menu ID. */
++    default void setLastItemTitle(String itemTitle) {}
++
++    /**
++     * Called whenever an item in the app menu is selected.
++     * See {@link android.app.Activity#onOptionsItemSelected(MenuItem)}.
++     * @param itemId The id of the menu item that was selected.
++     * @param menuItemData Extra data associated with the menu item. May be null.
++     */
++    boolean onOptionsItemSelected(int itemId, @Nullable Bundle menuItemData);
++
++    /**
++     * @return {@link AppMenuPropertiesDelegateImpl} instance that the {@link AppMenuHandlerImpl}
++     *         should be using.
++     */
++    AppMenuPropertiesDelegate createAppMenuPropertiesDelegate();
++}
+\ No newline at end of file
 diff --git a/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/WebContentsDarkModeController.java b/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/WebContentsDarkModeController.java
 index 8ea94009..fe2d1ecc 100644
 --- a/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/WebContentsDarkModeController.java
@@ -3561,6 +3704,388 @@ index 00000000..3b2b8f8c
 +public class HandButton extends ChromeImageButton {
 +    public HandButton(Context context, AttributeSet attrs) { super(context, attrs); }
 +}
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator.java
+index f37a7aa9..79fc60c5 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator.java
+@@ -24,6 +24,7 @@ import org.chromium.chrome.browser.browser_controls.BrowserControlsStateProvider
+ import org.chromium.chrome.browser.device.DeviceClassManager;
+ import org.chromium.chrome.browser.flags.ChromeFeatureList;
+ import org.chromium.chrome.browser.layouts.LayoutManager;
++import org.chromium.chrome.browser.layouts.LayoutType;
+ import org.chromium.chrome.browser.layouts.LayoutStateProvider;
+ import org.chromium.chrome.browser.omnibox.LocationBar;
+ import org.chromium.chrome.browser.profiles.Profile;
+@@ -267,7 +268,8 @@ public class TopToolbarCoordinator implements Toolbar {
+             mOverlayCoordinator = new TopToolbarOverlayCoordinator(mToolbarLayout.getContext(),
+                     layoutManager, mControlContainer::getProgressBarDrawingInfo, tabSupplier,
+                     browserControlsStateProvider, mResourceManagerSupplier, topUiThemeColorProvider,
+-                    mIsGridTabSwitcherEnabled);
++                    LayoutType.BROWSING | LayoutType.SIMPLE_ANIMATION | LayoutType.TAB_SWITCHER,
++                    false);
+             layoutManager.addSceneOverlay(mOverlayCoordinator);
+             mToolbarLayout.setOverlayCoordinator(mOverlayCoordinator);
+         }
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayCoordinator.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayCoordinator.java
+index d11242cc..a32c11f2 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayCoordinator.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayCoordinator.java
+@@ -45,15 +45,18 @@ public class TopToolbarOverlayCoordinator implements SceneOverlay {
+             ObservableSupplier<Tab> tabSupplier,
+             BrowserControlsStateProvider browserControlsStateProvider,
+             Supplier<ResourceManager> resourceManagerSupplier,
+-            TopUiThemeColorProvider topUiThemeColorProvider, boolean isGridTabSwitcherEnabled) {
++            TopUiThemeColorProvider topUiThemeColorProvider, int layoutsToShowOn,
++            boolean isVisibilityManuallyControlled) {
+         mModel = new PropertyModel.Builder(TopToolbarOverlayProperties.ALL_KEYS)
+                          .with(TopToolbarOverlayProperties.RESOURCE_ID, R.id.control_container)
+                          .with(TopToolbarOverlayProperties.URL_BAR_RESOURCE_ID,
+                                  R.drawable.modern_location_bar)
+                          .with(TopToolbarOverlayProperties.VISIBLE, true)
++                         .with(TopToolbarOverlayProperties.X_OFFSET, 0)
+                          .with(TopToolbarOverlayProperties.Y_OFFSET,
+                                  browserControlsStateProvider.getTopControlOffset()
+                                          + browserControlsStateProvider.getTopControlsMinHeight())
++                         .with(TopToolbarOverlayProperties.ANONYMIZE, false)
+                          .build();
+         mSceneLayer = new TopToolbarSceneLayer(resourceManagerSupplier);
+         mChangeProcessor =
+@@ -61,7 +64,7 @@ public class TopToolbarOverlayCoordinator implements SceneOverlay {
+ 
+         mMediator = new TopToolbarOverlayMediator(mModel, context, layoutManager,
+                 progressInfoCallback, tabSupplier, browserControlsStateProvider,
+-                topUiThemeColorProvider, isGridTabSwitcherEnabled);
++                topUiThemeColorProvider, layoutsToShowOn, isVisibilityManuallyControlled);
+     }
+ 
+     /**
+@@ -72,6 +75,21 @@ public class TopToolbarOverlayCoordinator implements SceneOverlay {
+         mMediator.setIsAndroidViewVisible(isVisible);
+     }
+ 
++    /** @param visible Whether the overlay and shadow should be visible despite other signals. */
++    public void setManualVisibility(boolean visible) {
++        mMediator.setManualVisibility(visible);
++    }
++
++    /** @param xOffset The x offset of the toolbar. */
++    public void setXOffset(float xOffset) {
++        mMediator.setXOffset(xOffset);
++    }
++
++    /** @param anonymize Whether the URL should be hidden when the layer is rendered. */
++    public void setAnonymize(boolean anonymize) {
++        mMediator.setAnonymize(anonymize);
++    }
++
+     /** Clean up this component. */
+     public void destroy() {
+         mChangeProcessor.destroy();
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayMediator.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayMediator.java
+index cc6213ba..07b35008 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayMediator.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayMediator.java
+@@ -59,35 +59,40 @@ public class TopToolbarOverlayMediator {
+     /** The view state for this overlay. */
+     private final PropertyModel mModel;
+ 
+-    /** Whether the active layout has its own toolbar to display instead of this one. */
+-    private boolean mLayoutHasOwnToolbar;
++    /** Whether visibility is controlled internally or manually by the feature. */
++    private boolean mIsVisibilityManuallyControlled;
+ 
+     /** Whether the android view for this overlay is visible. */
+     private boolean mIsAndroidViewVisible;
+ 
++    /** Whether the overlay should be visible despite other signals. */
++    private boolean mManualVisibility;
++
++    /** Whether a layout that this overlay can be displayed on is showing. */
++    private boolean mIsOnValidLayout;
++
+     TopToolbarOverlayMediator(PropertyModel model, Context context,
+             LayoutStateProvider layoutStateProvider,
+             Callback<ClipDrawableProgressBar.DrawingInfo> progressInfoCallback,
+             ObservableSupplier<Tab> tabSupplier,
+             BrowserControlsStateProvider browserControlsStateProvider,
+-            TopUiThemeColorProvider topUiThemeColorProvider, boolean isGridTabSwitcherEnabled) {
++            TopUiThemeColorProvider topUiThemeColorProvider, int layoutsToShowOn,
++            boolean manualVisibilityControl) {
+         mContext = context;
+         mLayoutStateProvider = layoutStateProvider;
+         mProgressInfoCallback = progressInfoCallback;
+         mBrowserControlsStateProvider = browserControlsStateProvider;
+         mTopUiThemeColorProvider = topUiThemeColorProvider;
+         mModel = model;
++        mIsVisibilityManuallyControlled = manualVisibilityControl;
+ 
++        mIsOnValidLayout = (mLayoutStateProvider.getActiveLayoutType() & layoutsToShowOn) > 0;
+         updateVisibility();
+ 
+         mSceneChangeObserver = new LayoutStateObserver() {
+             @Override
+             public void onStartedShowing(@LayoutType int layout, boolean showToolbar) {
+-                // TODO(1100332): Once ToolbarSwipeLayout uses a SceneLayer that does not include
+-                //                its own toolbar, only check for the vertical tab switcher.
+-                mLayoutHasOwnToolbar =
+-                        (layout == LayoutType.TAB_SWITCHER && !isGridTabSwitcherEnabled)
+-                        || layout == LayoutType.TOOLBAR_SWIPE;
++                mIsOnValidLayout = (layout & layoutsToShowOn) > 0;
+                 updateVisibility();
+             }
+         };
+@@ -132,8 +137,8 @@ public class TopToolbarOverlayMediator {
+                 int yOffset = topOffset + mBrowserControlsStateProvider.getTopControlsMinHeight();
+                 mModel.set(TopToolbarOverlayProperties.Y_OFFSET, yOffset);
+ 
+-                updateVisibility();
+                 updateShadowState();
++                updateVisibility();
+             }
+         };
+         mBrowserControlsStateProvider.addObserver(mBrowserControlsObserver);
+@@ -155,7 +160,8 @@ public class TopToolbarOverlayMediator {
+     private void updateShadowState() {
+         boolean drawControlsAsTexture =
+                 BrowserControlsUtils.drawControlsAsTexture(mBrowserControlsStateProvider);
+-        boolean showShadow = drawControlsAsTexture || !mIsAndroidViewVisible;
++        boolean showShadow = drawControlsAsTexture || !mIsAndroidViewVisible
++                || mIsVisibilityManuallyControlled;
+         mModel.set(TopToolbarOverlayProperties.SHOW_SHADOW, showShadow);
+     }
+ 
+@@ -226,9 +232,13 @@ public class TopToolbarOverlayMediator {
+ 
+     /** Update the visibility of the overlay. */
+     private void updateVisibility() {
+-        mModel.set(TopToolbarOverlayProperties.VISIBLE,
+-                !BrowserControlsUtils.areBrowserControlsOffScreen(mBrowserControlsStateProvider)
+-                        && !mLayoutHasOwnToolbar);
++        if (mIsVisibilityManuallyControlled) {
++            mModel.set(TopToolbarOverlayProperties.VISIBLE, mManualVisibility && mIsOnValidLayout);
++        } else {
++            mModel.set(TopToolbarOverlayProperties.VISIBLE,
++                    !BrowserControlsUtils.areBrowserControlsOffScreen(mBrowserControlsStateProvider)
++                            && mIsOnValidLayout);
++        }
+     }
+ 
+     /** @return Whether this overlay should be attached to the tree. */
+@@ -236,6 +246,32 @@ public class TopToolbarOverlayMediator {
+         return true;
+     }
+ 
++    /** @param xOffset The x offset of the toolbar. */
++    void setXOffset(float xOffset) {
++        mModel.set(TopToolbarOverlayProperties.X_OFFSET, xOffset);
++    }
++
++    /** @param anonymize Whether the URL should be hidden when the layer is rendered. */
++    void setAnonymize(boolean anonymize) {
++        mModel.set(TopToolbarOverlayProperties.ANONYMIZE, anonymize);
++    }
++
++    /** @param visible Whether the overlay and shadow should be visible despite other signals. */
++    void setManualVisibility(boolean visible) {
++        assert mIsVisibilityManuallyControlled
++                : "Manual visibility control was not set for this overlay.";
++        mManualVisibility = visible;
++        updateShadowState();
++        updateVisibility();
++    }
++
++    @VisibleForTesting
++    void setVisibilityManuallyControlledForTesting(boolean manuallyControlled) {
++        mIsVisibilityManuallyControlled = manuallyControlled;
++        updateShadowState();
++        updateVisibility();
++    }
++
+     @VisibleForTesting
+     static void setIsTabletForTesting(Boolean isTablet) {
+         sIsTabletForTesting = isTablet;
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayMediatorTest.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayMediatorTest.java
+index c73c45b6..e2cb7ede 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayMediatorTest.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayMediatorTest.java
+@@ -28,6 +28,7 @@ import org.chromium.base.test.BaseRobolectricTestRunner;
+ import org.chromium.chrome.browser.browser_controls.BrowserControlsStateProvider;
+ import org.chromium.chrome.browser.flags.ChromeFeatureList;
+ import org.chromium.chrome.browser.layouts.LayoutStateProvider;
++import org.chromium.chrome.browser.layouts.LayoutType;
+ import org.chromium.chrome.browser.tab.Tab;
+ import org.chromium.chrome.browser.tab.TabObserver;
+ import org.chromium.chrome.browser.theme.TopUiThemeColorProvider;
+@@ -69,6 +70,9 @@ public class TopToolbarOverlayMediatorTest {
+     @Captor
+     private ArgumentCaptor<BrowserControlsStateProvider.Observer> mBrowserControlsObserverCaptor;
+ 
++    @Captor
++    private ArgumentCaptor<LayoutStateProvider.LayoutStateObserver> mLayoutObserverCaptor;
++
+     @Mock
+     private ObservableSupplier<Tab> mTabSupplier;
+ 
+@@ -97,7 +101,8 @@ public class TopToolbarOverlayMediatorTest {
+         when(mTabSupplier.get()).thenReturn(mTab);
+         mMediator = new TopToolbarOverlayMediator(mModel, mContext, mLayoutStateProvider,
+                 (info)-> {}, mTabSupplier, mBrowserControlsProvider, mTopUiThemeColorProvider,
+-                false);
++                LayoutType.BROWSING, false);
++
+         mMediator.setIsAndroidViewVisible(true);
+ 
+         // Ensure the observer is added to the initial tab.
+@@ -107,6 +112,10 @@ public class TopToolbarOverlayMediatorTest {
+         verify(mTab).addObserver(mTabObserverCaptor.capture());
+ 
+         verify(mBrowserControlsProvider).addObserver(mBrowserControlsObserverCaptor.capture());
++
++        verify(mLayoutStateProvider).addObserver(mLayoutObserverCaptor.capture());
++
++        mLayoutObserverCaptor.getValue().onStartedShowing(LayoutType.BROWSING, true);
+     }
+ 
+     /** Set the tab that will be returned by the supplier and trigger the observer event. */
+@@ -173,4 +182,46 @@ public class TopToolbarOverlayMediatorTest {
+         Assert.assertNull("The progress bar data should be still be empty.",
+                 mModel.get(TopToolbarOverlayProperties.PROGRESS_BAR_INFO));
+     }
++
++    @Test(expected = AssertionError.class)
++    public void testManualVisibility_flagNotSet() {
++        // If the manual visibility flag was not set in the constructor, expect as assert if someone
++        // attempts to set it.
++        mMediator.setManualVisibility(false);
++    }
++
++    @Test
++    public void testManualVisibility() {
++        mMediator.setVisibilityManuallyControlledForTesting(true);
++
++        // Set the manual visibility to true and modify things that would otherwise change it.
++        mMediator.setManualVisibility(true);
++        mMediator.setIsAndroidViewVisible(true);
++
++        Assert.assertTrue(
++                "Shadow should be visible.", mModel.get(TopToolbarOverlayProperties.SHOW_SHADOW));
++        Assert.assertTrue(
++                "View should be visible.", mModel.get(TopToolbarOverlayProperties.VISIBLE));
++
++        mBrowserControlsObserverCaptor.getValue().onControlsOffsetChanged(100, 0, 0, 0, false);
++
++        Assert.assertTrue(
++                "Shadow should be visible.", mModel.get(TopToolbarOverlayProperties.SHOW_SHADOW));
++        Assert.assertTrue(
++                "View should be visible.", mModel.get(TopToolbarOverlayProperties.VISIBLE));
++
++        // Set the manual visibility to false and modify things that would otherwise change it.
++        mMediator.setManualVisibility(false);
++
++        // Note that an invisible view implies invisible shadow as well.
++        Assert.assertFalse(
++                "View should be invisible.", mModel.get(TopToolbarOverlayProperties.VISIBLE));
++
++        mMediator.setIsAndroidViewVisible(false);
++
++        Assert.assertFalse(
++                "View should be invisible.", mModel.get(TopToolbarOverlayProperties.VISIBLE));
++
++        mMediator.setVisibilityManuallyControlledForTesting(false);
++    }
+ }
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayProperties.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayProperties.java
+index b42b549b..668a8506 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayProperties.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarOverlayProperties.java
+@@ -14,11 +14,18 @@ import org.chromium.ui.modelutil.PropertyModel.WritableObjectPropertyKey;
+ 
+ /** Properties associated with the top toolbar's composited layer. */
+ public class TopToolbarOverlayProperties {
++    /** Whether the URL should be hidden when rendered. */
++    public static final WritableBooleanPropertyKey ANONYMIZE = new WritableBooleanPropertyKey();
++
++    /** A "struct" for progress bar drawing info. */
++    public static final WritableObjectPropertyKey<DrawingInfo> PROGRESS_BAR_INFO =
++            new WritableObjectPropertyKey<>(true);
++
+     /** The ID of the toolbar's texture resource. */
+     public static final ReadableIntPropertyKey RESOURCE_ID = new ReadableIntPropertyKey();
+ 
+-    /** The texture resource used to draw the location/URL bar. */
+-    public static final ReadableIntPropertyKey URL_BAR_RESOURCE_ID = new ReadableIntPropertyKey();
++    /** Whether the shadow under the toolbar should be visible. */
++    public static final WritableBooleanPropertyKey SHOW_SHADOW = new WritableBooleanPropertyKey();
+ 
+     /** The background color of the toolbar. */
+     public static final WritableIntPropertyKey TOOLBAR_BACKGROUND_COLOR =
+@@ -27,20 +34,20 @@ public class TopToolbarOverlayProperties {
+     /** The color of the location/URL bar. */
+     public static final WritableIntPropertyKey URL_BAR_COLOR = new WritableIntPropertyKey();
+ 
+-    /** The current offset of the top toolbar. */
+-    public static final WritableFloatPropertyKey Y_OFFSET = new WritableFloatPropertyKey();
+-
+-    /** Whether the shadow under the toolbar should be visible. */
+-    public static final WritableBooleanPropertyKey SHOW_SHADOW = new WritableBooleanPropertyKey();
++    /** The texture resource used to draw the location/URL bar. */
++    public static final ReadableIntPropertyKey URL_BAR_RESOURCE_ID = new ReadableIntPropertyKey();
+ 
+     /** Whether the layer should be visible. */
+     public static final WritableBooleanPropertyKey VISIBLE = new WritableBooleanPropertyKey();
+ 
+-    /** A "struct" for progress bar drawing info. */
+-    public static final WritableObjectPropertyKey<DrawingInfo> PROGRESS_BAR_INFO =
+-            new WritableObjectPropertyKey<>(true);
++    /** The current x offset of the top toolbar. */
++    public static final WritableFloatPropertyKey X_OFFSET = new WritableFloatPropertyKey();
++
++    /** The current y offset of the top toolbar. */
++    public static final WritableFloatPropertyKey Y_OFFSET = new WritableFloatPropertyKey();
+ 
+     public static final PropertyKey[] ALL_KEYS =
+-            new PropertyKey[] {RESOURCE_ID, URL_BAR_RESOURCE_ID, TOOLBAR_BACKGROUND_COLOR,
+-                    URL_BAR_COLOR, Y_OFFSET, SHOW_SHADOW, VISIBLE, PROGRESS_BAR_INFO};
++            new PropertyKey[] {ANONYMIZE, PROGRESS_BAR_INFO, RESOURCE_ID, SHOW_SHADOW,
++                    TOOLBAR_BACKGROUND_COLOR, URL_BAR_COLOR, URL_BAR_RESOURCE_ID, VISIBLE,
++                    X_OFFSET, Y_OFFSET};
+ }
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarSceneLayer.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarSceneLayer.java
+index fa01eab6..84053b84 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarSceneLayer.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarSceneLayer.java
+@@ -4,7 +4,6 @@
+ 
+ package org.chromium.chrome.browser.toolbar.top;
+ 
+-import org.chromium.base.ContextUtils;
+ import org.chromium.base.annotations.JNINamespace;
+ import org.chromium.base.annotations.NativeMethods;
+ import org.chromium.base.supplier.Supplier;
+@@ -45,9 +44,11 @@ class TopToolbarSceneLayer extends SceneOverlayLayer {
+                 model.get(TopToolbarOverlayProperties.TOOLBAR_BACKGROUND_COLOR),
+                 model.get(TopToolbarOverlayProperties.URL_BAR_RESOURCE_ID),
+                 model.get(TopToolbarOverlayProperties.URL_BAR_COLOR),
++                model.get(TopToolbarOverlayProperties.X_OFFSET),
+                 model.get(TopToolbarOverlayProperties.Y_OFFSET),
+                 model.get(TopToolbarOverlayProperties.SHOW_SHADOW),
+-                model.get(TopToolbarOverlayProperties.VISIBLE), ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false));
++                model.get(TopToolbarOverlayProperties.VISIBLE),
++                model.get(TopToolbarOverlayProperties.ANONYMIZE));
+ 
+         if (ChromeFeatureList.isEnabled(ChromeFeatureList.DISABLE_COMPOSITED_PROGRESS_BAR)) {
+             return;
+@@ -93,8 +94,8 @@ class TopToolbarSceneLayer extends SceneOverlayLayer {
+                 SceneLayer contentTree);
+         void updateToolbarLayer(long nativeTopToolbarSceneLayer, TopToolbarSceneLayer caller,
+                 ResourceManager resourceManager, int resourceId, int toolbarBackgroundColor,
+-                int urlBarResourceId, int urlBarColor, float contentOffset, boolean showShadow,
+-                boolean visible, boolean enableBottomToolbar);
++                int urlBarResourceId, int urlBarColor, float xOffset, float contentOffset,
++                boolean showShadow, boolean visible, boolean anonymize);
+         void updateProgressBar(long nativeTopToolbarSceneLayer, TopToolbarSceneLayer caller,
+                 int progressBarX, int progressBarY, int progressBarWidth, int progressBarHeight,
+                 int progressBarColor, int progressBarBackgroundX, int progressBarBackgroundY,
 diff --git a/chrome/browser/ui/web_applications/BUILD.gn b/chrome/browser/ui/web_applications/BUILD.gn
 new file mode 100644
 index 00000000..75aa0051

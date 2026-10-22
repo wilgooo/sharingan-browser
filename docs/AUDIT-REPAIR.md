@@ -220,3 +220,20 @@ scheme text. No GN or compiler checks disabled.
 ToolbarSwipeSceneLayer exists in pinned Chromium and is already in JNI inputs,
 but absent from chrome_java_sources.gni while ToolbarSwipeLayout imports it.
 Restore its Java compilation entry alongside other scene layers.
+
+## Build 36: coordinated Java UI contracts
+
+31 diagnostics span toolbar overlay, tab switcher, activity resources/imports,
+extension menu delegate and TabList implementations. Restore pinned baseline
+TopToolbarOverlayCoordinator/Mediator/Properties/SceneLayer plus mediator tests;
+update the top toolbar caller to layout mask/manual visibility arguments. Native
+scene implementation is inherited baseline, so Java JNI parameters now agree.
+Adapt TabSwitcherLayout to baseline scene methods without LayerTitleCache.
+Keep extension menu dispatch through a default AppMenuDelegate title callback,
+with ChromeActivity's existing override handling Extension IDs. TabList default
+selects current non-extension tab or most recently active non-extension tab;
+empty/all-extension lists return INVALID_TAB_INDEX. Existing overrides remain.
+Restore ContextUtils import, use platform color lookup, declare missing menu IDs
+and resizing color. Main layout falls back to baseline top toolbar because the
+old bottom-toolbar layout is absent; no extension loading/action code removed.
+This is host/static validation, not full Android compilation or device testing.

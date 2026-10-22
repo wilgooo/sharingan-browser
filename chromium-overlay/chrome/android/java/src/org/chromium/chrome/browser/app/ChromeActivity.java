@@ -755,11 +755,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             try (StrictModeContext ignored = StrictModeContext.allowDiskWrites()) {
                 ContextUtils.getAppSharedPreferences().edit().putBoolean("is_tablet", DeviceFormFactor.isTablet()).apply();
                 TraceEvent.begin("setContentView(R.layout.main)");
-                if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
-                    setContentView(R.layout.main_bottombar);
-                } else {
-                    setContentView(R.layout.main);
-                }
+                setContentView(R.layout.main);
                 TraceEvent.end("setContentView(R.layout.main)");
                 if (getControlContainerLayoutId() != ActivityUtils.NO_RESOURCE_ID) {
                     ViewStub toolbarContainerStub =
@@ -2783,7 +2779,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             boolean isDarkModeEnabled = ContextUtils.getAppSharedPreferences().getBoolean("darken_websites_enabled", false);
             if (!isDarkModeEnabled) {
               getWindow().setBackgroundDrawable(new ColorDrawable(
-                          ApiCompatibilityUtils.getColor(getResources(),
+                          getResources().getColor(
                           R.color.media_viewer_bg)));
               int currentTheme = ContextUtils.getAppSharedPreferences().getInt("ui_theme_setting", 0);
               SharedPreferencesManager.getInstance().writeBooleanSync("darken_websites_enabled", true);
@@ -2791,7 +2787,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
               SharedPreferencesManager.getInstance().writeInt("ui_theme_setting", ThemeType.DARK);
             } else {
               getWindow().setBackgroundDrawable(new ColorDrawable(
-                          ApiCompatibilityUtils.getColor(getResources(),
+                          getResources().getColor(
                           R.color.resizing_background_color)));
               int previousTheme = ContextUtils.getAppSharedPreferences().getInt("previous_ui_theme_setting", 0);
               SharedPreferencesManager.getInstance().writeBooleanSync("darken_websites_enabled", false);

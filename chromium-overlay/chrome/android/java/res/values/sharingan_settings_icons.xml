@@ -19,4 +19,8 @@
     <item type="drawable" name="ics_theme">@android:drawable/ic_menu_preferences</item>
     <item type="drawable" name="ics_toolbar_shortcut">@android:drawable/ic_menu_preferences</item>
     <item type="drawable" name="ics_website_settings">@android:drawable/ic_menu_manage</item>
+    <item type="id" name="clear_data_menu_id" />
+    <item type="id" name="exit_id" />
+    <item type="id" name="disable_proxy_id" />
+    <color name="resizing_background_color">#FFFFFF</color>
 </resources>

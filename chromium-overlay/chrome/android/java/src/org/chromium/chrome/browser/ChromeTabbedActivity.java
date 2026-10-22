@@ -4,6 +4,8 @@
 
 package org.chromium.chrome.browser;
 
+import org.chromium.base.ContextUtils;
+
 import static org.chromium.chrome.browser.ui.IncognitoRestoreAppLaunchDrawBlocker.IS_INCOGNITO_SELECTED;
 
 import android.app.ActivityManager;

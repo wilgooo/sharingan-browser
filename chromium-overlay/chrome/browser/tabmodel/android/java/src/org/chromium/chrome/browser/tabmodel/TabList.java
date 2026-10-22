@@ -6,6 +6,7 @@ package org.chromium.chrome.browser.tabmodel;
 
 import org.chromium.base.annotations.MockedInTests;
 import org.chromium.chrome.browser.tab.Tab;
+import org.chromium.chrome.browser.tab.state.CriticalPersistedTabData;
 
 /**
  * A read only list of {@link Tab}s. This list understands the concept of an incognito list as
@@ -26,7 +27,24 @@ public interface TabList {
      */
     int index();
 
-    int getLastNonExtensionActiveIndex();
+    /** Returns the most recently active non-extension tab, or INVALID_TAB_INDEX. */
+    default int getLastNonExtensionActiveIndex() {
+        int result = INVALID_TAB_INDEX;
+        long lastActive = Long.MIN_VALUE;
+        for (int i = 0; i < getCount(); i++) {
+            Tab tab = getTabAt(i);
+            if (tab == null) continue;
+            String url = tab.getUrl().getSpec();
+            if (url.startsWith("chrome-extension://") || url.startsWith("kiwi-extension://")) continue;
+            if (i == index()) return i;
+            long timestamp = CriticalPersistedTabData.from(tab).getTimestampMillis();
+            if (result == INVALID_TAB_INDEX || timestamp > lastActive) {
+                result = i;
+                lastActive = timestamp;
+            }
+        }
+        return result;
+    }
 
     /**
      * @return the number of open tabs in this model
