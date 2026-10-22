@@ -721,15 +721,6 @@ void URLRequestHttpJob::SetCookieHeaderAndStart(
     if (!maybe_included_cookies.empty()) {
       std::string cookie_line =
           CanonicalCookie::BuildCookieLine(maybe_included_cookies);
-      if (request_info_.url.host().find("news.google.com") != std::string::npos) {
-         cookie_line = CanonicalCookie::BuildCookieLineWithoutConsent(maybe_included_cookies);
-         if (!cookie_line.empty())
-           cookie_line += "; ";
-         base::Time time = base::Time::Now();
-         base::Time::Exploded exploded;
-         time.UTCExplode(&exploded);
-         cookie_line += "CONSENT=YES+srp.gws-" + base::StringPrintf("%04d%02d%02d", exploded.year, exploded.month, exploded.day_of_month) + "-0-RC2.en+FX+320;";
-      }
       UMA_HISTOGRAM_COUNTS_10000("Cookie.HeaderLength", cookie_line.length());
       request_info_.extra_headers.SetHeader(HttpRequestHeaders::kCookie,
                                             cookie_line);

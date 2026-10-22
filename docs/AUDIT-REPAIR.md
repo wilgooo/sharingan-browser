@@ -247,3 +247,14 @@ visible-label callback. Remove the orphan call and its unused TITLE extraction;
 retain TITLE_CONDENSED, setLastItemTitle and extension-ID dispatch unchanged.
 Regression audit checks every mAppMenuDelegate method call against the interface.
 Android compilation remains required; this is a method-name contract check.
+
+## Build 38: Google News cookie override
+
+Appmenu compilation passed; native build stopped at 44280/68689 because
+BuildCookieLineWithoutConsent has no implementation in the pinned baseline.
+The sole caller was a Google News override that synthesized CONSENT=YES.
+Restore the exact pinned Chromium cookie-header serialization block: retain
+AnnotateAndMoveUserBlockedCookies and BuildCookieLine, remove only the site
+specific synthetic-consent branch. Existing stored cookies and exclusion
+checks remain intact. No extension code is removed. Compared against official
+Chromium source at 64038a114b86434efcce9c36697be10e333f911a.
