@@ -314,8 +314,11 @@ def main():
             runner.state['status'] = 'gn-complete'
             return
         require_space(work, MIN_BUILD_GIB)
+        # Keep going past failures so one long free-runner build reports every
+        # independent compile error instead of stopping at the first.
         runner.run('11-compile', ['/usr/bin/ninja', '-C',
-                   'out/sharingan_arm64', f'-j{args.jobs}', 'chrome_public_apk'], cwd=src, minutes=300)
+                   'out/sharingan_arm64', f'-j{args.jobs}', '-k', '0', 'chrome_public_apk'],
+                   cwd=src, minutes=300)
         apk = out / 'apks/ChromePublic.apk'
         if not apk.is_file() or apk.stat().st_size == 0:
             raise RuntimeError('Build returned successfully but APK is missing or empty.')
