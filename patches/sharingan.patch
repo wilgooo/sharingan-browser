@@ -2052,7 +2052,7 @@ index 7a9ba86c..c4e50a33 100644
    "java/res/values/colors.xml",
    "java/res/values/dimens.xml",
 diff --git a/chrome/android/chrome_java_sources.gni b/chrome/android/chrome_java_sources.gni
-index f9b13033..8764ce47 100644
+index f9b13033..900181b0 100644
 --- a/chrome/android/chrome_java_sources.gni
 +++ b/chrome/android/chrome_java_sources.gni
 @@ -5,16 +5,6 @@
@@ -2084,6 +2084,14 @@ index f9b13033..8764ce47 100644
    "java/src/com/google/android/apps/chrome/appwidget/bookmarks/BookmarkThumbnailWidgetProvider.java",
    "java/src/org/chromium/chrome/browser/ActivityTabProvider.java",
    "java/src/org/chromium/chrome/browser/ActivityUtils.java",
+@@ -382,6 +372,7 @@ chrome_java_sources = [
+   "java/src/org/chromium/chrome/browser/compositor/scene_layer/StaticTabSceneLayer.java",
+   "java/src/org/chromium/chrome/browser/compositor/scene_layer/TabListSceneLayer.java",
+   "java/src/org/chromium/chrome/browser/compositor/scene_layer/TabStripSceneLayer.java",
++  "java/src/org/chromium/chrome/browser/compositor/scene_layer/ToolbarSwipeSceneLayer.java",
+   "java/src/org/chromium/chrome/browser/contacts_picker/ChromePickerAdapter.java",
+   "java/src/org/chromium/chrome/browser/content/ContentUtils.java",
+   "java/src/org/chromium/chrome/browser/content_capture/ContentCaptureHistoryDeletionObserver.java",
 diff --git a/chrome/android/java/AndroidManifest.xml b/chrome/android/java/AndroidManifest.xml
 index 15c4f76e..721ac3a0 100644
 --- a/chrome/android/java/AndroidManifest.xml

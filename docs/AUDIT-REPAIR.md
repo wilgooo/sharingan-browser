@@ -214,3 +214,9 @@ Four replaceOnce calls in AutocompleteMediator and LocationBarMediator refer to
 an absent helper. All are under matching startsWith checks; replace only that
 prefix using String.substring, preserving the remainder including repeated
 scheme text. No GN or compiler checks disabled.
+
+## Build 35: omitted toolbar swipe Java source
+
+ToolbarSwipeSceneLayer exists in pinned Chromium and is already in JNI inputs,
+but absent from chrome_java_sources.gni while ToolbarSwipeLayout imports it.
+Restore its Java compilation entry alongside other scene layers.
