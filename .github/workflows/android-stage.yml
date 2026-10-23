@@ -1,0 +1,126 @@
+name: Sharingan Android - one chained build stage
+
+# Called by android-free.yml. Each stage resumes the previous stage's ninja
+# output (or the latest saved by an earlier dispatch) and saves its own.
+on:
+  workflow_call:
+    inputs:
+      mode:
+        type: string
+        required: true
+      jobs:
+        type: string
+        required: true
+      stage:
+        type: number
+        required: true
+      stages:
+        type: number
+        required: true
+    outputs:
+      resume:
+        description: 'true when this stage ran out of time and the next stage should continue'
+        value: ${{ jobs.android.outputs.resume }}
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    # Public + standard hosted runner only. Never select a paid/custom label.
+    if: ${{ github.event.repository.private == false }}
+    # Chromium 105's Android tools need libncurses5 and the older host libraries.
+    runs-on: ubuntu-22.04
+    timeout-minutes: 350
+    outputs:
+      resume: ${{ steps.build.outputs.resume }}
+    env:
+      CI_MODE: ${{ inputs.mode }}
+      CI_JOBS: ${{ inputs.jobs }}
+      CI_STAGE: ${{ inputs.stage }}
+      CI_STAGES: ${{ inputs.stages }}
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out Sharingan source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify source package and tooling
+        run: |
+          /usr/bin/python3 scripts/verify_source.py
+          /usr/bin/python3 -B -m unittest discover -s tests -v
+
+      - name: Select weekly package cache
+        if: ${{ inputs.mode != 'preflight' }}
+        id: cache-key
+        run: echo "week=$(date -u +%G-%V)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore Linux package downloads
+        if: ${{ inputs.mode != 'preflight' }}
+        id: apt-cache
+        continue-on-error: true
+        timeout-minutes: 5
+        uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: .ci-cache/apt
+          key: apt-v1-ubuntu22-x64-${{ steps.cache-key.outputs.week }}-${{ hashFiles('config/upstream.lock.json', 'scripts/ci/package_cache.py') }}
+
+      # The newest output saved under this toolchain/args fingerprint: the previous
+      # stage of this dispatch, or the last stage of an earlier one.
+      - name: Restore previous build output
+        if: ${{ inputs.mode == 'build' }}
+        continue-on-error: true
+        timeout-minutes: 15
+        uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: ${{ runner.temp }}/sharingan-cache
+          key: sharingan-out-v1-${{ hashFiles('config/upstream.lock.json', 'config/args.free.gn') }}-${{ github.run_id }}-${{ inputs.stage }}
+          restore-keys: |
+            sharingan-out-v1-${{ hashFiles('config/upstream.lock.json', 'config/args.free.gn') }}-
+
+      - name: Reclaim space and attempt source build
+        id: build
+        timeout-minutes: 330
+        run: /usr/bin/python3 -u scripts/ci/free_runner.py --mode "$CI_MODE" --jobs "$CI_JOBS" --stage "$CI_STAGE" --stages "$CI_STAGES"
+
+      # Saved after timeouts and compile failures too, so the next run resumes.
+      - name: Save build output for the next stage
+        if: ${{ always() && steps.build.outputs.stashed == 'true' }}
+        continue-on-error: true
+        timeout-minutes: 20
+        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: ${{ runner.temp }}/sharingan-cache
+          key: sharingan-out-v1-${{ hashFiles('config/upstream.lock.json', 'config/args.free.gn') }}-${{ github.run_id }}-${{ inputs.stage }}-${{ github.run_attempt }}
+
+      # Save explicitly even if GN/compilation fails after dependencies install.
+      - name: Save Linux package downloads
+        if: ${{ always() && inputs.mode != 'preflight' && steps.apt-cache.outputs.cache-hit != 'true' && hashFiles('.ci-cache/apt/.ready') != '' }}
+        continue-on-error: true
+        timeout-minutes: 5
+        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: .ci-cache/apt
+          key: apt-v1-ubuntu22-x64-${{ steps.cache-key.outputs.week }}-${{ hashFiles('config/upstream.lock.json', 'scripts/ci/package_cache.py') }}
+
+      - name: Upload diagnostics even after failure
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: sharingan-diagnostics-${{ github.run_id }}-stage${{ inputs.stage }}-${{ github.run_attempt }}
+          path: ci-logs/
+          if-no-files-found: warn
+          retention-days: 1
+          compression-level: 6
+
+      - name: Upload APK only after a successful build
+        if: ${{ success() && inputs.mode == 'build' && hashFiles('ci-artifacts/SHA256SUMS') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: SharinganBrowser-dev-arm64-${{ github.run_id }}
+          path: ci-artifacts/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0

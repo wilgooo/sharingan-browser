@@ -13,6 +13,7 @@ import subprocess
 import sys
 import time
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_resume
 from package_cache import export_packages
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -42,6 +43,10 @@ CUSTOM_VARS = {
 
 class CommandFailed(RuntimeError):
     """A child exited unsuccessfully; distinct from resource/deadline failures."""
+
+
+class BudgetExhausted(RuntimeError):
+    """The job's time budget ran out; a later chained job can resume the compile."""
 
 
 TRANSIENT_NETWORK_ERROR = re.compile(
@@ -110,7 +115,7 @@ class Runner:
         self.save()
         end = min(self.deadline, time.monotonic() + minutes * 60)
         if time.monotonic() >= end:
-            raise RuntimeError('Total build budget exhausted; leaving time for diagnostics upload.')
+            raise BudgetExhausted('Total build budget exhausted; leaving time for diagnostics upload.')
         print(f'::group::{name}', flush=True)
         log = self.logs / f'{name}.log'
         started = time.monotonic()
@@ -135,7 +140,7 @@ class Runner:
                         break
                     now = time.monotonic()
                     if now >= end:
-                        raise RuntimeError(f'{name}: timeout; build budget is capped below six hours.')
+                        raise BudgetExhausted(f'{name}: timeout; build budget is capped below six hours.')
                     if now >= next_metrics:
                         self.metrics()
                         require_space(self.work, RESERVE_GIB)
@@ -217,7 +222,21 @@ def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--mode', choices=MODES, default='build')
     parser.add_argument('--jobs', type=int, choices=(1, 2, 3, 4), default=2)
-    return parser.parse_args(argv)
+    # Chained jobs: each resumes the previous job's out/ until the APK is built.
+    parser.add_argument('--stage', type=int, default=1)
+    parser.add_argument('--stages', type=int, default=1)
+    args = parser.parse_args(argv)
+    if not 1 <= args.stage <= args.stages:
+        parser.error('--stage must be between 1 and --stages')
+    return args
+
+
+def write_outputs(path, **values):
+    """Publish step outputs for the workflow to chain the next stage."""
+    if path:
+        with open(path, 'a') as stream:
+            for key, value in values.items():
+                stream.write(f'{key}={str(value).lower()}\n')
 
 
 def compiles(mode):
@@ -236,6 +255,11 @@ def main():
         raise RuntimeError(f'Runner interrupted by signal {signum}.')
     signal.signal(signal.SIGTERM, interrupted)
     runner = Runner(work, logs)
+    archive = Path(os.environ['RUNNER_TEMP']) / 'sharingan-cache/out.tar.zst'
+    overlay = json.loads((ROOT / 'config/overlay.sha256.json').read_text())
+    out = work / 'src/out/sharingan_arm64'
+    previous_overlay = None
+    compile_started = False
     try:
         runner.state['before_cleanup'] = runner.metrics()
         runner.save()
@@ -296,7 +320,16 @@ def main():
         runner.run('07-apt-clean', ['sudo', 'apt-get', 'clean'], minutes=2)
         runner.run('08-hooks', [str(depot / 'gclient'), 'runhooks'], minutes=45)
         runner.run('09-overlay', ['/usr/bin/python3', str(ROOT / 'scripts/prepare.py'), str(src)], minutes=15)
-        out = src / 'out/sharingan_arm64'
+        if compiles(args.mode):
+            started = time.monotonic()
+            previous_overlay = build_resume.restore(src, out, archive, ROOT, overlay)
+            changed = (build_resume.changed_overlay_files(previous_overlay, overlay)
+                       if previous_overlay is not None else None)
+            runner.state['resume'] = {'restored': previous_overlay is not None,
+                                      'changed_overlay_files': changed,
+                                      'seconds': round(time.monotonic() - started, 1)}
+            runner.save()
+            print('Resume: ' + json.dumps(runner.state['resume']), flush=True)
         shutil.copy2(ROOT / 'config/args.free.gn', out / 'args.gn')
         shutil.copy2(out / 'args.gn', logs / 'args.gn')
         shutil.copy2(work / '.gclient', logs / 'gclient.txt')
@@ -314,11 +347,19 @@ def main():
             runner.state['status'] = 'gn-complete'
             return
         require_space(work, MIN_BUILD_GIB)
+        compile_started = True
         # Keep going past failures so one long free-runner build reports every
         # independent compile error instead of stopping at the first.
-        runner.run('11-compile', ['/usr/bin/ninja', '-C',
-                   'out/sharingan_arm64', f'-j{args.jobs}', '-k', '0', 'chrome_public_apk'],
-                   cwd=src, minutes=300)
+        try:
+            runner.run('11-compile', ['/usr/bin/ninja', '-C',
+                       'out/sharingan_arm64', f'-j{args.jobs}', '-k', '0', 'chrome_public_apk'],
+                       cwd=src, minutes=300)
+        except BudgetExhausted:
+            runner.state['status'] = 'compile-incomplete'
+            if args.stage >= args.stages:
+                raise RuntimeError('Compile incomplete after the final chained stage; '
+                                   'dispatch again to resume from the saved output.')
+            return
         apk = out / 'apks/ChromePublic.apk'
         if not apk.is_file() or apk.stat().st_size == 0:
             raise RuntimeError('Build returned successfully but APK is missing or empty.')
@@ -330,17 +371,34 @@ def main():
         (artifacts / 'SHA256SUMS').write_text(f'{digest}  {filename}\n')
         runner.state.update(status='build-complete', apk_built=True, apk_sha256=digest)
     except BaseException as error:
-        runner.state.update(status='failed', error=str(error))
+        if runner.state['status'] != 'compile-incomplete':
+            runner.state['status'] = 'failed'
+        runner.state['error'] = str(error)
         print(str(error), file=sys.stderr)
         raise
     finally:
+        stashed = False
+        if compile_started and out.is_dir():
+            # Save outputs after timeouts and compile failures too: fixes resume from here.
+            try:
+                started = time.monotonic()
+                size = build_resume.stash(out, archive, ROOT, overlay, previous_overlay,
+                                          complete=runner.state['apk_built'])
+                runner.state['stash'] = {'bytes': size, 'seconds': round(time.monotonic() - started, 1)}
+                stashed = True
+            except (OSError, subprocess.CalledProcessError) as error:
+                runner.state['stash'] = {'error': str(error)}
+                print(f'Could not archive build output: {error}', file=sys.stderr)
+        write_outputs(os.environ.get('GITHUB_OUTPUT'), stashed=stashed,
+                      resume=runner.state['status'] == 'compile-incomplete' and args.stage < args.stages)
         runner.metrics()
         runner.save()
         summary = os.environ.get('GITHUB_STEP_SUMMARY')
         if summary:
             with open(summary, 'a') as stream:
                 stream.write('## Sharingan free-runner experiment\n\n')
-                stream.write(f"Status: **{runner.state['status']}**. APK built: **{runner.state['apk_built']}**.\n\n")
+                stream.write(f"Stage {args.stage}/{args.stages}. Status: **{runner.state['status']}**. "
+                             f"APK built: **{runner.state['apk_built']}**.\n\n")
                 stream.write('Download the diagnostics artifact for per-stage logs and resource measurements.\n')
                 stream.write('Compilation success does not establish Android runtime or extension compatibility.\n')
 

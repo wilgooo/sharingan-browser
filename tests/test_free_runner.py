@@ -82,9 +82,14 @@ class RunnerTests(unittest.TestCase):
     def test_deadline_stops_process_and_records_timeout(self):
         runner = ci.Runner(self.root, self.logs, budget_seconds=0.2)
         with mock.patch.object(ci, 'require_space'), contextlib.redirect_stdout(io.StringIO()):
-            with self.assertRaisesRegex(RuntimeError, 'timeout'):
+            with self.assertRaisesRegex(ci.BudgetExhausted, 'timeout'):
                 runner.run('timeout', [sys.executable, '-c', 'import time; time.sleep(60)'])
         self.assertEqual(runner.state['stages'][0]['status'], 'failed')
+
+    def test_budget_exhaustion_is_distinct_from_command_failure(self):
+        # Only a timeout lets the next chained stage resume; a failed compile stops the chain.
+        self.assertTrue(issubclass(ci.BudgetExhausted, RuntimeError))
+        self.assertFalse(issubclass(ci.BudgetExhausted, ci.CommandFailed))
 
     def test_network_retries_transient_failure_and_keeps_attempt_logs(self):
         runner = ci.Runner(self.root, self.logs)
@@ -174,7 +179,8 @@ class InstallScriptTests(unittest.TestCase):
 
 
 class ModeTests(unittest.TestCase):
-    WORKFLOW = Path(__file__).resolve().parents[1] / '.github/workflows/android-free.yml'
+    DISPATCH = Path(__file__).resolve().parents[1] / '.github/workflows/android-free.yml'
+    WORKFLOW = Path(__file__).resolve().parents[1] / '.github/workflows/android-stage.yml'
 
     def test_gn_only_mode_is_accepted(self):
         self.assertEqual(ci.parse_args(['--mode', 'gn-only']).mode, 'gn-only')
@@ -190,10 +196,46 @@ class ModeTests(unittest.TestCase):
         self.assertTrue(ci.compiles('build'))
 
     def test_workflow_offers_gn_only_and_keeps_apk_upload_build_only(self):
+        self.assertIn('options: [build, gn-only, preflight]', self.DISPATCH.read_text())
         text = self.WORKFLOW.read_text()
-        self.assertIn('options: [build, gn-only, preflight]', text)
         self.assertIn("inputs.mode != 'preflight' && steps.apt-cache", text)
-        self.assertIn("if: ${{ success() && inputs.mode == 'build' }}", text)
+        self.assertIn("if: ${{ success() && inputs.mode == 'build' && hashFiles('ci-artifacts/SHA256SUMS') != '' }}", text)
+
+    def test_stage_arguments_are_bounded(self):
+        args = ci.parse_args(['--stage', '2', '--stages', '3'])
+        self.assertEqual((args.stage, args.stages), (2, 3))
+        self.assertEqual((ci.parse_args([]).stage, ci.parse_args([]).stages), (1, 1))
+        for argv in (['--stage', '4', '--stages', '3'], ['--stage', '0', '--stages', '3']):
+            with self.subTest(argv=argv), contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit):
+                    ci.parse_args(argv)
+
+    def test_step_outputs_are_lowercase_booleans(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'output'
+            ci.write_outputs(str(path), stashed=True, resume=False)
+            self.assertEqual(path.read_text(), 'stashed=true\nresume=false\n')
+        ci.write_outputs(None, resume=True)
+
+    def test_dispatch_chains_stages_only_after_a_timeout(self):
+        text = self.DISPATCH.read_text()
+        self.assertEqual(text.count('uses: ./.github/workflows/android-stage.yml'), 3)
+        self.assertIn("if: ${{ needs.stage-1.outputs.resume == 'true' }}", text)
+        self.assertIn("if: ${{ needs.stage-2.outputs.resume == 'true' }}", text)
+        self.assertIn("if: ${{ github.event.repository.private == false }}", text)
+
+    def test_stage_restores_and_saves_build_output_under_one_fingerprint(self):
+        text = self.WORKFLOW.read_text()
+        prefix = "sharingan-out-v1-${{ hashFiles('config/upstream.lock.json', 'config/args.free.gn') }}-"
+        restore = text.split('- name: Restore previous build output', 1)[1].split('- name:', 1)[0]
+        save = text.split('- name: Save build output for the next stage', 1)[1].split('- name:', 1)[0]
+        self.assertIn('restore-keys: |\n            ' + prefix + '\n', restore)
+        self.assertIn("if: ${{ always() && steps.build.outputs.stashed == 'true' }}", save)
+        self.assertIn('key: ' + prefix + '${{ github.run_id }}-${{ inputs.stage }}-${{ github.run_attempt }}', save)
+        for block in (restore, save):
+            self.assertIn('path: ${{ runner.temp }}/sharingan-cache', block)
+        # The script derives the same path from RUNNER_TEMP.
+        self.assertIn("'sharingan-cache/out.tar.zst'", SCRIPT.read_text())
 
     def test_gn_only_restores_the_package_cache_it_saves(self):
         text = self.WORKFLOW.read_text()

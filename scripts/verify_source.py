@@ -48,7 +48,8 @@ def main():
         for script in data['content_scripts'][0]['js']:
             assert script in archive.namelist()
     workflows = {p.relative_to(ROOT).as_posix() for p in (ROOT / '.github/workflows').glob('*')}
-    assert workflows == {'.github/workflows/android-free.yml'}, 'Unexpected inherited workflow.'
+    assert workflows == {'.github/workflows/android-free.yml',
+                         '.github/workflows/android-stage.yml'}, 'Unexpected inherited workflow.'
     audit_errors = check_audit(ROOT) + check_android_resources(ROOT)
     assert not audit_errors, '\n'.join(audit_errors)
     print(f'PASS: {len(manifest)} file hashes; JNI/GN source references; Android XML/resources; MV3 fixture packaging.')
