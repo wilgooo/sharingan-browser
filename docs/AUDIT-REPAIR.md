@@ -268,3 +268,43 @@ disables the desktop-only #error in browser.h with `#if 0`, but the pinned
 tab_strip_model.h kept its active #error. Overlay the pristine header with the
 same `#if 0` wrapper; no other line changes. Its chrome/ includes carry no
 desktop-only guards. Compilation of later platform_apps sources is untested.
+
+## Build 41: desktop-only symbols missing from public Kiwi delta
+
+With ninja -k 0 the build reached 53572/68689 before the time cap and reported
+32 failed objects. Public kiwibrowser/src.next (7be7edd1, its final commit) is a
+delta built on Kiwi's private server; it never carried pref_names, chrome
+features, generated_resources.grd or several grit/policy files, so desktop
+sources Kiwi compiles on Android saw pristine !IS_ANDROID guards.
+
+- Strings: copied the 21 desktop messages used (about:system, extension
+  install location/blocklist, managed UI, copy URL/find, media galleries, web
+  app file handling, passwords "just now") into one is_android block in
+  generated_resources.grd with identical text so translations apply.
+- Resources: Android entries for IDR_DEFAULT_FAVICON_32/64 (+dark) and
+  IDR_WEBSTORE_ICON/_16; mojo_bindings.js resource included on Android because
+  extension keep_alive.js requires it (its :bindings action is already built).
+- Features: Android definitions with desktop defaults for OnConnectNative,
+  ExtensionDeferredIndividualSettings, BlockMigratedDefaultChromeAppSync,
+  DefaultWebAppInstallation and WebAppManifestIconUpdating.
+- Prefs: cloud extension request prefs exposed and registered on Android
+  (enterprise_reporting::RegisterProfilePrefs is called on every platform).
+  Three desktop-only settings prefs are left out of the settingsPrivate
+  allowlist on Android rather than defined.
+- Policy: none of the extension or WebAppSettings policies are in the Android
+  policy list, so their keys and schema entries do not exist. The handler
+  factory skips those blocks on Android; policy_handlers.cc and
+  web_app_settings_policy_handler.cc get file-local key strings so the
+  unregistered handlers still compile.
+- Not available on Android, guarded instead: chrome.processes (needs the
+  desktop task manager; sources removed on Android, sole factory call guarded),
+  Read Anything controller (its mojom asserts !is_android), DevTools delegate
+  lookups in debugger/inspectable views (no desktop DevTools policy handler),
+  native messaging host directories, local card migration, weak password
+  check, profile-lock picker, native widget focus listener.
+- Kiwi calls that are absent from its public source were rewritten locally:
+  TabModelList::GetCurrentTabModel() (active Android tab model) and the
+  WebContents overload of OpenOptionsPage (opens the options page in a new
+  tab). tab_helper.cc now includes browser.h.
+
+Compilation of these files and of the remaining 15k build steps is untested.

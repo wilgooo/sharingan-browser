@@ -727,6 +727,15 @@ static_library("extensions") {
     "window_controller_list_observer.h",
   ]
 
+  if (is_android) {
+    # Sharingan: chrome.processes needs the desktop task manager, and its
+    # schema is not generated on Android.
+    sources -= [
+      "api/processes/processes_api.cc",
+      "api/processes/processes_api.h",
+    ]
+  }
+
   configs += [
     "//build/config:precompiled_headers",
     "//build/config/compiler:wexit_time_destructors",

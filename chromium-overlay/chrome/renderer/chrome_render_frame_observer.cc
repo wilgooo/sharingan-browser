@@ -63,7 +63,10 @@
 #include "url/gurl.h"
 
 #if !BUILDFLAG(IS_ANDROID) || true
+// Sharingan: Read Anything is desktop-only (its mojom asserts !is_android).
+#if !BUILDFLAG(IS_ANDROID)
 #include "chrome/renderer/accessibility/read_anything_app_controller.h"
+#endif
 #include "chrome/renderer/searchbox/searchbox_extension.h"
 #include "ui/accessibility/accessibility_features.h"
 #endif  // !BUILDFLAG(IS_ANDROID)
@@ -321,11 +324,13 @@ void ChromeRenderFrameObserver::DidClearWindowObject() {
   // ReadAnythingAppController installs v8 bindings in the chrome.readAnything
   // namespace which are consumed by read_anything/app.ts, the resource of the
   // Read Anything WebUI.
+#if !BUILDFLAG(IS_ANDROID)
   if (features::IsReadAnythingEnabled() &&
       render_frame()->GetEnabledBindings() &
           content::kWebUIBindingsPolicyMask) {
     ReadAnythingAppController::Install(render_frame());
   }
+#endif  // !BUILDFLAG(IS_ANDROID)
 #endif  // !BUILDFLAG(IS_ANDROID)
 }
 

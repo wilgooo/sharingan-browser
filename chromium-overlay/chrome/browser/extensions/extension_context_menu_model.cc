@@ -344,13 +344,23 @@ void ExtensionContextMenuModel::ExecuteCommand(int command_id,
       browser_->OpenURL(params);
       break;
     }
-    case OPTIONS:
+    case OPTIONS: {
       DCHECK(OptionsPageInfo::HasOptionsPage(extension));
 #if 0
       ExtensionTabUtil::OpenOptionsPage(extension, browser_);
 #endif
-      ExtensionTabUtil::OpenOptionsPage(extension, GetActiveWebContents());
+      // Sharingan: Kiwi's WebContents overload of OpenOptionsPage is not in
+      // its public source. Open the extension's options page in a new tab.
+      content::WebContents* active_contents = GetActiveWebContents();
+      if (!active_contents)
+        break;
+      content::OpenURLParams params(OptionsPageInfo::GetOptionsPage(extension),
+                                    content::Referrer(),
+                                    WindowOpenDisposition::NEW_FOREGROUND_TAB,
+                                    ui::PAGE_TRANSITION_LINK, false);
+      active_contents->OpenURL(params);
       break;
+    }
     case TOGGLE_VISIBILITY: {
       bool currently_visible = button_visibility_ == PINNED;
       ToolbarActionsModel::Get(browser_->profile())

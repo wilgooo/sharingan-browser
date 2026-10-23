@@ -59,6 +59,16 @@ void RecordInvocationSource(
   base::UmaHistogramEnumeration("Extensions.Toolbar.InvocationSource", source);
 }
 
+// Sharingan: Kiwi's TabModelList::GetCurrentTabModel() is not in its public
+// source. Return the active tab of the active Android tab model instead.
+content::WebContents* GetActiveTabModelWebContents() {
+  for (TabModel* model : TabModelList::models()) {
+    if (model->IsActiveModel())
+      return model->GetActiveWebContents();
+  }
+  return nullptr;
+}
+
 }  // namespace
 
 // static
@@ -393,8 +403,10 @@ bool ExtensionActionViewController::CanHandleAccelerators() const {
   if (extension_action_->action_type() == extensions::ActionInfo::TYPE_PAGE)
     return IsEnabled(view_delegate_->GetCurrentWebContents());
 #endif
-  if (extension_action_->action_type() == extensions::ActionInfo::TYPE_PAGE)
-    return IsEnabled(TabModelList::GetCurrentTabModel()->GetActiveWebContents());
+  if (extension_action_->action_type() == extensions::ActionInfo::TYPE_PAGE) {
+    content::WebContents* web_contents = GetActiveTabModelWebContents();
+    return web_contents && IsEnabled(web_contents);
+  }
   return true;
 }
 

@@ -33,6 +33,18 @@
 #include "base/enterprise_util.h"
 #endif
 
+// Sharingan: these policies are not in the Android policy list, so policy_constants.h
+// has no key there. Kiwi compiles this file on Android, but the handler is never
+// registered there (configuration_policy_handler_list_factory.cc).
+#if BUILDFLAG(IS_ANDROID)
+namespace policy {
+namespace key {
+const char kExtensionInstallForcelist[] = "ExtensionInstallForcelist";
+const char kExtensionSettings[] = "ExtensionSettings";
+}  // namespace key
+}  // namespace policy
+#endif  // BUILDFLAG(IS_ANDROID)
+
 namespace extensions {
 namespace {
 // Returns true if extensions_ids contains a list of valid extension ids,

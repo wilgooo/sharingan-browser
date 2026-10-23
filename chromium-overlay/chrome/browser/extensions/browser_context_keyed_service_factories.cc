@@ -25,7 +25,9 @@
 #include "chrome/browser/extensions/api/omnibox/omnibox_api.h"
 #include "chrome/browser/extensions/api/passwords_private/passwords_private_event_router_factory.h"
 #include "chrome/browser/extensions/api/preference/preference_api.h"
+#if !BUILDFLAG(IS_ANDROID)
 #include "chrome/browser/extensions/api/processes/processes_api.h"
+#endif
 #include "chrome/browser/extensions/api/safe_browsing_private/safe_browsing_private_event_router_factory.h"
 #include "chrome/browser/extensions/api/sessions/sessions_api.h"
 #include "chrome/browser/extensions/api/settings_overrides/settings_overrides_api.h"
@@ -118,7 +120,9 @@ void EnsureBrowserContextKeyedServiceFactoriesBuilt() {
   extensions::PluginManager::GetFactoryInstance();
 #endif
   extensions::PreferenceAPI::GetFactoryInstance();
+#if !BUILDFLAG(IS_ANDROID)
   extensions::ProcessesAPI::GetFactoryInstance();
+#endif
   extensions::SafeBrowsingPrivateEventRouterFactory::GetInstance();
   extensions::SessionsAPI::GetFactoryInstance();
   extensions::SettingsPrivateEventRouterFactory::GetInstance();

@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "base/bind.h"
+#include "build/build_config.h"
 #include "build/chromeos_buildflags.h"
 #include "chrome/browser/chrome_notification_types.h"
 #include "chrome/browser/extensions/extension_service.h"
@@ -129,6 +130,8 @@ void ExtensionEnableFlow::CheckPermissionAndMaybePromptUser() {
     return;
   }
 
+  // Sharingan: Android has no locked profiles or desktop profile picker.
+#if !BUILDFLAG(IS_ANDROID)
   if (profiles::IsProfileLocked(profile_->GetPath())) {
 #if !BUILDFLAG(IS_CHROMEOS_ASH)
     ProfilePicker::Show(ProfilePicker::Params::FromEntryPoint(
@@ -137,6 +140,7 @@ void ExtensionEnableFlow::CheckPermissionAndMaybePromptUser() {
 #endif  // !BUILDFLAG(IS_CHROMEOS_ASH)
     return;
   }
+#endif  // !BUILDFLAG(IS_ANDROID)
 
   extensions::ExtensionPrefs* prefs = extensions::ExtensionPrefs::Get(profile_);
   if (!prefs->DidExtensionEscalatePermissions(extension_id_)) {
