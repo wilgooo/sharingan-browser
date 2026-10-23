@@ -1294,7 +1294,8 @@ void MaybeAddThrottles(
 
 // Returns whether |web_contents| is within a hosted app.
 bool IsInHostedApp(WebContents* web_contents) {
-#if BUILDFLAG(ENABLE_EXTENSIONS)
+// Sharingan: Kiwi enables extensions on Android, which has no Browser windows.
+#if BUILDFLAG(ENABLE_EXTENSIONS) && !BUILDFLAG(IS_ANDROID)
   Browser* browser = chrome::FindBrowserWithWebContents(web_contents);
   return web_app::AppBrowserController::IsWebApp(browser);
 #else
@@ -5146,6 +5147,8 @@ void AddChromeSchemeFactories(
     content::WebContents* web_contents,
     const extensions::Extension* extension,
     ChromeContentBrowserClient::NonNetworkURLLoaderFactoryMap* factories) {
+#if !BUILDFLAG(IS_ANDROID)
+  // Sharingan: Instant (the desktop NTP) does not exist on Android.
   Profile* profile =
       Profile::FromBrowserContext(web_contents->GetBrowserContext());
   InstantService* instant_service =
@@ -5161,6 +5164,7 @@ void AddChromeSchemeFactories(
             frame_host, chrome::kChromeSearchScheme,
             /*allowed_webui_hosts=*/base::flat_set<std::string>()));
   }
+#endif  // !BUILDFLAG(IS_ANDROID)
 
   extensions::ChromeExtensionWebContentsObserver* web_observer =
       extensions::ChromeExtensionWebContentsObserver::FromWebContents(
@@ -5179,8 +5183,10 @@ void AddChromeSchemeFactories(
     // are allowed to use chrome://resources/ and chrome://theme/ URLs.
     allowed_webui_hosts.emplace_back(content::kChromeUIResourcesHost);
     allowed_webui_hosts.emplace_back(chrome::kChromeUIThemeHost);
+#if !BUILDFLAG(IS_ANDROID)
     // For testing purposes chrome://webui-test/ is also allowed.
     allowed_webui_hosts.emplace_back(chrome::kChromeUIWebUITestHost);
+#endif
   }
   if (extension->is_extension() || extension->is_legacy_packaged_app() ||
       (extension->is_platform_app() &&

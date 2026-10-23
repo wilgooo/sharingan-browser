@@ -761,17 +761,12 @@ LayoutObject* LayoutObject::CreateObject(Element* element,
      || element->getAttribute(html_names::kStyleAttr).Contains("min-height:300px;max-height:300px")
      || element->getAttribute(html_names::kStyleAttr).Contains("transform-origin: left bottom 0px; height: 137px;")
    )) {
-       if (LocalFrame* frame = element->GetDocument().GetFrame()) {
-         WebContentSettingsClient* content_settings_client =
-             frame->GetContentSettingsClient();
-         if (!content_settings_client)
-           return nullptr;
-
-         if (!content_settings_client->AllowAds(true))
-           return nullptr;
-       } else {
-           return nullptr;
-       }
+       // Sharingan: Kiwi consulted a private
+       // WebContentSettingsClient::AllowAds() for the per-site Ads setting,
+       // which the pinned Chromium never sends to renderers. Apply Kiwi's
+       // default (ads blocked, as ContentSettingsType::ADS defaults to BLOCK)
+       // on every site; per-site exceptions are not available.
+       return nullptr;
     }
   }
 

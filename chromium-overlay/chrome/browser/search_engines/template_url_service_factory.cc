@@ -59,7 +59,9 @@ std::unique_ptr<KeyedService> TemplateURLServiceFactory::BuildInstanceFor(
           new ChromeTemplateURLServiceClient(
               HistoryServiceFactory::GetForProfile(
                   profile, ServiceAccessType::EXPLICIT_ACCESS))),
-      dsp_change_callback, context);
+      // Sharingan: Kiwi's private constructor also took |context| for its
+      // search-engine list fetcher; the pinned TemplateURLService has none.
+      dsp_change_callback);
 }
 
 TemplateURLServiceFactory::TemplateURLServiceFactory()

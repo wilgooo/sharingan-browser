@@ -32,8 +32,23 @@
 
 #if !BUILDFLAG(IS_ANDROID) || true
 #include "chrome/browser/ui/browser.h"
+#endif
+
+#if !BUILDFLAG(IS_ANDROID)
 #include "ui/views/vector_icons.h"
 #endif
+
+namespace {
+
+#if BUILDFLAG(IS_ANDROID)
+// Sharingan: Kiwi builds the download bubble model on Android, where ui/views
+// (and its vector icons) is not built; use the equivalent components icon.
+const gfx::VectorIcon& kDownloadInfoIcon = vector_icons::kInfoOutlineIcon;
+#else
+const gfx::VectorIcon& kDownloadInfoIcon = views::kInfoIcon;
+#endif
+
+}  // namespace
 
 using download::DownloadItem;
 using offline_items_collection::FailState;
@@ -749,12 +764,12 @@ DownloadUIModel::BubbleUIInfo DownloadUIModel::GetBubbleUIInfoForInterrupted(
       return DownloadUIModel::BubbleUIInfo(
                  l10n_util::GetStringUTF16(
                      IDS_DOWNLOAD_BUBBLE_SUBPAGE_SUMMARY_ENCRYPTED))
-          .AddIconAndColor(views::kInfoIcon, ui::kColorAlertHighSeverity);
+          .AddIconAndColor(kDownloadInfoIcon, ui::kColorAlertHighSeverity);
     case download::DOWNLOAD_DANGER_TYPE_BLOCKED_TOO_LARGE:
       return DownloadUIModel::BubbleUIInfo(
                  l10n_util::GetStringUTF16(
                      IDS_DOWNLOAD_BUBBLE_SUBPAGE_SUMMARY_TOO_BIG))
-          .AddIconAndColor(views::kInfoIcon, ui::kColorAlertHighSeverity);
+          .AddIconAndColor(kDownloadInfoIcon, ui::kColorAlertHighSeverity);
     case download::DOWNLOAD_DANGER_TYPE_SENSITIVE_CONTENT_BLOCK: {
       if (enterprise_connectors::ShouldPromptReviewForDownload(
               profile(), GetDangerType())) {
@@ -766,7 +781,7 @@ DownloadUIModel::BubbleUIInfo DownloadUIModel::GetBubbleUIInfoForInterrupted(
         return DownloadUIModel::BubbleUIInfo(
                    l10n_util::GetStringUTF16(
                        IDS_DOWNLOAD_BUBBLE_SUBPAGE_SUMMARY_SENSITIVE_CONTENT_BLOCK))
-            .AddIconAndColor(views::kInfoIcon, ui::kColorAlertHighSeverity);
+            .AddIconAndColor(kDownloadInfoIcon, ui::kColorAlertHighSeverity);
       }
     }
     case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_FILE:
@@ -795,7 +810,7 @@ DownloadUIModel::BubbleUIInfo DownloadUIModel::GetBubbleUIInfoForInterrupted(
       return DownloadUIModel::BubbleUIInfo(
                  l10n_util::GetStringUTF16(
                      IDS_DOWNLOAD_BUBBLE_INTERRUPTED_SUBPAGE_SUMMARY_BLOCKED_ORGANIZATION))
-          .AddIconAndColor(views::kInfoIcon, ui::kColorAlertHighSeverity);
+          .AddIconAndColor(kDownloadInfoIcon, ui::kColorAlertHighSeverity);
     case FailState::FILE_NAME_TOO_LONG:
       return DownloadUIModel::BubbleUIInfo(
                  l10n_util::GetStringUTF16(
@@ -910,7 +925,7 @@ DownloadUIModel::GetBubbleUIInfoForInProgressOrComplete() const {
             .AddPrimaryButton(DownloadCommands::Command::REVIEW);
       case download::DOWNLOAD_DANGER_TYPE_SENSITIVE_CONTENT_WARNING:
         return DownloadUIModel::BubbleUIInfo(/*has_progress_bar=*/false)
-            .AddIconAndColor(views::kInfoIcon, ui::kColorAlertMediumSeverity)
+            .AddIconAndColor(kDownloadInfoIcon, ui::kColorAlertMediumSeverity)
             .AddPrimaryButton(DownloadCommands::Command::REVIEW);
       default:
         break;
@@ -925,7 +940,7 @@ DownloadUIModel::GetBubbleUIInfoForInProgressOrComplete() const {
                        IDS_DOWNLOAD_BUBBLE_SUBPAGE_SUMMARY_UNKNOWN_SOURCE,
                        l10n_util::GetStringUTF16(
                            IDS_EXTENSION_WEB_STORE_TITLE)))
-            .AddIconAndColor(views::kInfoIcon, ui::kColorAlertMediumSeverity)
+            .AddIconAndColor(kDownloadInfoIcon, ui::kColorAlertMediumSeverity)
             .AddSubpageButton(
                 l10n_util::GetStringUTF16(IDS_DOWNLOAD_BUBBLE_CONTINUE),
                 DownloadCommands::Command::KEEP,
@@ -938,7 +953,7 @@ DownloadUIModel::GetBubbleUIInfoForInProgressOrComplete() const {
         return DownloadUIModel::BubbleUIInfo(
                    l10n_util::GetStringUTF16(
                        IDS_DOWNLOAD_BUBBLE_DANGEROUS_FILE))
-            .AddIconAndColor(views::kInfoIcon, ui::kColorSecondaryForeground)
+            .AddIconAndColor(kDownloadInfoIcon, ui::kColorSecondaryForeground)
             .AddPrimaryButton(DownloadCommands::Command::KEEP)
             .AddSubpageButton(
                 l10n_util::GetStringUTF16(IDS_DOWNLOAD_BUBBLE_CONTINUE),
@@ -1028,7 +1043,7 @@ DownloadUIModel::GetBubbleUIInfoForInProgressOrComplete() const {
         return DownloadUIModel::BubbleUIInfo(
                    l10n_util::GetStringUTF16(
                        IDS_DOWNLOAD_BUBBLE_SUBPAGE_SUMMARY_UNCOMMON_FILE))
-            .AddIconAndColor(views::kInfoIcon, ui::kColorAlertMediumSeverity)
+            .AddIconAndColor(kDownloadInfoIcon, ui::kColorAlertMediumSeverity)
             .AddPrimaryButton(DownloadCommands::Command::DISCARD)
             .AddSubpageButton(
                 l10n_util::GetStringUTF16(IDS_DOWNLOAD_BUBBLE_CONTINUE),
@@ -1044,7 +1059,7 @@ DownloadUIModel::GetBubbleUIInfoForInProgressOrComplete() const {
       return DownloadUIModel::BubbleUIInfo(
                  l10n_util::GetStringUTF16(
                      IDS_DOWNLOAD_BUBBLE_SUBPAGE_SUMMARY_SENSITIVE_CONTENT_WARNING))
-          .AddIconAndColor(views::kInfoIcon, ui::kColorAlertMediumSeverity)
+          .AddIconAndColor(kDownloadInfoIcon, ui::kColorAlertMediumSeverity)
           .AddPrimaryButton(DownloadCommands::Command::DISCARD)
           .AddSubpageButton(
               l10n_util::GetStringUTF16(IDS_DOWNLOAD_BUBBLE_CONTINUE),

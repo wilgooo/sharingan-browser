@@ -1315,8 +1315,10 @@ void ChromeBrowserMainParts::PostBrowserStart() {
   for (auto& chrome_extra_part : chrome_extra_parts_)
     chrome_extra_part->PostBrowserStart();
 
+  // Sharingan: Kiwi's private builder took a flag; the pinned one always
+  // builds every factory, extension factories included.
   ChromeBrowserMainExtraPartsProfiles::
-      EnsureBrowserContextKeyedServiceFactoriesBuilt(true);
+      EnsureBrowserContextKeyedServiceFactoriesBuilt();
 #if BUILDFLAG(ENABLE_PROCESS_SINGLETON)
   // Allow ProcessSingleton to process messages.
   // This is done here instead of just relying on the main message loop's start

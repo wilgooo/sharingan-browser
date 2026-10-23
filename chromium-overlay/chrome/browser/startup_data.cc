@@ -148,8 +148,10 @@ StartupData::TakeProtoDatabaseProvider() {
 
 void StartupData::PreProfilePrefServiceInit() {
   pref_registry_ = base::MakeRefCounted<user_prefs::PrefRegistrySyncable>();
+  // Sharingan: Kiwi's private builder took a flag; the pinned one always
+  // builds every factory, extension factories included.
   ChromeBrowserMainExtraPartsProfiles::
-      EnsureBrowserContextKeyedServiceFactoriesBuilt(false);
+      EnsureBrowserContextKeyedServiceFactoriesBuilt();
 }
 
 void StartupData::CreateServicesInternal() {

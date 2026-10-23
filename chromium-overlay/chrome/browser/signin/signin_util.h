@@ -87,7 +87,9 @@ void SetUserSignoutAllowedForProfile(Profile* profile, bool is_allowed);
 void EnsureUserSignoutAllowedIsInitializedForProfile(Profile* profile);
 
 #if !BUILDFLAG(IS_ANDROID) || true
-#if !BUILDFLAG(IS_CHROMEOS)
+// Sharingan: the managed-accounts signin prefs are desktop-only, so the
+// profile separation helpers stay off Android.
+#if !BUILDFLAG(IS_CHROMEOS) && !BUILDFLAG(IS_ANDROID)
 // Returns true if profile separation is enforced by policy.
 bool ProfileSeparationEnforcedByPolicy(
     Profile* profile,

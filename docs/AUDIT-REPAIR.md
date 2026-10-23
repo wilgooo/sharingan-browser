@@ -308,3 +308,51 @@ sources Kiwi compiles on Android saw pristine !IS_ANDROID guards.
   tab). tab_helper.cc now includes browser.h.
 
 Compilation of these files and of the remaining 15k build steps is untested.
+
+## Build 42: Kiwi-private API mismatches and desktop-only pulls
+
+Chained run 42 resumed from cached output and failed 17 objects. The public
+Kiwi delta calls APIs that existed only in Kiwi's private tree, and pulls
+desktop-only code that its own BUILD.gn files never build on Android.
+
+Kiwi-private APIs, adapted to the pinned Chromium API:
+- HID (hid_device_manager.cc, device_permissions_prompt.cc): Android's device
+  service has no HID backend. The manager drops its receiver so enumeration
+  completes with its default empty list; the prompt lists no devices.
+- Ad hiding (layout_object.cc): Kiwi asked a private
+  WebContentSettingsClient::AllowAds() for the per-site Ads setting, which
+  the pinned renderer never receives. Apply Kiwi's default (ADS defaults to
+  BLOCK) everywhere; per-site "allow ads" exceptions are not available.
+- ng_table_painters.cc: Kiwi's dark-mode filter has no border role; use
+  ElementRole::kBackground like Kiwi's own border painters.
+- template_url_service_factory.cc: drop the extra BrowserContext argument of
+  Kiwi's private constructor (it only fed a search-engine list fetcher for
+  Kiwi's archived servers; nothing else uses SearchURLFetcher).
+- chrome_browser_main.cc, startup_data.cc: the pinned factory builder takes
+  no flag and always builds every factory, extension factories included.
+
+Desktop-only pulls, kept off Android (callers verified):
+- chrome_content_browser_client.cc: IsInHostedApp (no Browser windows),
+  Instant chrome-search factory, chrome://webui-test host.
+- chrome_content_browser_client_receiver_bindings.cc and
+  chrome_browser_interface_binders.cc: restore the pristine include split;
+  disable Kiwi's Android registration of the desktop NTP WebUI, Instant
+  search box binder (SearchTabHelper, NewTabPageUI and
+  NewTabPageThirdPartyUI are built only for desktop, so they could not link).
+- search.cc: Android returns the pristine answers where Instant/NTP WebUI
+  classes were used; Kiwi's local-ntp URL handling stays. Nothing in the
+  overlay serves chrome-search://local-ntp (Kiwi's LocalNtpSource was private).
+- download_ui_model.cc: ui/views is not built on Android; Kiwi's download
+  bubble model uses vector_icons::kInfoOutlineIcon instead of views::kInfoIcon.
+- family_info_feedback_source.cc: Kiwi disables supervised users with
+  extensions on Android, so FamilyInfoFetcher is not built; the JNI entry
+  reports no family role immediately so the Java source becomes ready.
+- dev_ui_loader_throttle.cc: FamilyLink internals host only with supervised
+  users. signin_util.{h,cc}: profile-separation helpers (desktop prefs) off
+  Android; their only callers are desktop UI and unit tests.
+
+Resources: the app overlay's xml/accessibility_preferences.xml belonged to
+Kiwi's chrome-level AccessibilitySettings, which is not in
+chrome_java_sources.gni (the settings screen uses the components fragment and
+its own XML). Remove the orphan and its .gni entry to resolve the duplicate.
+Compilation of these objects is still untested.

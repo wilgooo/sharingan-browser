@@ -110,8 +110,6 @@
 #include "components/pdf/browser/pdf_web_contents_helper.h"  // nogncheck
 #endif
 
-#include "chrome/browser/ui/search/search_tab_helper.h"
-
 #if BUILDFLAG(ENABLE_PRINTING)
 #include "chrome/browser/printing/print_view_manager_basic.h"
 #include "components/printing/browser/headless/headless_print_manager.h"
@@ -570,7 +568,9 @@ void ChromeContentBrowserClient::
         },
         &render_frame_host));
 #endif  // BUILDFLAG(ENABLE_PDF)
-#if !BUILDFLAG(IS_ANDROID) || true
+// Sharingan: Kiwi bound the Instant search box on Android, but SearchTabHelper
+// is only built for desktop (chrome/browser/ui/BUILD.gn).
+#if !BUILDFLAG(IS_ANDROID)
     associated_registry.AddInterface(base::BindRepeating(
         [](content::RenderFrameHost* render_frame_host,
            mojo::PendingAssociatedReceiver<

@@ -34,7 +34,10 @@
 #include "chrome/browser/supervised_user/supervised_user_url_filter.h"  // nogncheck
 #endif
 
-#if !BUILDFLAG(IS_ANDROID) || true
+// Sharingan: InstantService and the desktop NTP WebUI are built only for
+// desktop (chrome/browser{,/ui}/BUILD.gn), so Android keeps the pristine
+// answers here while Kiwi's local-ntp URL handling stays enabled.
+#if !BUILDFLAG(IS_ANDROID)
 #include "chrome/browser/search/instant_service.h"
 #include "chrome/browser/search/instant_service_factory.h"
 #include "chrome/browser/ui/webui/new_tab_page/new_tab_page_ui.h"
@@ -216,7 +219,7 @@ struct NewTabURLDetails {
 
 bool IsRenderedInInstantProcess(content::WebContents* contents,
                                 Profile* profile) {
-#if BUILDFLAG(IS_ANDROID) && 0
+#if BUILDFLAG(IS_ANDROID)
   return false;
 #else
   content::RenderProcessHost* process_host =
@@ -260,7 +263,7 @@ bool IsNTPURL(const GURL& url) {
     return true;
   }
 
-#if BUILDFLAG(IS_ANDROID) && 0
+#if BUILDFLAG(IS_ANDROID)
   return false;
 #else
   return NewTabPageUI::IsNewTabPageOrigin(url) ||

@@ -135,6 +135,9 @@
 #include "services/service_manager/public/cpp/interface_provider.h"
 #include "third_party/blink/public/mojom/digital_goods/digital_goods.mojom.h"
 #include "third_party/blink/public/mojom/installedapp/installed_app_provider.mojom.h"
+// Sharingan: the desktop NTP WebUI and its module mojoms are not built on
+// Android; restore the pristine split (Kiwi had merged these blocks).
+#else
 #include "chrome/browser/badging/badge_manager.h"
 #include "chrome/browser/cart/chrome_cart.mojom.h"
 #include "chrome/browser/new_tab_page/modules/drive/drive.mojom.h"
@@ -189,7 +192,7 @@
 #include "chrome/browser/ui/webui/discards/site_data.mojom.h"
 #endif
 
-#if !BUILDFLAG(IS_CHROMEOS_ASH) && !BUILDFLAG(IS_ANDROID) || true
+#if !BUILDFLAG(IS_CHROMEOS_ASH) && !BUILDFLAG(IS_ANDROID)
 #include "chrome/browser/ui/webui/signin/profile_customization_ui.h"
 #include "chrome/browser/ui/webui/signin/profile_picker_ui.h"
 #include "ui/webui/resources/cr_components/customize_themes/customize_themes.mojom.h"
@@ -850,6 +853,10 @@ void PopulateChromeWebUIFrameBinders(
                                          DownloadsUI>(map);
 #endif
 
+  // Sharingan: Kiwi registered the desktop NTP WebUI here, but its sources
+  // are only built for desktop (chrome/browser/ui/BUILD.gn), so these binders
+  // could not link on Android.
+#if 0
   RegisterWebUIControllerInterfaceBinder<
       new_tab_page_third_party::mojom::PageHandlerFactory,
       NewTabPageThirdPartyUI>(map);
@@ -860,6 +867,7 @@ void PopulateChromeWebUIFrameBinders(
   RegisterWebUIControllerInterfaceBinder<
       most_visited::mojom::MostVisitedPageHandlerFactory, NewTabPageUI,
       NewTabPageThirdPartyUI>(map);
+#endif
 
 #if 0
   auto* history_clusters_service =
