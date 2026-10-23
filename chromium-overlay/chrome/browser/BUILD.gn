@@ -3474,6 +3474,12 @@ static_library("browser") {
       ]
     }
 
+    # Sharingan: ChildAccountService.java is built regardless of supervised
+    # users; keep its single native resolvable when they are disabled.
+    if (!enable_supervised_users) {
+      sources += [ "supervised_user/child_accounts/child_account_service_android_disabled.cc" ]
+    }
+
     if (dfmify_dev_ui) {
       # TODO(huangs): Extracting this to a separate target.
       sources += [

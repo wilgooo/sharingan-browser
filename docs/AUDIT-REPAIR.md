@@ -367,3 +367,34 @@ Android; keep the desktop definition under !IS_ANDROID. Kiwi's
 data_reduction_preferences_off_lite_mode.xml references a Lite mode string
 removed before Chromium 105 and no Java loads the XML; drop it from
 chrome_java_resources.gni and the overlay.
+
+## Build 44: final link undefined symbols
+
+Resuming from cache, the only remaining failure was the libchrome link, where
+lld stopped after 20 undefined symbols. The libchrome target alone now passes
+-Wl,--error-limit=0 so one CI run lists every unresolved symbol; no compile
+command changes. Fixes, each checked against its callers:
+
+- mediaGalleries (Chrome Apps API): its backend (chrome/browser/media_galleries)
+  is desktop-only. Drop media_galleries.idl from the apps schema list and the
+  API sources on Android, so neither the generated types nor the function
+  registration reference it. The renderer custom bindings do not depend on the
+  generated header. chrome.mediaGalleries is unavailable on Android.
+- Web app OS integration (DeleteAllShortcutsForProfile,
+  ShouldRegisterFileHandlersWithOs and the rest of the per-platform hooks):
+  build the pinned os_integration/web_app_stubs.cc on Android, as Fuchsia does.
+  The stubs only log NOTIMPLEMENTED or report "not supported"; no overlay file
+  already defines them.
+- chrome.system.cpu per-processor times: the Linux /proc/stat parser hits
+  NOTREACHED when a core index exceeds the online-processor count (offline
+  big.LITTLE cores), which DCHECK_ALWAYS_ON turns into a crash, and Android 8+
+  denies /proc/stat to apps. Add cpu_info_provider_android.cc returning false
+  like Fuchsia; the API then reports an empty processor list.
+- JNI Java_J_N_MN7OOxaa: decoded with the pinned jni_generator hash (md5 of the
+  escaped class/method, base64 with "$_", "M" + 7 chars) to
+  ChildAccountService.onReauthenticationFailed. Kiwi disables supervised users
+  on Android, so child_account_service_android.cc is not built, but the Java
+  class is always compiled and registered. Its only entry point is
+  @CalledByNative from that unbuilt file; add a JNI-only file mirroring the
+  pristine implementation when supervised users are disabled.
+  WebsiteParentApproval's Java is already gated with its C++.

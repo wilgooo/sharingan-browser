@@ -473,7 +473,7 @@
   "chrome/PRESUBMIT_test.py": "f1c993d67ec1529ba506f667b046f23a012ffd7ce468ca6d5b509638f9e171b8",
   "chrome/README.md": "0a3a53767ed905ee5c23307809163c187d3e1a41b03751039289bfa6d7d67d9e",
   "chrome/VERSION": "2347e8aa0cc90840e0dda64801e28f686b2e4c8ceab3498c93c633d399d94c7c",
-  "chrome/android/BUILD.gn": "34912b9fce5f5e94a4c813123864cd1ad9d02b8db9453107cf9255841e3c21fa",
+  "chrome/android/BUILD.gn": "4d4cc1a5c2aad807de2c1b8a6baca87d59634b95055228b9c97eea07c9fc14b6",
   "chrome/android/COMMON_METADATA": "400313eac3e8f87e24ae21bb8f9148fac4256c7d6ece77dd4b6772d9adce4023",
   "chrome/android/DEPS": "c94cbf4b072cf85beb6b85dff7b31a421efeeb99ca6f5cba7467e769c392d1c0",
   "chrome/android/DIR_METADATA": "8e42f48a5d1b369f41613830473b19fb30d089964ed49617e997aece8d114e7d",
@@ -1453,7 +1453,7 @@
   "chrome/android/monochrome_android_manifest_jinja_variables.gni": "00309b95a5eb15cd0714587fea8804f206fd912829750d989b4d5f9ce93d9898",
   "chrome/android/static_initializers.gni": "58b8d29731d3501c3998e6438f3c8038062841a847f519976531a875be72fe2f",
   "chrome/android/trichrome.gni": "022b84e3fdd75c1ead48ce696815dc91dcdd08bc78467bb8fead988a4f19428e",
-  "chrome/browser/BUILD.gn": "5b8191198d5c0409ddb1a3faf056ea26ae4df529bd5660e56c805b9c116a1245",
+  "chrome/browser/BUILD.gn": "e67c10605406750f6932e1df355224514dba67f2a5c81ed69bfb087cda6a1f7b",
   "chrome/browser/DEPS": "1c56de385d601d237f56edd75d8d61caed058e2b5da9d1e9225d2f3467f64658",
   "chrome/browser/OWNERS": "2126ab76952d767b7dc6f6dfe1c6db796a11460b47e45e8257f12883f3a9d928",
   "chrome/browser/PRESUBMIT.py": "8843bfbcdbaa3be544d3b5570b8e7b3294218e97365d96c9f41255577e696066",
@@ -3534,7 +3534,7 @@
   "chrome/browser/visibility_timer_tab_helper.cc": "3d18339c7a32ed7e7a6d5dded8a06b972ac18478a01e46bf3695449fee19bd46",
   "chrome/browser/visibility_timer_tab_helper.h": "0031749c69394bb2817920607e436ebd3dfda3fc37437c438b35e4b41646a3cf",
   "chrome/browser/visibility_timer_tab_helper_unittest.cc": "fcf3321ddd06164c7f07255db202142d4d79c83b3e58e267e3a4a65a464e4f26",
-  "chrome/browser/web_applications/BUILD.gn": "11d6ea9fd0b56aa602cd415aa3fed3ee1602d3653cd3799ac7a13d7eef37c9aa",
+  "chrome/browser/web_applications/BUILD.gn": "8b7bad62fb94f148f9f83bb097453fd42b045b3e55312c5520042771caad77c0",
   "chrome/browser/web_data_service_factory.cc": "ba22f9e1aceb88e2bbd8a1478dbcfe8f4194d0fb4446aafd247419f6ef977197",
   "chrome/browser/web_data_service_factory.h": "0b0083f6200c352925e13c60e3262bd649f6f41fb4ef6543bd1e467501fdc993",
   "chrome/browser/webapps/DIR_METADATA": "d7e73c3a0078a53e86fb59d0d5e8ec528adb90834857a9e624eb63e891a0a291",
@@ -8335,5 +8335,10 @@
   "third_party/blink/renderer/core/paint/ng/ng_table_painters.cc": "d03b238ede1b2e57b0145b9e637c4999cd8ac5b23c6e89397d3ec8cd46300fb4",
   "chrome/browser/feedback/android/family_info_feedback_source.cc": "9638ab1de87cac0f04a8b4d78b0dc3cb1ef7a1c6199e69b7776634f4982d083a",
   "chrome/browser/dev_ui/android/dev_ui_loader_throttle.cc": "ddeba09d5ca854f16de6dcea832158649de84241f6a7375487b7a12f6e0e2be3",
-  "chrome/browser/web_applications/web_app_utils.cc": "207b050fc6be71f0cae5ab1d174b3952d6e98c1ccbad4066ee93d8473ab85137"
+  "chrome/browser/web_applications/web_app_utils.cc": "207b050fc6be71f0cae5ab1d174b3952d6e98c1ccbad4066ee93d8473ab85137",
+  "chrome/common/apps/platform_apps/api/api_sources.gni": "98cb24cf410d26e93998224abe74952d27021c63b799cfa40fdd92f14522ee65",
+  "chrome/browser/apps/platform_apps/api/BUILD.gn": "55d4f64e09c5a06a16484b17424d4d63b504e39a6ae0de90d83c533316efa560",
+  "extensions/browser/api/system_cpu/BUILD.gn": "47d8351843777bc24ce22367cbf47e2da801ef6cc3f61cdbe4d3696470475a8d",
+  "extensions/browser/api/system_cpu/cpu_info_provider_android.cc": "82135fcec05ac265041e6fb5635ee3a5f98547cc409578cf79e7f8f13ce43218",
+  "chrome/browser/supervised_user/child_accounts/child_account_service_android_disabled.cc": "58dec6eb756e8e32345dae134b2642ac245ca57b3e879ca6e6dc18dc25f5fc54"
 }

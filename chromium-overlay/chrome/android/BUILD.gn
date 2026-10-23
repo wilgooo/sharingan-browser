@@ -2178,6 +2178,9 @@ if (enable_resource_allowlist_generation) {
 }
 
 libchrome_impl("libchrome") {
+  # Sharingan: CI links once per multi-hour run; report every undefined
+  # symbol instead of lld's default first 20. Link-only, so no recompiles.
+  ldflags = [ "-Wl,--error-limit=0" ]
   if (enable_resource_allowlist_generation) {
     # Make sure allowlist_inputs is built first so when concurrent_links == 1
     # it comes before the actual (very slow) link step.

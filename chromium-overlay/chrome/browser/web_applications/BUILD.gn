@@ -195,7 +195,9 @@ source_set("web_applications") {
     ]
   }
 
-  if (is_fuchsia) {
+  # Sharingan: Android has no desktop OS integration (shortcuts, file handlers,
+  # run-on-login); use the same no-op hooks as Fuchsia so the link resolves.
+  if (is_fuchsia || is_android) {
     sources += [ "os_integration/web_app_stubs.cc" ]
   }
 
