@@ -481,7 +481,7 @@
   "chrome/android/aapt2.config": "4ec9283400e24deb9b0dd2a18becc15465263e3db7127492b778719a1d74329b",
   "chrome/android/channel.gni": "c8d8c86c866cae1d7b76ebd1d0c3ddfddc28d03bfc0ce4a22f662ba011303221",
   "chrome/android/chrome_common_shared_library.gni": "566b8918053452953c6271fff672d1d1d0066b31175b0f49849dd6689f489966",
-  "chrome/android/chrome_java_resources.gni": "c882508b632d102c6bd5a2c71b1e2ec11d090a2a1cb0efc646cef510a8ac1c2a",
+  "chrome/android/chrome_java_resources.gni": "ff4385c91686cdf3601af71d6cac2ba398044dfce50523de64b0065f97f2a21c",
   "chrome/android/chrome_java_sources.gni": "16b66fe78d28408f1d3c57982a13d1f3d804b0244230ad84f81039770a27a85e",
   "chrome/android/chrome_junit_test_java_sources.gni": "985931bae7655a5cf8369a09fd460a8c63d61711a103c45deaa8d88d038a1aa5",
   "chrome/android/chrome_public_apk_tmpl.gni": "179f80be9010581b1d3ce419f5b05553ad3c2b3c747d3976ae8c13ddfd2687b6",
@@ -1227,7 +1227,6 @@
   "chrome/android/java/res/xml/bookmark_widget_info.xml": "0688f5f46d6c217522fe00ef9e3809ef0129dfe1eaf50579e737e990c48ba7a6",
   "chrome/android/java/res/xml/clear_browsing_data_preferences_tab.xml": "0622cb1547da10b50c3494a4237512f4c565aa3be1089e3cd2d5ae524f781aae",
   "chrome/android/java/res/xml/contextual_search_preferences.xml": "e9e929df1700d3d75a8229453cb9aae240f01d9d447d7a9fb796d893f3b77dfd",
-  "chrome/android/java/res/xml/data_reduction_preferences_off_lite_mode.xml": "2c3150ddda2b75c51066e39f29aff5d508d075051963fc30675e38fa28adab73",
   "chrome/android/java/res/xml/developer_preferences.xml": "bb2607e3e970090e4fa2e065cf55a02c971118454dc760682bebd61fce558604",
   "chrome/android/java/res/xml/do_not_track_preferences.xml": "e02a7a3ad70fbf31aec5248d4078e1c51e8cf2024402632b9ade7f8521ea7d7b",
   "chrome/android/java/res/xml/google_services_preferences.xml": "17f884c7e48c8777b4e2df3db9eb4f3c8a1ae3a56ba535eac8495018b8bf7800",
@@ -8335,5 +8334,6 @@
   "extensions/browser/api/device_permissions_prompt.cc": "b773665461d6dc8faef1f0e729e742288719267944be9ee322569765668b865a",
   "third_party/blink/renderer/core/paint/ng/ng_table_painters.cc": "d03b238ede1b2e57b0145b9e637c4999cd8ac5b23c6e89397d3ec8cd46300fb4",
   "chrome/browser/feedback/android/family_info_feedback_source.cc": "9638ab1de87cac0f04a8b4d78b0dc3cb1ef7a1c6199e69b7776634f4982d083a",
-  "chrome/browser/dev_ui/android/dev_ui_loader_throttle.cc": "ddeba09d5ca854f16de6dcea832158649de84241f6a7375487b7a12f6e0e2be3"
+  "chrome/browser/dev_ui/android/dev_ui_loader_throttle.cc": "ddeba09d5ca854f16de6dcea832158649de84241f6a7375487b7a12f6e0e2be3",
+  "chrome/browser/web_applications/web_app_utils.cc": "207b050fc6be71f0cae5ab1d174b3952d6e98c1ccbad4066ee93d8473ab85137"
 }

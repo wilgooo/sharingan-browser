@@ -356,3 +356,14 @@ Kiwi's chrome-level AccessibilitySettings, which is not in
 chrome_java_sources.gni (the settings screen uses the components fragment and
 its own XML). Remove the orphan and its .gni entry to resolve the duplicate.
 Compilation of these objects is still untested.
+
+## Build 43: final link and resource linking
+
+Resuming from cache, the remaining 1435 steps reached the libchrome link.
+Two issues remained. The pinned web_app_utils.cc defines GetOfflinePageInfo,
+which Kiwi also defines for Android in webapps/web_app_offline_android.cc
+(Java-backed), giving a duplicate symbol once Kiwi builds web_applications on
+Android; keep the desktop definition under !IS_ANDROID. Kiwi's
+data_reduction_preferences_off_lite_mode.xml references a Lite mode string
+removed before Chromium 105 and no Java loads the XML; drop it from
+chrome_java_resources.gni and the overlay.

@@ -137,7 +137,6 @@ chrome_java_resources = [
   "java/res/values-vi/strings.xml",
   "java/res/values-zh-rCN/strings.xml",
   "java/res/values-zh-rTW/strings.xml",
-  "java/res/xml/data_reduction_preferences_off_lite_mode.xml",
 
   "java/res/values/sharingan_settings_icons.xml",
   "java/res/drawable/sharingan_launcher.xml",
